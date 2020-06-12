@@ -1,15 +1,44 @@
-// Draw images to the canvas continuously
+// Create the canvas
 
-let cvs = document.getElementById('canvas');
+/*create the canvas variable*/
+let cvs = document.getElementById("canvas"); 
 
-let ctx = cvs.getContext('2d');
+/* create the context variable */
+let ctx = cvs.getContext("2d"); 
 
 // Load images
 
-let imageName 	= new Image();
+let biker 		= new Image();
+let background	= new Image();
+let foreground 	= new Image();
+let magikarp	= new Image();
 
-imageName.src 	= "images/"
+biker.src		= "images/male-biker-right.gif";
+background.src	= "images/ocean-background.jpg";
+foreground.src	= "images/ocean-foreground.png";
+magikarp.src	= "images/magikarp.gif";
 
-let audioName 	= new Audio();
+// Define variables
 
-audioName.src 	= "audio/cycling-music.mp3"
+let bikerX 	= 10;
+let bikerY 	= 150;
+
+
+
+
+// Draw images
+
+function draw () {
+
+	ctx.drawImage(background, 0, 0);
+	ctx.drawImage(foreground, 0, 400);
+
+	ctx.drawImage(biker, bikerX, bikerY);
+
+	ctx.drawImage(magikarp, 50, 200);
+
+	requestAnimationFrame(draw);
+
+}
+
+draw();
