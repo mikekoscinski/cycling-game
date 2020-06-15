@@ -75,8 +75,6 @@ function draw () {
 
 		// Detect collision
 
-		
-
 
 
 		// Increase score
