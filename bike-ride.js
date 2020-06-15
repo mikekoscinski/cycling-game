@@ -52,12 +52,12 @@ let pokemon = [];
 
 pokemon[0] = {
 	x : cvs.width,
-	y : 0
-} 
+	y : 930
+};
 
 // Constant for flying pokemon
 
-let constant = 10;
+let constant = 100;
 
 // Draw images
 
@@ -65,22 +65,46 @@ function draw () {
 
 	ctx.drawImage(background, 0, 0); 
 
-	for (let i = 0; i < pokemon.length; i++) {
-		ctx.drawImage(magikarp, pokemon[i].x, pokemon[i].y);
-		ctx.drawImage(zubat, pokemon[i].x, pokemon[i].y + constant)
-
-		pokemon[i].x-= 6;
-
-	}
-
-
-	ctx.drawImage(foreground, 0, 978);
+	ctx.drawImage(foreground, 0, 970);
 
 	ctx.drawImage(biker, bikerX, bikerY);
 
 	bikerY += gravity;
 
+	for (let i = 0; i < pokemon.length; i++) {
+		ctx.drawImage(magikarp,	pokemon[i].x, 	pokemon[i].y);
+		ctx.drawImage(zubat, 	pokemon[i].x, 	pokemon[i].y - constant)
+
+		pokemon[i].x -= 15;
+
+		if (pokemon[i].x == 125) {
+			pokemon.push({
+				x : cvs.width,
+				y : 0
+			});
+		}
+
+		// code to add additional pokemon wasn't working; caused javascript to enter
+		// a loop, perpetually tried to load the site.
+		// 
+
+
+	}
+	
 	requestAnimationFrame(draw);
 }
 
 draw();
+
+
+
+
+
+
+
+
+
+
+
+
+
