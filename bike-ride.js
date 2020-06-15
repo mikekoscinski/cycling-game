@@ -20,11 +20,28 @@ magikarp.src	= "images/magikarp.gif";
 
 // Define variables
 
-let bikerX 	= 10;
-let bikerY 	= 150;
+// BIKER-RELATED CODE:
+
+// Biker coordinates on the canvas.
+
+let bikerX 	= 0;
+let bikerY 	= 550;
+
+// Make the biker jump when user presses any key.
+
+function moveUp () {
+	bikerY -= 200;
+}
+
+document.addEventListener("keydown", moveUp);
+
+// Add gravity effect that causes biker to descend post-jump.
+
+let gravity = 10;
 
 
 
+// MAGIKARP-RELATED CODE:
 
 // Magikarp coordinates
 
@@ -35,15 +52,16 @@ karp[0] = {
 	y: 0
 }
 
-
 // Draw images
 
 function draw () {
 
-	ctx.drawImage(background, 0, 0);
-	ctx.drawImage(foreground, 0, 400);
+	ctx.drawImage(background, 0, 0); 
+	ctx.drawImage(foreground, 0, 978);
 
 	ctx.drawImage(biker, bikerX, bikerY);
+
+	bikerY += gravity;
 
 	for (let i = 0; i < magikarp.length; i++){
 		ctx.drawImage(magikarp, karp[i].x, pipe[i].y);
