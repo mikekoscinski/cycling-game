@@ -26,6 +26,16 @@ let bikerY 	= 150;
 
 
 
+// Magikarp coordinates
+
+let karp = [];
+
+karp[0] = {
+	x: cvs.width,
+	y: 0
+}
+
+
 // Draw images
 
 function draw () {
@@ -35,7 +45,18 @@ function draw () {
 
 	ctx.drawImage(biker, bikerX, bikerY);
 
-	ctx.drawImage(magikarp, 50, 200);
+	for (let i = 0; i < magikarp.length; i++){
+		ctx.drawImage(magikarp, karp[i].x, pipe[i].y);
+
+		karp[i].x--;
+
+		if (karp[i].x == 125){
+			karp.push({
+				x: cvs.width,
+				y: 100
+			})
+		}
+	}
 
 	requestAnimationFrame(draw);
 
