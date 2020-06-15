@@ -1,52 +1,45 @@
-// Create the canvas
+// Create the canvas and context variables
 
-/*create the canvas variable*/
 let cvs = document.getElementById("canvas"); 
-
-/* create the context variable */
 let ctx = cvs.getContext("2d"); 
 
-// Load images
+// IMAGES:
 
 let biker 			= new Image();
 let background		= new Image();
 let foreground 		= new Image();
-let magikarp		= new Image();
-let zubat 			= new Image();
+let kabutops		= new Image();
+let aerodactyl 		= new Image();
 
 biker.src			= "images/male-biker-right.gif";
 background.src		= "images/ocean-background.jpg";
 foreground.src		= "images/ocean-foreground.png";
-magikarp.src		= "images/magikarp.gif";
-zubat.src			= "images/zubat.gif";
+kabutops.src		= "images/kabutops.gif";
+aerodactyl.src		= "images/aerodactyl.gif";
 
-
-// Define variables
-
-// BIKER-RELATED CODE:
+// VARIABLES:
 
 // Biker coordinates on the canvas.
-
 let bikerX 	= 0;
 let bikerY 	= 550;
 
-// Make the biker jump when user presses any key.
+// Add gravity effect that causes biker to descend post-jump.
+let gravity = 10;
 
+// Gap between walking and flying pokemon
+
+let gap = 100;
+
+// FUNCTIONS:
+
+// Make the biker jump when user presses any key.
 function moveUp () {
 	bikerY -= 200;
 }
 
 document.addEventListener("keydown", moveUp);
 
-// Add gravity effect that causes biker to descend post-jump.
-
-let gravity = 10;
-
-
-
-// MAGIKARP-RELATED CODE:
-
-// Magikarp coordinates
+// Pokemon coordinates
 
 let pokemon = [];
 
@@ -54,10 +47,6 @@ pokemon[0] = {
 	x : cvs.width,
 	y : 930
 };
-
-// Constant for flying pokemon
-
-let constant = 100;
 
 // Draw images
 
@@ -72,21 +61,28 @@ function draw () {
 	bikerY += gravity;
 
 	for (let i = 0; i < pokemon.length; i++) {
-		ctx.drawImage(magikarp,	pokemon[i].x, 	pokemon[i].y);
-		ctx.drawImage(zubat, 	pokemon[i].x, 	pokemon[i].y - constant)
+		ctx.drawImage(kabutops,		pokemon[i].x, 	pokemon[i].y 		);
+		ctx.drawImage(aerodactyl, 	pokemon[i].x, 	pokemon[i].y - gap	);
 
-		pokemon[i].x -= 15;
+		pokemon[i].x -= 10;
 
-		if (pokemon[i].x == 125) {
+		if (pokemon[i].x == 1000) {
 			pokemon.push({
 				x : cvs.width,
-				y : 0
+				y : 930
 			});
 		}
 
-		// code to add additional pokemon wasn't working; caused javascript to enter
-		// a loop, perpetually tried to load the site.
-		// 
+		// Detect collision
+
+		
+
+
+
+		// Increase score
+
+
+		// Increment speed every 15 points
 
 
 	}
@@ -95,6 +91,21 @@ function draw () {
 }
 
 draw();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
