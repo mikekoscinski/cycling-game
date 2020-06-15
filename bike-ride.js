@@ -75,9 +75,8 @@ function draw () {
 
 		// Detect collision
 
-		if (bikerX + biker.width >= pokemon[i].x && bikerX <= pokemon[i].x + aerodactyl.width && (bikerY <= pokemon[i].y + aerodactyl.height || bikerY + biker.height >= pokemon[i].y + gap) || bikerY + biker.height >= cvs.height - foreground.height) {
-			location.reload(); // reload the page
-		}
+
+
 
 
 
