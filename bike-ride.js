@@ -28,7 +28,7 @@ let gravity = 10;
 
 // Gap between walking and flying pokemon
 
-let gap = 100;
+let gap = 150;
 
 // FUNCTIONS:
 
@@ -45,7 +45,7 @@ let pokemon = [];
 
 pokemon[0] = {
 	x : cvs.width,
-	y : 930
+	y : 910
 };
 
 // Draw images
@@ -74,6 +74,10 @@ function draw () {
 		}
 
 		// Detect collision
+
+		if (bikerX + biker.width >= pokemon[i].x && bikerX <= pokemon[i].x + aerodactyl.width && (bikerY <= pokemon[i].y + aerodactyl.height || bikerY + biker.height >= pokemon[i].y + gap) || bikerY + biker.height >= cvs.height - foreground.height) {
+			location.reload(); // reload the page
+		}
 
 
 
