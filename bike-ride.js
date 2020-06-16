@@ -30,11 +30,24 @@ let gravity = 10;
 
 let gap = 150;
 
+// Timer variable
+
+let secs 	= 0;
+let mins 	= 0;
+let hrs 	= 0;
+
+let secsPad	= str(secs).padStart(2, "0");
+
+
+let timer = hrs + ":" + mins + ":" + secsPad;
+
+
+
 // FUNCTIONS:
 
 // Make the biker jump when user presses any key.
 function moveUp () {
-	bikerY -= 200;
+	bikerY -= 225;
 }
 
 document.addEventListener("keydown", moveUp);
@@ -52,13 +65,26 @@ pokemon[0] = {
 
 function draw () {
 
+	// The scene
+
 	ctx.drawImage(background, 0, 0); 
 
 	ctx.drawImage(foreground, 0, 970);
 
+	// The biker
+
 	ctx.drawImage(biker, bikerX, bikerY);
 
-	bikerY += gravity;
+	bikerY = Math.min(550, bikerY+= gravity);
+
+	// Timer
+
+	ctx.font = "40px Verdana";
+
+	ctx.fillText("Timer: " + timer, 10, cvs.height - 20);
+
+
+	// The pokemon
 
 	for (let i = 0; i < pokemon.length; i++) {
 		ctx.drawImage(kabutops,		pokemon[i].x, 	pokemon[i].y 		);
@@ -78,9 +104,9 @@ function draw () {
 
 
 
+		// Increment timer
 
-
-		// Increase score
+		
 
 
 		// Increment speed every 15 points
