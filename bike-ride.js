@@ -36,12 +36,11 @@ let secs 	= 0;
 let mins 	= 0;
 let hrs 	= 0;
 
-let secsPad	= str(secs).padStart(2, "0");
+let secsPad	= secs.toString().padStart(2, "0");
+let minsPad	= mins.toString().padStart(2, "0");
+let hrsPad	= hrs.toString().padStart(2, "0");
 
-
-let timer = hrs + ":" + mins + ":" + secsPad;
-
-
+let timer = hrsPad + ":" + minsPad + ":" + secsPad;
 
 // FUNCTIONS:
 
