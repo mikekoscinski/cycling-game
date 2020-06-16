@@ -18,7 +18,7 @@ aerodactyl.src		= "images/aerodactyl.gif";
 // VARIABLES:
 
 // Set height at which biker cycles
-let cyclingHeight = 770;
+let cyclingHeight = 700;
 
 // Biker coordinates on the canvas.
 let bikerX 	= 0;
@@ -91,14 +91,16 @@ function draw () {
 
 		// Detect collision
 
-		if (bikerX + biker.width >= pokemon[i].x 
-			&& bikerX <= pokemon[i].x + kabutops.width 
-			&& (bikerY <= pokemon[i].y + kabutops.height) 
+		if (
+			// Check if Biker has made contact with side of pokemon
+			bikerX + biker.width >= pokemon[i].x 
+			&& bikerX <= pokemon[i].x + kabutops.width
+
+			// Check if biker has made contact with top of pokemon
+			&& bikerY >= pokemon[i].y
 			) {
-			location.reload(); // Reload the page if a collision occurs
+			location.reload();
 		}
-
-
 
 
 
