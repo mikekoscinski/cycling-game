@@ -25,7 +25,7 @@ let bikerX 	= 0;
 let bikerY 	= cyclingHeight;
 
 // Add gravity effect that causes biker to descend post-jump.
-let gravity = 10;
+let gravity = 7;
 
 // Gap between walking and flying pokemon
 let gap = 150;
@@ -45,7 +45,7 @@ let timer = hrsPad + ":" + minsPad + ":" + secsPad;
 
 // Make the biker jump when user presses any key.
 function moveUp () {
-	bikerY -= 225;
+	bikerY -= 500;
 }
 
 document.addEventListener("keydown", moveUp);
@@ -80,9 +80,9 @@ function draw () {
 		ctx.drawImage(kabutops,		pokemon[i].x, 	pokemon[i].y 		);
 		//ctx.drawImage(aerodactyl, 	pokemon[i].x, 	pokemon[i].y - gap	);
 
-		pokemon[i].x -= 10;
+		pokemon[i].x -= 15 ;
 
-		if (pokemon[i].x == 1000) {
+		if (pokemon[i].x == 600) {
 			pokemon.push({
 				x : cvs.width,
 				y : 890
@@ -93,23 +93,23 @@ function draw () {
 
 		if (
 			// Check if Biker has made contact with side of pokemon
-			bikerX + biker.width >= pokemon[i].x 
+			(bikerX + biker.width >= pokemon[i].x 
 			&& bikerX <= pokemon[i].x + kabutops.width
+			&& bikerY + biker.height >= pokemon[i].y)
 
 			// Check if biker has made contact with top of pokemon
-			&& bikerY >= pokemon[i].y
+			|| bikerY >= pokemon[i].y
 			) {
 			location.reload();
 		}
 
-
-
 		// Increment timer
-
 		
 
 
-		// Increment speed every 15 points
+
+
+		// Increment speed every 15 seconds
 
 
 	}
