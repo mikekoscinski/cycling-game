@@ -43,15 +43,44 @@ let gravity = 10;
 // Gap between walking and flying pokemon
 let gap = 150;
 
-// Timer variable
+// TIMER:
+
+// Initialize time units
 let secs 	= 0;
 let mins 	= 0;
 let hrs 	= 0;
 
+////////////////////////////////////////////////////////////
+
+// Increment time units
+
+let startTime = Date.now();
+
+secs = Math.floor((Date.now() - startTime) / 1000);
+
+if (secs == 60) {
+	secs = 0;
+	mins += 1;
+}
+
+if (mins == 60) {
+	mins = 0;
+	hrs += 1;
+}
+
+
+
+
+
+
+////////////////////////////////////////////////////////////
+
+// Each time unit padded w/ two zeroes
 let secsPad	= secs.toString().padStart(2, "0");
 let minsPad	= mins.toString().padStart(2, "0");
 let hrsPad	= hrs.toString().padStart(2, "0");
 
+// Concatenate all time units
 let timer = hrsPad + ":" + minsPad + ":" + secsPad;
 
 // FUNCTIONS:
@@ -71,6 +100,16 @@ pokemon[0] = {
 	x : cvs.width,
 	y : 890
 };
+
+// Update time in timer (for time-played leaderboard)
+
+let start = Date.now();
+setInterval(function() {
+	let delta = Date.now() - start; // milliseconds elapsed since start
+	return (Math.floor(delta / 1000)); // in seconds
+
+})
+
 
 // Draw images
 function draw () {
@@ -94,7 +133,7 @@ function draw () {
 		ctx.drawImage(kabutops,		pokemon[i].x, 	pokemon[i].y 		);
 		//ctx.drawImage(aerodactyl, 	pokemon[i].x, 	pokemon[i].y - gap	);
 
-		pokemon[i].x -= 15 ;
+		pokemon[i].x -= 15;
 
 		if (pokemon[i].x == 600) {
 			pokemon.push({
@@ -118,8 +157,6 @@ function draw () {
 		}
 
 		// Increment timer
-
-
 
 
 
