@@ -15,6 +15,19 @@ background.src		= "images/ocean-background.jpg";
 kabutops.src		= "images/kabutops.gif";
 aerodactyl.src		= "images/aerodactyl.gif";
 
+// AUDIO:
+
+let soundtrack 	= new Audio();
+let bounce 		= new Audio();
+let scor 		= new Audio();
+
+soundtrack.src 	= "audio/gen3-cycling-music.mp3";
+bounce.src 		= "audio/mario-jump.mp3";
+scor.src 		= "audio/sfx_point.mp3";
+
+// Play background music
+// soundtrack.play();
+
 // VARIABLES:
 
 // Set height at which biker cycles
@@ -25,7 +38,7 @@ let bikerX 	= 0;
 let bikerY 	= cyclingHeight;
 
 // Add gravity effect that causes biker to descend post-jump.
-let gravity = 7;
+let gravity = 10;
 
 // Gap between walking and flying pokemon
 let gap = 150;
@@ -46,6 +59,7 @@ let timer = hrsPad + ":" + minsPad + ":" + secsPad;
 // Make the biker jump when user presses any key.
 function moveUp () {
 	bikerY -= 500;
+	bounce.play();
 }
 
 document.addEventListener("keydown", moveUp);
@@ -104,7 +118,7 @@ function draw () {
 		}
 
 		// Increment timer
-		
+
 
 
 
