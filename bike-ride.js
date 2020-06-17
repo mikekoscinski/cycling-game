@@ -3,9 +3,9 @@
 let cvs = document.getElementById("canvas"); 
 let ctx = cvs.getContext("2d"); 
 
-//////////////
-/// IMAGES:///
-//////////////
+///////////////
+/// IMAGES: ///
+///////////////
 
 let biker 			= new Image();
 let background		= new Image();
@@ -17,9 +17,9 @@ background.src		= "images/ocean-background.jpg";
 kabutops.src		= "images/kabutops.gif";
 aerodactyl.src		= "images/aerodactyl.gif";
 
-/////////////
-/// AUDIO:///
-/////////////
+//////////////
+/// AUDIO: ///
+//////////////
 
 let soundtrack 		= new Audio();
 let bounce 			= new Audio();
@@ -32,9 +32,9 @@ scor.src 			= "audio/sfx_point.mp3";
 // Play background music
 // soundtrack.play();
 
-/////////////////
-/// VARIABLES:///
-/////////////////
+//////////////////
+/// VARIABLES: ///
+//////////////////
 
 // Set height at which biker cycles
 let cyclingHeight = 700;
@@ -49,9 +49,9 @@ let gravity = 10;
 // Gap between walking and flying pokemon
 let gap = 150;
 
-/////////////
-/// TIMER:///
-/////////////
+//////////////
+/// TIMER: ///
+//////////////
 
 // Initialize time units
 let secs 	= 0;
@@ -66,11 +66,11 @@ let hrsPad	= hrs.toString().padStart(2, "0");
 // Concatenate all time units
 let timer = hrsPad + ":" + minsPad + ":" + secsPad;
 
-/////////////////
-/// FUNCTIONS:///
-/////////////////
+//////////////////
+/// FUNCTIONS: ///
+//////////////////
 
-// Check if the biker is on the ground. If they're touching the ground then they can jump
+// Check if the biker is on the ground. If on the ground, jump is possible
 function moveUp () {
 	if (bikerY == cyclingHeight) { // If the biker is on the ground...
 		bikerY -= 500; // ... Then let them jump...
@@ -103,7 +103,10 @@ setInterval(function() {
 	return (Math.floor(delta / 1000)); // in seconds
 })
 
-// Draw each animation frame
+////////////////////////
+/// FRAME ANIMATION: ///
+////////////////////////
+
 function draw () {
 
 	// The scene
@@ -111,14 +114,28 @@ function draw () {
 
 	// The biker
 	ctx.drawImage(biker, bikerX, bikerY);
-
 	bikerY = Math.min(cyclingHeight, bikerY+= gravity);
 
 	// Timer
 	ctx.font = "40px Verdana";
-
 	ctx.fillText("Timer: " + timer, 10, cvs.height - 20);
 
+	// Increment timer
+	let startTime = Date.now();
+
+	if (secs == 60) {
+		secs = 0;
+		mins += 1;
+	} else secs = Math.floor((Date.now() - startTime) / 1000);
+
+	if (mins == 60) {
+		mins = 0;
+		hrs += 1;
+	} else null;
+
+	//////////////////////////////
+	/// DRAW ONCOMING POKEMON: ///
+	//////////////////////////////
 
 	// Continuously draw and push new Pokemon to the Pokemon array
 	for (let i = 0; i < pokemon.length; i++) {
@@ -147,26 +164,11 @@ function draw () {
 			location.reload();
 		}
 
-		// Increment timer
-		let startTime = Date.now();
-
-		secs = Math.floor((Date.now() - startTime) / 1000);
-
-		if (secs == 60) {
-			secs = 0;
-			mins += 1;
-		}
-
-		if (mins == 60) {
-			mins = 0;
-			hrs += 1;
-		}
-
-
-
-
 		// Increment speed every 15 seconds
 
+		/////////////////////
+		/// Function here ///
+		/////////////////////
 
 	}
 	
