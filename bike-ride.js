@@ -32,23 +32,6 @@ scor.src 			= "audio/sfx_point.mp3";
 // Play background music
 // soundtrack.play();
 
-//////////////////
-/// VARIABLES: ///
-//////////////////
-
-// Set height at which biker cycles
-let cyclingHeight = 700;
-
-// Biker coordinates on the canvas.
-let bikerX 	= 0;
-let bikerY 	= cyclingHeight;
-
-// Add gravity effect that causes biker to descend post-jump.
-let gravity = 10;
-
-// Gap between walking and flying pokemon
-let gap = 150;
-
 //////////////
 /// TIMER: ///
 //////////////
@@ -66,12 +49,50 @@ let hrsPad	= hrs.toString().padStart(2, "0");
 // Concatenate all time units
 let timer = hrsPad + ":" + minsPad + ":" + secsPad;
 
-//////////////////
-/// FUNCTIONS: ///
-//////////////////
+// Update time in timer (for time-played leaderboard)
+let start = Date.now();
+setInterval(function() {
+	let delta = Date.now() - start; // milliseconds elapsed since start
+	return (Math.floor(delta / 1000)); // in seconds
+})
+
+// Set the starting time for the timer
+let startTime = Date.now(); // does this go outside of the draw function? probably, because otherwise it will get reset every time a new frame is drawn
+
+////////////////
+/// POKEMON: ///
+////////////////
+
+// Pokemon coordinates stored in array
+let pokemon = [];
+
+pokemon[0] = {
+	x : cvs.width,
+	y : 890
+};
+
+// Gap between walking and flying pokemon
+let gap = 200;
+
+//////////////
+/// BIKER: ///
+//////////////
+
+// Set height at which biker cycles
+let cyclingHeight = 700;
+
+// Set maximum jumping height
+let jumpHeight = cvs.height - cyclingHeight - 500;
+
+// Biker coordinates on the canvas.
+let bikerX 	= 10;
+let bikerY 	= cyclingHeight;
+
+// Add gravity effect that causes biker to descend post-jump.
+let gravity = 20;
 
 // Check if the biker is on the ground. If on the ground, jump is possible
-function moveUp () {
+function jumpUp () {
 	if (bikerY == cyclingHeight) { // If the biker is on the ground...
 		bikerY -= 500; // ... Then let them jump...
 		bounce.play(); // ... And play the jump sound.
@@ -83,25 +104,15 @@ function moveUp () {
 // Execute the jump function if the user presses the spcebar (key code "32")
 document.addEventListener("keydown", event => {
 	if (event.keyCode === 32) {
-		moveUp();
+		jumpUp();
+
+
+		// bikerY -= gravity , so long as bikerY >= jumpHeight
+
+
 	}
 	null;
 });
-
-// Pokemon coordinates stored in array
-let pokemon = [];
-
-pokemon[0] = {
-	x : cvs.width,
-	y : 890
-};
-
-// Update time in timer (for time-played leaderboard)
-let start = Date.now();
-setInterval(function() {
-	let delta = Date.now() - start; // milliseconds elapsed since start
-	return (Math.floor(delta / 1000)); // in seconds
-})
 
 ////////////////////////
 /// FRAME ANIMATION: ///
@@ -110,28 +121,32 @@ setInterval(function() {
 function draw () {
 
 	// The scene
-	ctx.drawImage(background, 0, 0); 
+	ctx.drawImage(background, 0, 0);
 
 	// The biker
 	ctx.drawImage(biker, bikerX, bikerY);
 	bikerY = Math.min(cyclingHeight, bikerY+= gravity);
 
-	// Timer
+	// Draw timer on the canvas
 	ctx.font = "40px Verdana";
 	ctx.fillText("Timer: " + timer, 10, cvs.height - 20);
 
-	// Increment timer
-	let startTime = Date.now();
+	// Increment the timer 
+	function incrementTimer (secs, mins, hrs) {
+		if (secs == 60) {
+			secs = 0;
+			mins++;
+		} else {
+			secs += Math.floor((Date.now() - startTime) / 1000);
+		}
 
-	if (secs == 60) {
-		secs = 0;
-		mins += 1;
-	} else secs = Math.floor((Date.now() - startTime) / 1000);
-
-	if (mins == 60) {
-		mins = 0;
-		hrs += 1;
-	} else null;
+		if (mins == 60) {
+			mins = 0;
+			hrs++;
+		} else {
+			mins++;
+		}
+	}
 
 	//////////////////////////////
 	/// DRAW ONCOMING POKEMON: ///
@@ -164,8 +179,7 @@ function draw () {
 			location.reload();
 		}
 
-		// Increment speed every 15 seconds
-
+		// Increment speed every 15 seconds:
 		/////////////////////
 		/// Function here ///
 		/////////////////////
