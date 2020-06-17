@@ -83,7 +83,7 @@ let gravity = 20;
 // Check if the biker is on the ground. If on the ground, jump is possible
 function jumpUp () {
 	if (bikerY == cyclingHeight) { // If the biker is on the ground...
-		bikerY -= 500; // ... Then let them jump...
+		bikerY -= 700000; // ... Then let them jump...
 		bounce.play(); // ... And play the jump sound.
 	} else {
 		null; // Otherwise, do nothing. (This prevents double-jumping)
@@ -120,21 +120,23 @@ function draw () {
 	/// TIMER: ///
 	//////////////
 
-	// Draw timer on the canvas
-	
-	if (secs == 60) {
-		secs = 0;
-		mins++;
-	} else {
-		secs = Math.floor((Date.now() - startTime) / 1000);
-	}
+	// Increment each time unit using real time
 
-	if (mins == 60) {
-		mins = 0;
-		hrs++;
-	} else {
-		null;
-	}
+	secs = 
+	// Count total secs elapsed... 
+	Math.floor((Date.now() - startTime) / 1000) // 1000 milliseconds per second
+	// ... then subtract secs already counted in mins
+	- (Math.floor((Date.now() - startTime) / 60000) * 60); // 60000 milliseconds per minute
+
+	mins = 
+	// Count total mins elapsed...
+	Math.floor((Date.now() - startTime) / 60000) // 60000 milliseconds per minute
+	/// ... then subtract mins already counted in hrs
+	- (Math.floor((Date.now() - startTime) / 3600000) * 60); // 3.6e+6 (3.6 million) milliseconds per hour
+
+	hrs =
+	// Count total hrs elapsed
+	Math.floor((Date.now() - startTime) / 3600000) // 3600000 milliseconds per hour
 
 	// Each time unit padded w/ two zeroes
 	let secsPad	= secs.toString().padStart(2, "0");
@@ -149,7 +151,7 @@ function draw () {
 
 	// Continuously draw and push new Pokemon to the Pokemon array
 	for (let i = 0; i < pokemon.length; i++) {
-		ctx.drawImage(kabutops,		pokemon[i].x, 	pokemon[i].y 		);
+		ctx.drawImage(kabutops,	pokemon[i].x, pokemon[i].y);
 		//ctx.drawImage(aerodactyl, 	pokemon[i].x, 	pokemon[i].y - gap	);
 		// Aerodactyl saved for when flying pokemon are eventually added
 		pokemon[i].x -= 15;
