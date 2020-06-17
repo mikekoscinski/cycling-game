@@ -1,5 +1,4 @@
 // Create the canvas and context variables
-
 let cvs = document.getElementById("canvas"); 
 let ctx = cvs.getContext("2d"); 
 
@@ -41,23 +40,13 @@ let secs 	= 0;
 let mins 	= 0;
 let hrs 	= 0;
 
-// Each time unit padded w/ two zeroes
-let secsPad	= secs.toString().padStart(2, "0");
-let minsPad	= mins.toString().padStart(2, "0");
-let hrsPad	= hrs.toString().padStart(2, "0");
+// Initialize start time
+let startTime = Date.now();
 
-// Concatenate all time units
-let timer = hrsPad + ":" + minsPad + ":" + secsPad;
 
-// Update time in timer (for time-played leaderboard)
-let start = Date.now();
-setInterval(function() {
-	let delta = Date.now() - start; // milliseconds elapsed since start
-	return (Math.floor(delta / 1000)); // in seconds
-})
 
-// Set the starting time for the timer
-let startTime = Date.now(); // does this go outside of the draw function? probably, because otherwise it will get reset every time a new frame is drawn
+
+
 
 ////////////////
 /// POKEMON: ///
@@ -127,36 +116,42 @@ function draw () {
 	ctx.drawImage(biker, bikerX, bikerY);
 	bikerY = Math.min(cyclingHeight, bikerY+= gravity);
 
+	//////////////
+	/// TIMER: ///
+	//////////////
+
 	// Draw timer on the canvas
-	ctx.font = "40px Verdana";
-	ctx.fillText("Timer: " + timer, 10, cvs.height - 20);
-
-	// Increment the timer 
-	function incrementTimer (secs, mins, hrs) {
-		if (secs == 60) {
-			secs = 0;
-			mins++;
-		} else {
-			secs += Math.floor((Date.now() - startTime) / 1000);
-		}
-
-		if (mins == 60) {
-			mins = 0;
-			hrs++;
-		} else {
-			mins++;
-		}
+	
+	if (secs == 60) {
+		secs = 0;
+		mins++;
+	} else {
+		secs = Math.floor((Date.now() - startTime) / 1000);
 	}
 
-	//////////////////////////////
-	/// DRAW ONCOMING POKEMON: ///
-	//////////////////////////////
+	if (mins == 60) {
+		mins = 0;
+		hrs++;
+	} else {
+		null;
+	}
+
+	// Each time unit padded w/ two zeroes
+	let secsPad	= secs.toString().padStart(2, "0");
+	let minsPad	= mins.toString().padStart(2, "0");
+	let hrsPad	= hrs.toString().padStart(2, "0");
+
+	// Concatenate all time units
+	let timer = hrsPad + ":" + minsPad + ":" + secsPad;
+
+	ctx.font = "40px Verdana";
+	ctx.fillText("Timer: " + timer, 10, cvs.height - 20);
 
 	// Continuously draw and push new Pokemon to the Pokemon array
 	for (let i = 0; i < pokemon.length; i++) {
 		ctx.drawImage(kabutops,		pokemon[i].x, 	pokemon[i].y 		);
 		//ctx.drawImage(aerodactyl, 	pokemon[i].x, 	pokemon[i].y - gap	);
-		// Saved for when flying pokemon are eventually added
+		// Aerodactyl saved for when flying pokemon are eventually added
 		pokemon[i].x -= 15;
 
 		if (pokemon[i].x == 600) {
@@ -178,15 +173,7 @@ function draw () {
 			) {
 			location.reload();
 		}
-
-		// Increment speed every 15 seconds:
-		/////////////////////
-		/// Function here ///
-		/////////////////////
-
 	}
-	
 	requestAnimationFrame(draw);
 }
-
 draw();
