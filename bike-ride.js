@@ -3,7 +3,9 @@
 let cvs = document.getElementById("canvas"); 
 let ctx = cvs.getContext("2d"); 
 
-// IMAGES:
+//////////////
+/// IMAGES:///
+//////////////
 
 let biker 			= new Image();
 let background		= new Image();
@@ -15,7 +17,9 @@ background.src		= "images/ocean-background.jpg";
 kabutops.src		= "images/kabutops.gif";
 aerodactyl.src		= "images/aerodactyl.gif";
 
-// AUDIO:
+/////////////
+/// AUDIO:///
+/////////////
 
 let soundtrack 		= new Audio();
 let bounce 			= new Audio();
@@ -28,7 +32,9 @@ scor.src 			= "audio/sfx_point.mp3";
 // Play background music
 // soundtrack.play();
 
-// VARIABLES:
+/////////////////
+/// VARIABLES:///
+/////////////////
 
 // Set height at which biker cycles
 let cyclingHeight = 700;
@@ -43,39 +49,14 @@ let gravity = 10;
 // Gap between walking and flying pokemon
 let gap = 150;
 
-// TIMER:
+/////////////
+/// TIMER:///
+/////////////
 
 // Initialize time units
 let secs 	= 0;
 let mins 	= 0;
 let hrs 	= 0;
-
-
-
-////////////////////////////////////////////////////////////
-
-// Increment time units
-
-let startTime = Date.now();
-
-secs = Math.floor((Date.now() - startTime) / 1000);
-
-if (secs == 60) {
-	secs = 0;
-	mins += 1;
-}
-
-if (mins == 60) {
-	mins = 0;
-	hrs += 1;
-}
-
-
-
-
-
-
-////////////////////////////////////////////////////////////
 
 // Each time unit padded w/ two zeroes
 let secsPad	= secs.toString().padStart(2, "0");
@@ -85,9 +66,11 @@ let hrsPad	= hrs.toString().padStart(2, "0");
 // Concatenate all time units
 let timer = hrsPad + ":" + minsPad + ":" + secsPad;
 
-// FUNCTIONS:
+/////////////////
+/// FUNCTIONS:///
+/////////////////
 
-// Make the biker jump when user presses any key.
+// Check if the biker is on the ground. If they're touching the ground then they can jump
 function moveUp () {
 	if (bikerY == cyclingHeight) { // If the biker is on the ground...
 		bikerY -= 500; // ... Then let them jump...
@@ -97,6 +80,7 @@ function moveUp () {
 	}
 }
 
+// Execute the jump function if the user presses the spcebar (key code "32")
 document.addEventListener("keydown", event => {
 	if (event.keyCode === 32) {
 		moveUp();
@@ -113,16 +97,13 @@ pokemon[0] = {
 };
 
 // Update time in timer (for time-played leaderboard)
-
 let start = Date.now();
 setInterval(function() {
 	let delta = Date.now() - start; // milliseconds elapsed since start
 	return (Math.floor(delta / 1000)); // in seconds
-
 })
 
-
-// Draw images
+// Draw each animation frame
 function draw () {
 
 	// The scene
@@ -139,11 +120,11 @@ function draw () {
 	ctx.fillText("Timer: " + timer, 10, cvs.height - 20);
 
 
-	// Continuously draw new Pokemon and add them to the Pokemon array above
+	// Continuously draw and push new Pokemon to the Pokemon array
 	for (let i = 0; i < pokemon.length; i++) {
 		ctx.drawImage(kabutops,		pokemon[i].x, 	pokemon[i].y 		);
 		//ctx.drawImage(aerodactyl, 	pokemon[i].x, 	pokemon[i].y - gap	);
-
+		// Saved for when flying pokemon are eventually added
 		pokemon[i].x -= 15;
 
 		if (pokemon[i].x == 600) {
@@ -154,7 +135,6 @@ function draw () {
 		}
 
 		// Detect collision
-
 		if (
 			// Check if Biker has made contact with side of pokemon
 			(bikerX + biker.width >= pokemon[i].x 
@@ -168,6 +148,20 @@ function draw () {
 		}
 
 		// Increment timer
+		let startTime = Date.now();
+
+		secs = Math.floor((Date.now() - startTime) / 1000);
+
+		if (secs == 60) {
+			secs = 0;
+			mins += 1;
+		}
+
+		if (mins == 60) {
+			mins = 0;
+			hrs += 1;
+		}
+
 
 
 
