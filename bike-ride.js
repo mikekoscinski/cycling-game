@@ -17,13 +17,13 @@ aerodactyl.src		= "images/aerodactyl.gif";
 
 // AUDIO:
 
-let soundtrack 	= new Audio();
-let bounce 		= new Audio();
-let scor 		= new Audio();
+let soundtrack 		= new Audio();
+let bounce 			= new Audio();
+let scor 			= new Audio();
 
-soundtrack.src 	= "audio/gen3-cycling-music.mp3";
-bounce.src 		= "audio/mario-jump.mp3";
-scor.src 		= "audio/sfx_point.mp3";
+soundtrack.src 		= "audio/gen3-cycling-music.mp3";
+bounce.src 			= "audio/mario-jump.mp3";
+scor.src 			= "audio/sfx_point.mp3";
 
 // Play background music
 // soundtrack.play();
@@ -49,6 +49,8 @@ let gap = 150;
 let secs 	= 0;
 let mins 	= 0;
 let hrs 	= 0;
+
+
 
 ////////////////////////////////////////////////////////////
 
@@ -91,7 +93,12 @@ function moveUp () {
 	bounce.play();
 }
 
-document.addEventListener("keydown", moveUp);
+document.addEventListener("keydown", event => {
+	if (event.keyCode === 32) {
+		moveUp();
+	}
+	null;
+});
 
 // Pokemon coordinates stored in array
 let pokemon = [];
