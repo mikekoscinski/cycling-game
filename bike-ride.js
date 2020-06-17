@@ -43,10 +43,7 @@ let hrs 	= 0;
 // Initialize start time
 let startTime = Date.now();
 
-
-
-
-
+// Note: the timer itself must be rendered in the draw function, as it must be redrawn every time a second passes
 
 ////////////////
 /// POKEMON: ///
@@ -83,7 +80,7 @@ let gravity = 20;
 // Check if the biker is on the ground. If on the ground, jump is possible
 function jumpUp () {
 	if (bikerY == cyclingHeight) { // If the biker is on the ground...
-		bikerY -= 700000; // ... Then let them jump...
+		bikerY -= 1000; // ... Then let them jump...
 		bounce.play(); // ... And play the jump sound.
 	} else {
 		null; // Otherwise, do nothing. (This prevents double-jumping)
@@ -148,6 +145,10 @@ function draw () {
 
 	ctx.font = "40px Verdana";
 	ctx.fillText("Timer: " + timer, 10, cvs.height - 20);
+
+	/////////////////////
+	/// DRAW POKEMON: ///
+	/////////////////////
 
 	// Continuously draw and push new Pokemon to the Pokemon array
 	for (let i = 0; i < pokemon.length; i++) {
