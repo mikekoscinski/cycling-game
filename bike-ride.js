@@ -89,8 +89,12 @@ let timer = hrsPad + ":" + minsPad + ":" + secsPad;
 
 // Make the biker jump when user presses any key.
 function moveUp () {
-	bikerY -= 500;
-	bounce.play();
+	if (bikerY == cyclingHeight) { // If the biker is on the ground...
+		bikerY -= 500; // ... Then let them jump...
+		bounce.play(); // ... And play the jump sound.
+	} else {
+		null; // Otherwise, do nothing. (This prevents double-jumping)
+	}
 }
 
 document.addEventListener("keydown", event => {
