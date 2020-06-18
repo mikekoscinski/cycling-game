@@ -21,11 +21,11 @@ aerodactyl.src		= "images/aerodactyl.gif";
 //////////////
 
 let soundtrack 		= new Audio();
-let bounce 			= new Audio();
+let jumpSound		= new Audio();
 let scor 			= new Audio();
 
 soundtrack.src 		= "audio/gen3-cycling-music.mp3";
-bounce.src 			= "audio/mario-jump.mp3";
+jumpSound.src 		= "audio/mario-jump.mp3";
 scor.src 			= "audio/sfx_point.mp3";
 
 // Play background music
@@ -81,25 +81,13 @@ let jumpHeight = cvs.height - cyclingHeight - 500;
 // Add gravity effect that causes biker to descend post-jump.
 let gravity = 20;
 
-// Check if the biker is on the ground. If on the ground, jump is possible
-function jumpUp () {
-	if (bikerY == cyclingHeight) { // If the biker is on the ground...
-		bikerY -= 1000; // ... Then let them jump...
-		bounce.play(); // ... And play the jump sound.
-	} else {
-		null; // Otherwise, do nothing. (This prevents double-jumping)
-	}
-}
+// Intialize jumpUp status - bikerY will decrement by gravity while this is set to false, provided spacebar has been pressed AND the biker has returned to the ground
+let jumpUp = null;
 
-// Execute the jump function if the user presses the spcebar (key code "32")
 document.addEventListener("keydown", event => {
-	if (event.keyCode === 32) {
-		jumpUp();
-
-
-		// bikerY -= gravity , so long as bikerY >= jumpHeight
-
-
+	if (event.keyCode === 32 && bikerY == cyclingHeight) {
+		jumpUp = true;
+		jumpSound.play();
 	}
 	null;
 });
@@ -115,7 +103,18 @@ function draw () {
 
 	// The biker
 	ctx.drawImage(biker, bikerX, bikerY);
-	bikerY = Math.min(cyclingHeight, bikerY+= gravity);
+	
+	if (bikerY >= jumpHeight && jumpUp == true) {
+		jumpUp = true;
+	} else {
+		jumpUp = false;
+	}
+
+	if (jumpUp == true) {
+		Math.max(bikerY -= gravity, jumpHeight);
+	} else {
+		bikerY = Math.min(cyclingHeight, bikerY+= gravity);
+	}
 
 	//////////////
 	/// TIMER: ///
