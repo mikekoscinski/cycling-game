@@ -51,7 +51,7 @@ let startTime = Date.now();
 
 // Set running and flying heights for oncoming pokemon
 let runningHeight	= 890;
-let flyingHeight 	= 1100;
+let flyingHeight 	= runningHeight - 300;
 
 // oncoming coordinates stored in array
 let oncoming = [];
@@ -61,7 +61,7 @@ let oncoming = [];
 oncoming[0] = {
 	pokemon : kabutops, // eventually, make this 50% chance of omanyte or kabuto
 	x 		: cvs.width,
-	y 		: pokemon == aerodactyl ? flyingHeight : runningHeight, // need to make this contingent on the pokemon property value, both here and in the draw() function as well -- when the new mon is pushed to this array
+	y 		: runningHeight,
 };
 
 //////////////
@@ -80,7 +80,7 @@ let bikerY 	= cyclingHeight;
 /////////////
 
 // Set maximum jumping height
-let jumpHeight = cvs.height - cyclingHeight - 500;
+let jumpHeight = cyclingHeight - 70000;
 
 // Add gravity effect that causes biker to descend post-jump.
 let gravity = 25;
@@ -157,19 +157,15 @@ function draw () {
 	ctx.font = "40px Verdana";
 	ctx.fillText("Timer: " + timer, 10, cvs.height - 20);
 
-	/////////////////////
-	/// DRAW oncoming: ///
-	/////////////////////
+	//////////////////////////////
+	/// DRAW ONCOMING POKEMON: ///
+	//////////////////////////////
 
-	// Continuously draw and push new oncoming to the oncoming array
+	// Continuously draw and push new oncoming pokemon to the oncoming array
 	
 	for (let i = 0; i < oncoming.length; i++) {
 		
-
-
 		ctx.drawImage(oncoming[i].pokemon, oncoming[i].x, oncoming[i].y);
-
-
 
 		oncoming[i].x -= 15;
 
@@ -177,10 +173,11 @@ function draw () {
 		// this only works if [i].x == 15... why?
 
 		if (oncoming[i].x == 600) {
+			let newPokemon = Math.random() < 0.70 ? kabutops : aerodactyl;
 			oncoming.push({
-				pokemon : Math.random() < 0.70 ? kabutops : aerodactyl,
+				pokemon : newPokemon,
 				x 		: cvs.width,
-				y 		: 890
+				y 		: newPokemon == aerodactyl ? flyingHeight : runningHeight
 			});
 		}
 
@@ -188,7 +185,7 @@ function draw () {
 		if (
 			// Check if Biker has made contact with side of oncoming
 			(bikerX + biker.width >= oncoming[i].x 
-			&& bikerX <= oncoming[i].x + kabutops.width
+			&& bikerX <= oncoming[i].x + oncoming[i].pokemon.width
 			&& bikerY + biker.height >= oncoming[i].y)
 
 			// Check if biker has made contact with top of oncoming
@@ -197,11 +194,6 @@ function draw () {
 			location.reload();
 		}
 	}
-
-
-
-
-
 	requestAnimationFrame(draw);
 }
 draw();
