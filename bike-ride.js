@@ -49,7 +49,17 @@ let startTime = Date.now();
 /// POKEMON: ///
 ////////////////
 
+// masterHeight -- this is the # of pixels that everything on the ground (biker, running pokemon) should be elevated from the bottom of the canvas
+
+// cyclingHeight 	= cvs.height - biker.height - masterHeight
+
+// omanyteHeight	= cvs.height - omanyte.height - masterHeight
+// kabutoHeight 	= cvs.height - kabuto.height - masterHeight
+// omastarHeight 	= cvs.height - omastar.height - masterHeight
+// kabutopsHeight 	= cvs.height - kabutops.height - masterHeight
+
 // Set running and flying heights for oncoming pokemon
+
 let runningHeight	= 890;
 let flyingHeight 	= runningHeight - 300;
 
@@ -79,7 +89,7 @@ let bikerY 	= cyclingHeight;
 /////////////
 
 // Set maximum jumping height
-let jumpHeight = cyclingHeight - 70000;
+let jumpHeight = cyclingHeight - 700;
 
 // Add gravity effect that causes biker to descend post-jump.
 let gravity = 25;
@@ -188,14 +198,29 @@ function draw () {
 
 		// Detect collision
 		if (
-			// Check if Biker has made contact with side of oncoming
+			// CHECK if hit the top of an oncoming pokemon:
+			// 1.) Is the biker inside the oncoming pokemon's front edge?
 			(bikerX + biker.width >= oncoming[i].x 
-			&& bikerX <= oncoming[i].x + oncoming[i].pokemon.width
+
+			// 2.) And is the biker inside the oncoming pokemon's back edge?
+			&& bikerX + biker.width <= oncoming[i].x + oncoming[i].pokemon.width
+			
+			// 3.) And is the biker inside the oncoming pokemon's top edge?
 			&& bikerY + biker.height >= oncoming[i].y)
 
-			// Check if biker has made contact with top of oncoming
-			|| bikerY >= oncoming[i].y
+			||
+
+			// CHECK if hit the bottom of an oncoming pokemon:
+			// 1.) Is the biker inside the oncoming pokemon's front edge?
+			(bikerX + biker.width >= oncoming[i].x 
+
+			// 2.) And is the biker inside the oncoming pokemon's back edge?
+			&& bikerX + biker.width <= oncoming[i].x + oncoming[i].pokemon.width 
+
+			// 3.) And is the biker inside the oncoming pokemon's bottom edge?
+			&& bikerY >= oncoming[i].y + oncoming[i].pokemon.height)
 			) {
+			// If contact has been made, reload the page
 			location.reload();
 		}
 	}
