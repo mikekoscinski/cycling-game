@@ -53,11 +53,10 @@ let startTime = Date.now();
 let runningHeight	= 890;
 let flyingHeight 	= runningHeight - 300;
 
-// oncoming coordinates stored in array
+// Oncoming pokemon coordinates stored in array
 let oncoming = [];
 
-// rename this oncoming? and have "oncoming" be a property of the object? eg oncoming[0] = kabuto, x=cvs.width, y = runningHeight
-
+// Create the first value for the oncoming array
 oncoming[0] = {
 	pokemon : kabutops, // eventually, make this 50% chance of omanyte or kabuto
 	x 		: cvs.width,
@@ -88,8 +87,7 @@ let gravity = 25;
 // Intialize jumpUp status
 let jumpUp = null;
 
-// jumpUp will become true when spacebar (keyCode == 32) is pressed AND the biker is already on the ground. The AND prevents double-jumps before they return to ground.
-
+// Note: jumpUp will become true when spacebar (keyCode == 32) is pressed AND the biker is already on the ground. The AND prevents double-jumps before they return to ground.
 document.addEventListener("keydown", event => {
 	if (event.keyCode === 32 && bikerY == cyclingHeight) {
 		jumpUp = true;
@@ -130,18 +128,21 @@ function draw () {
 
 	// Increment each time unit using real time
 
+	// Seconds
 	secs = 
-	// Count total secs elapsed... 
+	// Count total secs elapsed...
 	Math.floor((Date.now() - startTime) / 1000) // 1000 milliseconds per second
 	// ... then subtract secs already counted in mins
 	- (Math.floor((Date.now() - startTime) / 60000) * 60); // 60000 milliseconds per minute
 
+	// Minutes
 	mins = 
 	// Count total mins elapsed...
 	Math.floor((Date.now() - startTime) / 60000) // 60000 milliseconds per minute
 	/// ... then subtract mins already counted in hrs
 	- (Math.floor((Date.now() - startTime) / 3600000) * 60); // 3.6e+6 (3.6 million) milliseconds per hour
 
+	// Hours (Note: Hours is the largest time unit we track... Nobody should have a run that lasts more than 24 hrs... go outside!)
 	hrs =
 	// Count total hrs elapsed
 	Math.floor((Date.now() - startTime) / 3600000) // 3600000 milliseconds per hour
@@ -162,16 +163,20 @@ function draw () {
 	//////////////////////////////
 
 	// Continuously draw and push new oncoming pokemon to the oncoming array
-	
 	for (let i = 0; i < oncoming.length; i++) {
 		
+		// Draw the oncoming pokemon
 		ctx.drawImage(oncoming[i].pokemon, oncoming[i].x, oncoming[i].y);
 
+		// Each oncoming pokemon should change its x position this many pixels closer to the biker with each passing frame
 		oncoming[i].x -= 15;
+
 
 		// there is a relationship between this -15 and the oncoming[i].x == 600
 		// this only works if [i].x == 15... why?
 
+
+		// Once the current oncoming pokemon gets within a certain range, draw a new one, starting it at the far right of the canvas
 		if (oncoming[i].x == 600) {
 			let newPokemon = Math.random() < 0.70 ? kabutops : aerodactyl;
 			oncoming.push({
