@@ -49,16 +49,20 @@ let startTime = Date.now();
 /// POKEMON: ///
 ////////////////
 
-// Pokemon coordinates stored in array
-let pokemon = [];
+// Set running and flying heights for oncoming pokemon
+let runningHeight	= 890;
+let flyingHeight 	= 1100;
 
-pokemon[0] = {
-	x : cvs.width,
-	y : 890
+// oncoming coordinates stored in array
+let oncoming = [];
+
+// rename this oncoming? and have "oncoming" be a property of the object? eg oncoming[0] = kabuto, x=cvs.width, y = runningHeight
+
+oncoming[0] = {
+	pokemon : kabutops, // eventually, make this 50% chance of omanyte or kabuto
+	x 		: cvs.width,
+	y 		: pokemon == aerodactyl ? flyingHeight : runningHeight, // need to make this contingent on the pokemon property value, both here and in the draw() function as well -- when the new mon is pushed to this array
 };
-
-// Gap between walking and flying pokemon
-let gap = 200;
 
 //////////////
 /// BIKER: ///
@@ -106,12 +110,14 @@ function draw () {
 	// The biker
 	ctx.drawImage(biker, bikerX, bikerY);
 	
+	// Set the maximum and minimum heights for the biker.
 	if (bikerY >= jumpHeight && jumpUp == true) {
 		jumpUp = true;
 	} else {
 		jumpUp = false;
 	}
 
+	// If jumpUp is set to true, biker rises upward at the force of gravity. Else, sinks down at the force of gravity. 
 	if (jumpUp == true) {
 		Math.max(bikerY -= gravity, jumpHeight);
 	} else {
@@ -152,36 +158,50 @@ function draw () {
 	ctx.fillText("Timer: " + timer, 10, cvs.height - 20);
 
 	/////////////////////
-	/// DRAW POKEMON: ///
+	/// DRAW oncoming: ///
 	/////////////////////
 
-	// Continuously draw and push new Pokemon to the Pokemon array
-	for (let i = 0; i < pokemon.length; i++) {
-		ctx.drawImage(kabutops,	pokemon[i].x, pokemon[i].y);
-		//ctx.drawImage(aerodactyl, 	pokemon[i].x, 	pokemon[i].y - gap	);
-		// Aerodactyl saved for when flying pokemon are eventually added
-		pokemon[i].x -= 15;
+	// Continuously draw and push new oncoming to the oncoming array
+	
+	for (let i = 0; i < oncoming.length; i++) {
+		
 
-		if (pokemon[i].x == 600) {
-			pokemon.push({
-				x : cvs.width,
-				y : 890
+
+		ctx.drawImage(oncoming[i].pokemon, oncoming[i].x, oncoming[i].y);
+
+
+
+		oncoming[i].x -= 15;
+
+		// there is a relationship between this -15 and the oncoming[i].x == 600
+		// this only works if [i].x == 15... why?
+
+		if (oncoming[i].x == 600) {
+			oncoming.push({
+				pokemon : Math.random() < 0.70 ? kabutops : aerodactyl,
+				x 		: cvs.width,
+				y 		: 890
 			});
 		}
 
 		// Detect collision
 		if (
-			// Check if Biker has made contact with side of pokemon
-			(bikerX + biker.width >= pokemon[i].x 
-			&& bikerX <= pokemon[i].x + kabutops.width
-			&& bikerY + biker.height >= pokemon[i].y)
+			// Check if Biker has made contact with side of oncoming
+			(bikerX + biker.width >= oncoming[i].x 
+			&& bikerX <= oncoming[i].x + kabutops.width
+			&& bikerY + biker.height >= oncoming[i].y)
 
-			// Check if biker has made contact with top of pokemon
-			|| bikerY >= pokemon[i].y
+			// Check if biker has made contact with top of oncoming
+			|| bikerY >= oncoming[i].y
 			) {
 			location.reload();
 		}
 	}
+
+
+
+
+
 	requestAnimationFrame(draw);
 }
 draw();
