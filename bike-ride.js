@@ -67,12 +67,16 @@ let gap = 200;
 // Set height at which biker cycles
 let cyclingHeight = 700;
 
-// Set maximum jumping height
-let jumpHeight = cvs.height - cyclingHeight - 500;
-
 // Biker coordinates on the canvas.
 let bikerX 	= 10;
 let bikerY 	= cyclingHeight;
+
+/////////////
+/// JUMP: ///
+/////////////
+
+// Set maximum jumping height
+let jumpHeight = cvs.height - cyclingHeight - 500;
 
 // Add gravity effect that causes biker to descend post-jump.
 let gravity = 20;
