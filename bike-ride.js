@@ -198,28 +198,25 @@ function draw () {
 
 		// Detect collision
 		if (
-			// CHECK if hit the top of an oncoming pokemon:
-			// 1.) Is the biker inside the oncoming pokemon's front edge?
-			(bikerX + biker.width >= oncoming[i].x 
-
-			// 2.) And is the biker inside the oncoming pokemon's back edge?
-			&& bikerX + biker.width <= oncoming[i].x + oncoming[i].pokemon.width
-			
-			// 3.) And is the biker inside the oncoming pokemon's top edge?
-			&& bikerY + biker.height >= oncoming[i].y)
-
-			||
-
-			// CHECK if hit the bottom of an oncoming pokemon:
-			// 1.) Is the biker inside the oncoming pokemon's front edge?
-			(bikerX + biker.width >= oncoming[i].x 
-
-			// 2.) And is the biker inside the oncoming pokemon's back edge?
-			&& bikerX + biker.width <= oncoming[i].x + oncoming[i].pokemon.width 
-
-			// 3.) And is the biker inside the oncoming pokemon's bottom edge?
-			&& bikerY >= oncoming[i].y + oncoming[i].pokemon.height)
-			) {
+			// First, check x values:
+				(
+				// Is front of biker (bikerX + biker.width) within the oncoming pokemon's range of x values?
+				(oncoming[i].x <= bikerX + biker.width && bikerX + biker.width <= oncoming[i].x + oncoming[i].pokemon.width)
+				||
+				// Is back of biker (bikerX) within the oncoming pokemo's range of x values?
+				(oncoming[i].x <= bikerX && bikerX <= oncoming[i].x + oncoming[i].pokemon.width)
+				)
+			&&
+			// Then, check y values:
+				(
+				// Is the top of the biker (bikerY) within the oncoming pokemon's range of y values?
+				(oncoming[i].y <= bikerY && bikerY <= oncoming[i].y + oncoming[i].pokemon.height)
+				||
+				// If the bottom of the biker (bikerY + biker.height) within the oncoming pokemon's range of y values?
+				(oncoming[i].y <= bikerY + biker.height && bikerY + biker.height <= oncoming[i].y + oncoming[i].pokemon.height)
+				)
+			)
+		{
 			// If contact has been made, reload the page
 			location.reload();
 		}
