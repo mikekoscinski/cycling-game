@@ -42,14 +42,19 @@ let hrs 	= 0;
 
 // Initialize start time
 let startTime = Date.now();
-
 // Note: the timer itself must be rendered in the draw function, as it must be redrawn every time a second passes
 
 ////////////////
 /// POKEMON: ///
 ////////////////
 
+
+
+
+// Height concept to explore:
 // masterHeight -- this is the # of pixels that everything on the ground (biker, running pokemon) should be elevated from the bottom of the canvas
+
+// So everything is standardized and I don't have to set individual heights for every type of image/gif
 
 // cyclingHeight 	= cvs.height - biker.height - masterHeight
 
@@ -58,8 +63,11 @@ let startTime = Date.now();
 // omastarHeight 	= cvs.height - omastar.height - masterHeight
 // kabutopsHeight 	= cvs.height - kabutops.height - masterHeight
 
-// Set running and flying heights for oncoming pokemon
 
+
+
+
+// Set running and flying heights for oncoming pokemon
 let runningHeight	= 890;
 let flyingHeight 	= runningHeight - 300;
 
@@ -136,23 +144,24 @@ function draw () {
 	/// TIMER: ///
 	//////////////
 
-	// Increment each time unit using real time
+	// Increment each time unit using real time:
 
-	// Seconds
+	// Seconds:
 	secs = 
 	// Count total secs elapsed...
 	Math.floor((Date.now() - startTime) / 1000) // 1000 milliseconds per second
 	// ... then subtract secs already counted in mins
 	- (Math.floor((Date.now() - startTime) / 60000) * 60); // 60000 milliseconds per minute
 
-	// Minutes
+	// Minutes:
 	mins = 
 	// Count total mins elapsed...
 	Math.floor((Date.now() - startTime) / 60000) // 60000 milliseconds per minute
 	/// ... then subtract mins already counted in hrs
 	- (Math.floor((Date.now() - startTime) / 3600000) * 60); // 3.6e+6 (3.6 million) milliseconds per hour
 
-	// Hours (Note: Hours is the largest time unit we track... Nobody should have a run that lasts more than 24 hrs... go outside!)
+	// Hours:
+	// Note: Hours is the largest time unit we track... Nobody should have a run that lasts more than 24 hrs... go outside!)
 	hrs =
 	// Count total hrs elapsed
 	Math.floor((Date.now() - startTime) / 3600000) // 3600000 milliseconds per hour
@@ -182,8 +191,15 @@ function draw () {
 		oncoming[i].x -= 15;
 
 
+
+
 		// there is a relationship between this -15 and the oncoming[i].x == 600
 		// this only works if [i].x == 15... why?
+
+		// Need to figure this out so I can send mons at the biker at randomly generated times... 
+		// ... so you can't just hit spacebar every 3 seconds and keep going forever...
+
+
 
 
 		// Once the current oncoming pokemon gets within a certain range, draw a new one, starting it at the far right of the canvas
