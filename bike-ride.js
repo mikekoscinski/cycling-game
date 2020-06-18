@@ -79,7 +79,7 @@ let bikerY 	= cyclingHeight;
 let jumpHeight = cvs.height - cyclingHeight - 500;
 
 // Add gravity effect that causes biker to descend post-jump.
-let gravity = 20;
+let gravity = 25;
 
 // Intialize jumpUp status
 let jumpUp = null;
