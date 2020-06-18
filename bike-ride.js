@@ -81,8 +81,10 @@ let jumpHeight = cvs.height - cyclingHeight - 500;
 // Add gravity effect that causes biker to descend post-jump.
 let gravity = 20;
 
-// Intialize jumpUp status - bikerY will decrement by gravity while this is set to false, provided spacebar has been pressed AND the biker has returned to the ground
+// Intialize jumpUp status
 let jumpUp = null;
+
+// jumpUp will become true when spacebar (keyCode == 32) is pressed AND the biker is already on the ground. The AND prevents double-jumps before they return to ground.
 
 document.addEventListener("keydown", event => {
 	if (event.keyCode === 32 && bikerY == cyclingHeight) {
