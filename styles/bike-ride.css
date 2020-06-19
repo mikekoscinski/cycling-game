@@ -1,4 +1,9 @@
 html {
 	font-family: 'Press Start 2P', cursive;
+	width: auto;
 }
 
+h1 {
+	font-size: 40px;
+	text-align: center;
+}
