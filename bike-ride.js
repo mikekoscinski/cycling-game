@@ -69,7 +69,7 @@ let startTime = Date.now();
 
 // Set running and flying heights for oncoming pokemon
 let runningHeight	= 890;
-let flyingHeight 	= runningHeight - 300;
+let flyingHeight 	= runningHeight - 400;
 
 // Oncoming pokemon coordinates stored in array
 let oncoming = [];
