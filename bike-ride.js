@@ -125,7 +125,7 @@ function draw () {
 
 	// Scroll the background from right to left, indefinitely
 
-	
+
 
 
 
@@ -220,22 +220,22 @@ function draw () {
 
 		// Detect collision
 		if (
-			// First, check x values:
+			// First, check pokemon vs. biker's x values:
 				(
-					// Is front of biker (bikerX + biker.width) within the oncoming pokemon's range of x values?
-					(oncoming[i].x <= bikerX + biker.width && bikerX + biker.width <= oncoming[i].x + oncoming[i].pokemon.width)
+					// Is front of pokemon (oncoming[i].x) within biker's range of x values?
+					(bikerX <= oncoming[i].x && oncoming[i].x <= bikerX + biker.width)
 					||
-					// Is back of biker (bikerX) within the oncoming pokemo's range of x values?
-					(oncoming[i].x <= bikerX && bikerX <= oncoming[i].x + oncoming[i].pokemon.width)
+					// Is back of pokemon (oncoming[i].x + oncoming[i].pokemon.width) within biker's range of x values?
+					(bikerX <= oncoming[i].x + oncoming[i].pokemon.width && oncoming[i].x + oncoming[i].pokemon.width <= bikerX + biker.width)
 				)
 			&&
-			// Then, check y values:
+			// Then, check pokemon vs. biker's y values
 				(
-					// Is the top of the biker (bikerY) within the oncoming pokemon's range of y values?
-					(oncoming[i].y <= bikerY && bikerY <= oncoming[i].y + oncoming[i].pokemon.height)
+					// Is top of pokemon (oncoming[i].y) within biker's range of y values?
+					(bikerY <= oncoming[i].y && oncoming[i].y <= bikerY + biker.height)
 					||
-					// If the bottom of the biker (bikerY + biker.height) within the oncoming pokemon's range of y values?
-					(oncoming[i].y <= bikerY + biker.height && bikerY + biker.height <= oncoming[i].y + oncoming[i].pokemon.height)
+					// Is bottom of pokemon (oncoming[i].y + oncoming[i].pokemon.height) within biker's range of y values?
+					(bikerY <= oncoming[i].y + oncoming[i].pokemon.height && oncoming[i].y + oncoming[i].pokemon.height <= bikerY + biker.height)
 				)
 			)
 		{
