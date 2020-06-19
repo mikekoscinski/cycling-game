@@ -123,6 +123,12 @@ function draw () {
 	// The scene
 	ctx.drawImage(background, 0, 0);
 
+	// Scroll the background from right to left, indefinitely
+
+	
+
+
+
 	// The biker
 	ctx.drawImage(biker, bikerX, bikerY);
 	
@@ -216,20 +222,20 @@ function draw () {
 		if (
 			// First, check x values:
 				(
-				// Is front of biker (bikerX + biker.width) within the oncoming pokemon's range of x values?
-				(oncoming[i].x <= bikerX + biker.width && bikerX + biker.width <= oncoming[i].x + oncoming[i].pokemon.width)
-				||
-				// Is back of biker (bikerX) within the oncoming pokemo's range of x values?
-				(oncoming[i].x <= bikerX && bikerX <= oncoming[i].x + oncoming[i].pokemon.width)
+					// Is front of biker (bikerX + biker.width) within the oncoming pokemon's range of x values?
+					(oncoming[i].x <= bikerX + biker.width && bikerX + biker.width <= oncoming[i].x + oncoming[i].pokemon.width)
+					||
+					// Is back of biker (bikerX) within the oncoming pokemo's range of x values?
+					(oncoming[i].x <= bikerX && bikerX <= oncoming[i].x + oncoming[i].pokemon.width)
 				)
 			&&
 			// Then, check y values:
 				(
-				// Is the top of the biker (bikerY) within the oncoming pokemon's range of y values?
-				(oncoming[i].y <= bikerY && bikerY <= oncoming[i].y + oncoming[i].pokemon.height)
-				||
-				// If the bottom of the biker (bikerY + biker.height) within the oncoming pokemon's range of y values?
-				(oncoming[i].y <= bikerY + biker.height && bikerY + biker.height <= oncoming[i].y + oncoming[i].pokemon.height)
+					// Is the top of the biker (bikerY) within the oncoming pokemon's range of y values?
+					(oncoming[i].y <= bikerY && bikerY <= oncoming[i].y + oncoming[i].pokemon.height)
+					||
+					// If the bottom of the biker (bikerY + biker.height) within the oncoming pokemon's range of y values?
+					(oncoming[i].y <= bikerY + biker.height && bikerY + biker.height <= oncoming[i].y + oncoming[i].pokemon.height)
 				)
 			)
 		{
