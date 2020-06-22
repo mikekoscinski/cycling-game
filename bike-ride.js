@@ -2,6 +2,12 @@
 let cvs = document.getElementById("canvas"); 
 let ctx = cvs.getContext("2d"); 
 
+/*
+cvs.width = window.innerWidth;
+cvs.height = window.innerHeight;
+*/
+
+
 ///////////////
 /// IMAGES: ///
 ///////////////
@@ -43,6 +49,23 @@ let hrs 	= 0;
 // Initialize start time
 let startTime = Date.now();
 // Note: the timer itself must be rendered in the draw function, as it must be redrawn every time a second passes
+
+
+///////////////////
+/// BACKGROUND: ///
+///////////////////
+
+// Initialize array containing background images to be scrolled
+let bgScroll = [];
+
+// Create first value for background array
+bgScroll[0] = {
+	image: 	background,
+	x: 		0,
+	y: 		0,
+};
+
+
 
 ////////////////
 /// POKEMON: ///
@@ -120,14 +143,8 @@ document.addEventListener("keydown", event => {
 
 function draw () {
 
-	// The scene
+	/// Draw the background:
 	ctx.drawImage(background, 0, 0);
-
-	// Scroll the background from right to left, indefinitely
-
-
-
-
 
 	// The biker
 	ctx.drawImage(biker, bikerX, bikerY);
@@ -198,6 +215,7 @@ function draw () {
 
 
 
+		// Speed of pokemon // the time bewteen each one starting to run
 
 		// there is a relationship between this -15 and the oncoming[i].x == 600
 		// this only works if [i].x == 15... why?
