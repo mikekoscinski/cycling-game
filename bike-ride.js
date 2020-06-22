@@ -58,6 +58,12 @@ bgScroll[0] = {
 	y: 		0,
 };
 
+bgScroll[1] = {
+	image: 	background,
+	x: 		cvs.width,
+	y: 		0,
+}
+
 ////////////////
 /// POKEMON: ///
 ////////////////
@@ -111,7 +117,7 @@ let bikerY 	= cyclingHeight;
 /////////////
 
 // Set maximum jumping height
-let jumpHeight = cyclingHeight - 700;
+let jumpHeight = cyclingHeight - 600;
 
 // Add gravity effect that causes biker to descend post-jump.
 let gravity = 25;
@@ -133,32 +139,69 @@ document.addEventListener("keydown", event => {
 ////////////////////////
 
 function draw () {
-	// Initial image width
+
+	// To have same, stationary performance, just do ctx.drawImage(background, 0, 0);
+	// Trying these different methods to animate the background, making it scroll indefinitely to the left
+
+
 	let bgWidth = 0;
+	let scrollSpeed = 2;
 
-	// The scroll speed; important that canvas width is divisible by scrollSpeed
-	let scrollSpeed = 2; // 1920 canvas width; divided by 60 (target fps) = 32 scrollSpeed
-
-	// The primary animation loop; called 60 times per second	
-	function bgLoop () {
-		// Draw image 1
+	for (let i = 0; i < cvs.width / scrollSpeed; i++) {
 		ctx.drawImage(background, bgWidth, 0);
-
-		// Draw image 2
 		ctx.drawImage(background, bgWidth + cvs.width, 0);
 
-		// Update image width
-		bgWidth -= scrollSpeed;
+		bgWidth -= (i * scrollSpeed);
 
 		if (bgWidth == -cvs.width) {
 			bgWidth = 0;
 		}
-		requestAnimationFrame(bgLoop);
 	}
-	bgLoop();
 
 
 
+	/* this one wasn't working:
+
+	// Initial image width
+	let bgWidth = 0;
+
+	// The scroll speed; important that canvas width is divisible by scrollSpeed
+	let scrollSpeed = 2;
+
+	// The primary animation loop:
+	// Draw image 1
+	ctx.drawImage(background, bgWidth, 0);
+
+	// Draw image 2
+	ctx.drawImage(background, bgWidth + cvs.width, 0);
+
+	// Update image width
+	bgWidth -= scrollSpeed;
+
+	if (bgWidth == -cvs.width) {
+		bgWidth = 0;
+	}
+
+	*/
+
+
+
+	/*
+
+	// Try a for loop:
+
+	for (let i = 0; i <= cvs.width; i++) {
+		let bgWidth = 0;
+		let scrollSpeed = 2;
+		ctx.drawImage(background, bgWidth, 0);
+		ctx.drawImage(background, bgWidth + cvs.width, 0);
+		bgWidth -= scrollSpeed;
+		if (bgWidth == -cvs.width) {
+			bgWidth = 0;
+		}
+	}
+
+	*/
 
 
 
@@ -280,9 +323,5 @@ function draw () {
 		}
 	}
 	requestAnimationFrame(draw);
-	//requestAnimationFrame(bgLoop); // This would draw an infinitely side-scrolling background on top of the draw() function
-	// instead, we need to draw each background frame WITHIN the draw() function
-
-	
 }
 draw();
