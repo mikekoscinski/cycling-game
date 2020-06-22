@@ -145,7 +145,28 @@ function draw () {
 
 	/// Draw the background:
 
-	ctx.drawImage(background, 0, 0);	
+	ctx.drawImage(background, 0, 0);
+
+	// Initial image width
+	let bgWidth = 0;
+
+	// The scroll speed; important that canvas width is divisible by scrollSpeed
+	let scrollSpeed = 10;
+
+	// The primary animation loop; called 60 times per second	
+	function bgLoop () {
+		
+
+		// Draw image 1
+		ctx.drawImage(background, 0, 0);
+
+		// Draw image 2
+		ctx.drawImage(background, )
+
+
+
+	}
+
 
 
 
