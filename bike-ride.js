@@ -2,12 +2,6 @@
 let cvs = document.getElementById("canvas"); 
 let ctx = cvs.getContext("2d"); 
 
-/*
-cvs.width = window.innerWidth;
-cvs.height = window.innerHeight;
-*/
-
-
 ///////////////
 /// IMAGES: ///
 ///////////////
@@ -50,7 +44,6 @@ let hrs 	= 0;
 let startTime = Date.now();
 // Note: the timer itself must be rendered in the draw function, as it must be redrawn every time a second passes
 
-
 ///////////////////
 /// BACKGROUND: ///
 ///////////////////
@@ -64,8 +57,6 @@ bgScroll[0] = {
 	x: 		0,
 	y: 		0,
 };
-
-
 
 ////////////////
 /// POKEMON: ///
@@ -142,30 +133,33 @@ document.addEventListener("keydown", event => {
 ////////////////////////
 
 function draw () {
-
-	/// Draw the background:
-
-	ctx.drawImage(background, 0, 0);
-
 	// Initial image width
 	let bgWidth = 0;
 
 	// The scroll speed; important that canvas width is divisible by scrollSpeed
-	let scrollSpeed = 10;
+	let scrollSpeed = 2; // 1920 canvas width; divided by 60 (target fps) = 32 scrollSpeed
 
 	// The primary animation loop; called 60 times per second	
 	function bgLoop () {
-		
-
 		// Draw image 1
-		ctx.drawImage(background, 0, 0);
+		ctx.drawImage(background, bgWidth, 0);
 
 		// Draw image 2
-		ctx.drawImage(background, )
+		ctx.drawImage(background, bgWidth + cvs.width, 0);
 
+		// Update image width
+		bgWidth -= scrollSpeed;
 
-
+		if (bgWidth == -cvs.width) {
+			bgWidth = 0;
+		}
+		requestAnimationFrame(bgLoop);
 	}
+	bgLoop();
+
+
+
+
 
 
 
@@ -286,5 +280,9 @@ function draw () {
 		}
 	}
 	requestAnimationFrame(draw);
+	//requestAnimationFrame(bgLoop); // This would draw an infinitely side-scrolling background on top of the draw() function
+	// instead, we need to draw each background frame WITHIN the draw() function
+
+	
 }
 draw();
