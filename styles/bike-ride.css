@@ -1,11 +1,13 @@
 html {
 	font-family: 'Press Start 2P', cursive;
 	width: auto;
+
 }
 
 h1 {
-	font-size: 40px;
+	font-size: 25px;
 	text-align: center;
+	z-index: 0;
 }
 
 .container {
@@ -14,18 +16,6 @@ h1 {
 	overflow: hidden;
 }
 
-.sliding-background {
-	background: url(../images/ocean-background.jpg) repeat-x;
-	height: 1200px; /* Equal to background.height. */
-	width: 5760px; /* Equal to background.width * 3. */
-	animation: slide 30s linear infinite;
-}
-
-@keyframes slide {
-	0%{
-		transform: translate3d(0,0,0);
-	}
-	100%{
-		transform: translate3d(-1920px, 0, 0); /* The image width. */
-	}
+canvas {
+	z-index: -1;
 }
