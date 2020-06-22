@@ -144,7 +144,10 @@ document.addEventListener("keydown", event => {
 function draw () {
 
 	/// Draw the background:
-	ctx.drawImage(background, 0, 0);
+
+	ctx.drawImage(background, 0, 0);	
+
+
 
 	// The biker
 	ctx.drawImage(biker, bikerX, bikerY);
