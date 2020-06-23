@@ -8,12 +8,18 @@ let ctx = cvs.getContext("2d");
 
 let biker 			= new Image();
 let background		= new Image();
+let kabuto 			= new Image();
+let omanyte 		= new Image();
 let kabutops		= new Image();
+let omastar 		= new Image();
 let aerodactyl 		= new Image();
 
 biker.src			= "images/male-biker-right.gif";
 background.src		= "images/ocean-background.jpg";
+kabuto.src 			= "images/kabuto.gif";
+omanyte.src 		= "images/omanyte.gif";
 kabutops.src		= "images/kabutops.gif";
+omastar.src 		= "images/omastar.gif";
 aerodactyl.src		= "images/aerodactyl.gif";
 
 //////////////
@@ -51,6 +57,8 @@ let startTime = Date.now();
 
 
 
+
+
 // Height concept to explore:
 // masterHeight -- this is the # of pixels that everything on the ground (biker, running pokemon) should be elevated from the bottom of the canvas
 
@@ -75,8 +83,11 @@ let flyingHeight 	= runningHeight - 400;
 let oncoming = [];
 
 // Create the first value for the oncoming array
+
+let firstPokemon = Math.random() < 0.50 ? kabuto : omanyte;
+
 oncoming[0] = {
-	pokemon : kabutops, // eventually, make this 50% chance of omanyte or kabuto
+	pokemon : firstPokemon, // eventually, make this 50% chance of omanyte or kabuto
 	x 		: cvs.width,
 	y 		: runningHeight,
 };
@@ -234,7 +245,17 @@ function draw () {
 
 		// Once the current oncoming pokemon gets within a certain range, draw a new one, starting it at the far right of the canvas
 		if (oncoming[i].x == 600) {
-			let newPokemon = Math.random() < 0.70 ? kabutops : aerodactyl;
+			let pokemonOdds = Math.random()
+			if (pokemonOdds < 0.325) {
+				newPokemon = kabuto;
+			} else if (pokemonOdds < 0.650) {
+				newPokemon = omanyte;
+			} else if (pokemonOdds < 0.800) {
+				newPokemon = kabutops;
+			} else if (pokemonOdds < .950) {
+				newPokemon = omastar;
+			} else newPokemon = aerodactyl;
+
 			oncoming.push({
 				pokemon : newPokemon,
 				x 		: cvs.width,
@@ -270,3 +291,5 @@ function draw () {
 	requestAnimationFrame(draw);
 }
 draw();
+
+// Bonus points if you can figure out where in the world this game takes place... ¯\_(ツ)_/¯
