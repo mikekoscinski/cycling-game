@@ -134,6 +134,15 @@ document.addEventListener("keydown", event => {
 	null;
 });
 
+///////////////////
+/// BACKGROUND: ///
+///////////////////
+
+// Background scroll variables that must exist in the global scope:
+
+let bgWidth = 0; // Start the first image at (0,0)
+let scrollSpeed = 2; // Must be divisible by cvs.width
+
 ////////////////////////
 /// FRAME ANIMATION: ///
 ////////////////////////
@@ -144,65 +153,14 @@ function draw () {
 	// Trying these different methods to animate the background, making it scroll indefinitely to the left
 
 
-	let bgWidth = 0;
-	let scrollSpeed = 2;
-
-	for (let i = 0; i < cvs.width / scrollSpeed; i++) {
-		ctx.drawImage(background, bgWidth, 0);
-		ctx.drawImage(background, bgWidth + cvs.width, 0);
-
-		bgWidth -= (i * scrollSpeed);
-
-		if (bgWidth == -cvs.width) {
-			bgWidth = 0;
-		}
-	}
-
-
-
-	/* this one wasn't working:
-
-	// Initial image width
-	let bgWidth = 0;
-
-	// The scroll speed; important that canvas width is divisible by scrollSpeed
-	let scrollSpeed = 2;
-
-	// The primary animation loop:
-	// Draw image 1
 	ctx.drawImage(background, bgWidth, 0);
-
-	// Draw image 2
 	ctx.drawImage(background, bgWidth + cvs.width, 0);
 
-	// Update image width
-	bgWidth -= scrollSpeed;
-
-	if (bgWidth == -cvs.width) {
+	if (bgWidth <= -cvs.width) {	
+		bgWidth -= scrollSpeed;
+	} else {
 		bgWidth = 0;
 	}
-
-	*/
-
-
-
-	/*
-
-	// Try a for loop:
-
-	for (let i = 0; i <= cvs.width; i++) {
-		let bgWidth = 0;
-		let scrollSpeed = 2;
-		ctx.drawImage(background, bgWidth, 0);
-		ctx.drawImage(background, bgWidth + cvs.width, 0);
-		bgWidth -= scrollSpeed;
-		if (bgWidth == -cvs.width) {
-			bgWidth = 0;
-		}
-	}
-
-	*/
-
 
 
 
