@@ -34,7 +34,7 @@ soundtrack.src 		= "audio/gen3-cycling-music.mp3";
 jumpSound.src 		= "audio/mario-jump.mp3";
 scor.src 			= "audio/sfx_point.mp3";
 
-// Play background music
+// Play background music in a loop
 soundtrack.loop = true;
 soundtrack.play();
 
@@ -52,33 +52,18 @@ let startTime = Date.now();
 // Note: the timer itself must be rendered in the draw function, as it must be redrawn every time a second passes
 
 ////////////////
-/// POKEMON: ///
+/// HEIGHTS: ///
 ////////////////
 
+let runningHeight = 890;
+let flyingHeight = runningHeight - 400;
 
+// Biker cycling height
+let cyclingHeight = 700;
 
-
-
-
-// Height concept to explore:
-// masterHeight -- this is the # of pixels that everything on the ground (biker, running pokemon) should be elevated from the bottom of the canvas
-
-// So everything is standardized and I don't have to set individual heights for every type of image/gif
-
-// cyclingHeight 	= cvs.height - biker.height - masterHeight
-
-// omanyteHeight	= cvs.height - omanyte.height - masterHeight
-// kabutoHeight 	= cvs.height - kabuto.height - masterHeight
-// omastarHeight 	= cvs.height - omastar.height - masterHeight
-// kabutopsHeight 	= cvs.height - kabutops.height - masterHeight
-
-
-
-
-
-// Set running and flying heights for oncoming pokemon
-let runningHeight	= 890;
-let flyingHeight 	= runningHeight - 400;
+////////////////
+/// POKEMON: ///
+////////////////
 
 // Oncoming pokemon coordinates stored in array
 let oncoming = [];
@@ -96,9 +81,6 @@ oncoming[0] = {
 //////////////
 /// BIKER: ///
 //////////////
-
-// Set height at which biker cycles
-let cyclingHeight = 700;
 
 // Biker coordinates on the canvas.
 let bikerX 	= 10;
@@ -141,11 +123,8 @@ let scrollReset = null;
 ////////////////////////
 
 function draw () {
-
-	// To have same, stationary performance, just do ctx.drawImage(background, 0, 0);
-	// Trying these different methods to animate the background, making it scroll indefinitely to the left
-
-
+	// Draw the background and have it scroll infinitely to the left
+	// This only uses two background images. Once the entire first image is hidden, the loop resets
 	ctx.drawImage(background, bgWidth, 0);
 	ctx.drawImage(background, bgWidth + cvs.width, 0);
 
@@ -161,10 +140,7 @@ function draw () {
 		bgWidth -= scrollSpeed;
 	}
 
-
-
-
-	// The biker
+	// Draw the biker
 	ctx.drawImage(biker, bikerX, bikerY);
 	
 	// Set the maximum and minimum heights for the biker.
