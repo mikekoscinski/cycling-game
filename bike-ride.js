@@ -35,7 +35,8 @@ jumpSound.src 		= "audio/mario-jump.mp3";
 scor.src 			= "audio/sfx_point.mp3";
 
 // Play background music
-// soundtrack.play();
+soundtrack.loop = true;
+soundtrack.play();
 
 //////////////
 /// TIMER: ///
@@ -292,6 +293,6 @@ function draw () {
 }
 draw();
 
-// Bonus points: Can you figure out which episode of Pokémon this is based on...? ¯\_(ツ)_/¯
+// Bonus points: Can you figure out which episode of the Pokémon anime this is based on...? ¯\_(ツ)_/¯
 
 // Bonus points: Can you figure out where in the world this game takes place...? ¯\_(ツ)_/¯
