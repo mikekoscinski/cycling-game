@@ -137,6 +137,12 @@ function draw () {
 	ctx.drawImage(background, bgWidth, 0);
 	ctx.drawImage(background, bgWidth + cvs.width, 0);
 
+	if (bgWidth == -cvs.width) {
+		scrollReset = true;
+	} else {
+		scrollReset = false;
+	}
+
 	if (scrollReset == true) {
 		bgWidth = 0;
 	} else {
