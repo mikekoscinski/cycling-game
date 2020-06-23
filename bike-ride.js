@@ -292,4 +292,6 @@ function draw () {
 }
 draw();
 
-// Bonus points if you can figure out where in the world this game takes place... ¯\_(ツ)_/¯
+// Bonus points: Can you figure out which episode of Pokémon this is based on...? ¯\_(ツ)_/¯
+
+// Bonus points: Can you figure out where in the world this game takes place...? ¯\_(ツ)_/¯
