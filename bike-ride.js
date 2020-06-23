@@ -207,19 +207,6 @@ function draw () {
 		// Each oncoming pokemon should change its x position this many pixels closer to the biker with each passing frame
 		oncoming[i].x -= 6;
 
-
-
-		// Speed of pokemon // the time bewteen each one starting to run
-
-		// there is a relationship between this -15 and the oncoming[i].x == 600
-		// this only works if [i].x == 15... why?
-
-		// Need to figure this out so I can send mons at the biker at randomly generated times... 
-		// ... so you can't just hit spacebar every 3 seconds and keep going forever...
-
-
-
-
 		// Once the current oncoming pokemon gets within a certain range, draw a new one, starting it at the far right of the canvas
 		if (oncoming[i].x == 600) {
 			let pokemonOdds = Math.random()
