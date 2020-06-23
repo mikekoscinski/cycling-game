@@ -44,26 +44,6 @@ let hrs 	= 0;
 let startTime = Date.now();
 // Note: the timer itself must be rendered in the draw function, as it must be redrawn every time a second passes
 
-///////////////////
-/// BACKGROUND: ///
-///////////////////
-
-// Initialize array containing background images to be scrolled
-let bgScroll = [];
-
-// Create first value for background array
-bgScroll[0] = {
-	image: 	background,
-	x: 		0,
-	y: 		0,
-};
-
-bgScroll[1] = {
-	image: 	background,
-	x: 		cvs.width,
-	y: 		0,
-}
-
 ////////////////
 /// POKEMON: ///
 ////////////////
@@ -117,7 +97,7 @@ let bikerY 	= cyclingHeight;
 /////////////
 
 // Set maximum jumping height
-let jumpHeight = cyclingHeight - 600;
+let jumpHeight = cyclingHeight - 650000;
 
 // Add gravity effect that causes biker to descend post-jump.
 let gravity = 25;
@@ -142,6 +122,7 @@ document.addEventListener("keydown", event => {
 
 let bgWidth = 0; // Start the first image at (0,0)
 let scrollSpeed = 2; // Must be divisible by cvs.width
+let scrollReset = null;
 
 ////////////////////////
 /// FRAME ANIMATION: ///
@@ -156,10 +137,10 @@ function draw () {
 	ctx.drawImage(background, bgWidth, 0);
 	ctx.drawImage(background, bgWidth + cvs.width, 0);
 
-	if (bgWidth <= -cvs.width) {	
-		bgWidth -= scrollSpeed;
-	} else {
+	if (scrollReset == true) {
 		bgWidth = 0;
+	} else {
+		bgWidth -= scrollSpeed;
 	}
 
 
