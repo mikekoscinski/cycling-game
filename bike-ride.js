@@ -97,7 +97,7 @@ let bikerY 	= cyclingHeight;
 /////////////
 
 // Set maximum jumping height
-let jumpHeight = cyclingHeight - 650000;
+let jumpHeight = cyclingHeight - 650;
 
 // Add gravity effect that causes biker to descend post-jump.
 let gravity = 25;
@@ -121,7 +121,7 @@ document.addEventListener("keydown", event => {
 // Background scroll variables that must exist in the global scope:
 
 let bgWidth = 0; // Start the first image at (0,0)
-let scrollSpeed = 2; // Must be divisible by cvs.width
+let scrollSpeed = 3; // Must be divisible by cvs.width
 let scrollReset = null;
 
 ////////////////////////
