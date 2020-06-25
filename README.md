@@ -17,7 +17,7 @@ The game engine relies entirely on one function: draw. The draw function accompl
 - Reloads the screen (i.e. game over) if a collision occurs between the biker and a Pokémon
 
 
-## Authors and acknowledgement
+## Authors and Acknowledgements
 
 This game was created by Mike Koscinski in June of 2020. It is his first programming project.
 
