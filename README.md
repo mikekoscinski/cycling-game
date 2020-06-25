@@ -2,6 +2,8 @@
 
 The Pokémon Cycling Game is a side-scrolling single-player game for adventure, cycling, and Pokémon enthusiasts alike. Players take the role of a biker, who must navigate through an onslaught of prehistoric Pokémon to complete the longest bike ride possible. 
 
+(Note: This game is in no way endorsed by, nor affiliated with Nintendo or The Pokémon Company.)
+
 
 ## Description
 
