@@ -7,7 +7,11 @@ The Pokémon Cycling Game is a side-scrolling single-player game for adventure, 
 
 This game was predominantly written in JavaScript. It makes modest use of HTML and CSS as well. 
 
-The scenes of this game are redrawn frame-by-frame to create the illusion of movement. 
+The game engine relies entirely on one function: draw. The draw function accomplishes the following:
+- Causes the background image to scroll infinitely toward the left, to create the impression of movement
+- Randomly draws new, oncoming Pokémon, based on the following probabilities: 32.5% chance (Kabuto, Omanyte), 15% chance (Kabutops, Omastar), 5% chance (Aerodactyl)
+- Maintains the game timer (bottom left corner) based on real UTC time
+- Reloads the screen (i.e. game over) if a collision occurs between the biker and a Pokémon
 
 
 
@@ -18,9 +22,6 @@ The scenes of this game are redrawn frame-by-frame to create the illusion of mov
 This game was created by Mike Koscinski in June of 2020. It is his first programming project.
 
 Ackowledgements and sincere thanks must be extended to the following sources, without which this game would not be possible:
-
-Audio:
-- 
 
 Images:
 - Pokémon sprites were graciously obtained from https://pokemondb.net/sprites.
