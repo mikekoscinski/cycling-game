@@ -99,9 +99,10 @@ let gravity = 8;
 // Intialize jumpUp status
 let jumpUp = null;
 
-// Note: jumpUp will become true when spacebar (keyCode == 32) is pressed AND the biker is already on the ground. The AND prevents double-jumps before they return to ground.
-document.addEventListener("keydown", event => {
-	if (event.keyCode === 32 && bikerY == cyclingHeight) {
+// Jump if user clicks AND biker is already on ground. 
+// The AND prevents double-jumps before they return to ground.
+document.addEventListener("click", event => {
+	if (bikerY == cyclingHeight) {
 		jumpUp = true;
 		jumpSound.play();
 	}
