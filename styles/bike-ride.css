@@ -14,14 +14,8 @@ html {
 }
 */
 
-h1 {
-	font-size: 30px;
-	text-align: center;
-	z-index: 2;
-}
-
 .container {
-	width: 1920px;
+	max-width: 1920px;
 	overflow: hidden;
 	width: auto;
 	min-width: auto;
@@ -29,6 +23,13 @@ h1 {
 	margin-right: auto;
 }
 
-canvas {
+.container h1 {
+	font-size: 30px;
+	text-align: center;
+	z-index: 2;
+	padding: 10px;
+}
+
+.container canvas {
 	z-index: 1;
 }
