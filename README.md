@@ -38,6 +38,8 @@ The code for this game is _very_ imperative. It could be more concise if it made
 
 The game engine is _memory intensive_. I mentioned earlier that each frame of the game is redrawn. However, old frames are not discarded from working memory. Consequently, performance atrophy increases as the duration of the gameplay session does. This is not ideal and should be corrected in the future.
 
+Currently, the game's timer and music continue to run if the user navigates to a different browser tab. However, doing so also pauses the draw function, allowing the user to avoid collisions indefinitely. This can be used to register a hypothetically infinite high score. An ideal solution would allow oncoming pokemon to be continuously drawn even if the user has navigated to a different tab. Without user intervention, this would eventually cause the biker to collide with an oncoming pokémon, thereby ending the game. **Note** that this issue applies only to tabs on the same browser window. If the user has two browser windows, so long as the Pokemon Cycling Game is open in its window's active tab (even if that window is not the _active_ window), frames will continue to be drawn.
+
 
 ## Project Status
 
