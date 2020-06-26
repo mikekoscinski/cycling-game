@@ -82,7 +82,7 @@ oncoming[0] = {
 /// BIKER: ///
 //////////////
 
-// Biker coordinates on the canvas.
+// Biker coordinates on the canvas
 let bikerX 	= 10;
 let bikerY 	= cyclingHeight;
 
@@ -93,15 +93,15 @@ let bikerY 	= cyclingHeight;
 // Set maximum jumping height
 let jumpHeight = cyclingHeight - 550;
 
-// Add gravity effect that causes biker to descend post-jump.
+// Add gravity effect that causes biker to descend post-jump
 let gravity = 8;
 
 // Intialize jumpUp status
 let jumpUp = null;
 
-// Jump if user clicks AND biker is already on ground. 
-// The AND prevents double-jumps before they return to ground.
-document.addEventListener("click", event => {
+// Jump if user clicks or touches AND biker is already on ground
+// The AND prevents double-jumps before they return to ground
+document.addEventListener("click" || "touchend", event => {
 	if (bikerY == cyclingHeight) {
 		jumpUp = true;
 		jumpSound.play();
@@ -144,14 +144,14 @@ function draw () {
 	// Draw the biker
 	ctx.drawImage(biker, bikerX, bikerY);
 	
-	// Set the maximum and minimum heights for the biker.
+	// Set the maximum and minimum heights for the biker
 	if (bikerY >= jumpHeight && jumpUp == true) {
 		jumpUp = true;
 	} else {
 		jumpUp = false;
 	}
 
-	// If jumpUp is set to true, biker rises upward at the force of gravity. Else, sinks down at the force of gravity. 
+	// If jumpUp is set to true, biker rises upward at the force of gravity. Else, sinks down at the force of gravity
 	if (jumpUp == true) {
 		Math.max(bikerY -= gravity, jumpHeight);
 	} else {
@@ -179,7 +179,7 @@ function draw () {
 	- (Math.floor((Date.now() - startTime) / 3600000) * 60); // 3.6e+6 (3.6 million) milliseconds per hour
 
 	// Hours:
-	// Note: Hours is the largest time unit we track... Nobody should have a run that lasts more than 24 hrs... go outside!)
+	// Note: Hours is the largest time unit we track... Nobody should have a run that lasts more than 24 hrs... go outside!
 	hrs =
 	// Count total hrs elapsed
 	Math.floor((Date.now() - startTime) / 3600000) // 3600000 milliseconds per hour
