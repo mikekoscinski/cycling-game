@@ -1,31 +1,29 @@
 html {
 	font-family: 'Press Start 2P', cursive;
-	width: auto;
 	max-width: 1920;
-	min-width: auto;
+	padding: 5%;
 	margin-left: auto;
 	margin-right: auto;
-	padding: 15px;
+	max-height: 100vh;
+}
+
+body {
+	margin: 0;
+	display: block;
 }
 
 .container {
-	max-width: 1920px;
 	overflow: hidden;
-	width: auto;
-	min-width: auto;
-	margin-left: auto;
-	margin-right: auto;
+	text-align: center;
+	transform: scale(0.5);
+	transform-origin: top center;
 }
 
 .container h1 {
-	font-size: 25px;
-	text-align: center;
+	font-size: 35px;
 	z-index: 2;
-	padding: 10px;
 }
 
 .container canvas {
 	z-index: 1;
-	transform: scale(0.5);
-	transform-origin: top left;
 }
