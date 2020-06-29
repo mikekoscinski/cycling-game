@@ -2,8 +2,9 @@ html {
 	font-family: 'Press Start 2P', cursive;
 	max-width: 1920;
 	min-width: auto;
-	padding: 2%;
+	padding: 0%;
 	margin: auto;
+	height: 100%;
 }
 
 .container {
@@ -14,8 +15,10 @@ html {
 .container h1 {
 	font-size: 30px;
 	z-index: 2;
+	position: relative;
 }
 
 .container canvas {
 	z-index: 1;
+
 }
