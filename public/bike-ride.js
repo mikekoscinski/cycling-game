@@ -6,33 +6,33 @@ let ctx = cvs.getContext("2d");
 /// IMAGES: ///
 ///////////////
 
-let biker 			= new Image();
-let background		= new Image();
-let kabuto 			= new Image();
-let omanyte 		= new Image();
-let kabutops		= new Image();
-let omastar 		= new Image();
-let aerodactyl 		= new Image();
+let biker = new Image();
+let background = new Image();
+let kabuto = new Image();
+let omanyte = new Image();
+let kabutops = new Image();
+let omastar = new Image();
+let aerodactyl = new Image();
 
-biker.src			= "images/male-biker-right.gif";
-background.src		= "images/ocean-background.jpg";
-kabuto.src 			= "images/kabuto.gif";
-omanyte.src 		= "images/omanyte.gif";
-kabutops.src		= "images/kabutops.gif";
-omastar.src 		= "images/omastar.gif";
-aerodactyl.src		= "images/aerodactyl.gif";
+biker.src = "images/male-biker-right.gif";
+background.src = "images/ocean-background.jpg";
+kabuto.src = "images/kabuto.gif";
+omanyte.src = "images/omanyte.gif";
+kabutops.src = "images/kabutops.gif";
+omastar.src = "images/omastar.gif";
+aerodactyl.src = "images/aerodactyl.gif";
 
 //////////////
 /// AUDIO: ///
 //////////////
 
-let soundtrack 		= new Audio();
-let jumpSound		= new Audio();
-let scor 			= new Audio();
+let soundtrack = new Audio();
+let jumpSound = new Audio();
+let scor = new Audio();
 
-soundtrack.src 		= "audio/gen3-cycling-music.mp3";
-jumpSound.src 		= "audio/mario-jump.mp3";
-scor.src 			= "audio/sfx_point.mp3";
+soundtrack.src = "audio/gen3-cycling-music.mp3";
+jumpSound.src = "audio/mario-jump.mp3";
+scor.src = "audio/sfx_point.mp3";
 
 // Play background music in a loop
 soundtrack.loop = true;
@@ -43,9 +43,9 @@ soundtrack.play();
 //////////////
 
 // Initialize time units
-let secs 	= 0;
-let mins 	= 0;
-let hrs 	= 0;
+let secs = 0;
+let mins = 0;
+let hrs = 0;
 
 // Initialize start time
 let startTime = Date.now();
@@ -257,6 +257,6 @@ function draw () {
 }
 draw();
 
-// Bonus points: Can you figure out which episode of the Pokémon anime this is based on...? ¯\_(ツ)_/¯
+// Bonus point: Can you figure out which episode of the Pokémon anime this is based on...? ¯\_(ツ)_/¯
 
-// Bonus points: Can you figure out where in the world this game takes place...? ¯\_(ツ)_/¯
+// Bonus point: Can you figure out where in the world this game takes place...? ¯\_(ツ)_/¯
