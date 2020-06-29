@@ -1,6 +1,6 @@
 html {
 	font-family: 'Press Start 2P', cursive;
-	max-width: 1920;
+	max-width: auto;
 	min-width: auto;
 	padding: 0%;
 	margin: auto;
@@ -20,5 +20,4 @@ html {
 
 .container canvas {
 	z-index: 1;
-
 }
