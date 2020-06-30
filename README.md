@@ -1,35 +1,33 @@
 # The Pokémon Cycling Game
 
-The Pokémon Cycling Game is a side-scrolling single-player game for adventure, cycling, and Pokémon enthusiasts alike. Players take the role of a biker, who must navigate through an onslaught of prehistoric Pokémon to complete the longest bike ride possible. 
+Single-player, side-scrolling game for adventure, cycling, and pokémon enthusiasts alike. Players take the role of a biker, who must avoid oncoming prehistoric pokémon to complete the longest bike ride possible.
 
-(Note: This game is in no way endorsed by, nor affiliated with Nintendo or The Pokémon Company.)
+(This game is not endorsed by or affiliated with Nintendo or The Pokémon Company.)
 
 
 ## Description
 
-This game was predominantly written in JavaScript. It makes modest use of HTML and CSS as well. 
+This game was written in JavaScript. It makes modest use of HTML and CSS as well.
 
-The game engine relies entirely on one function: draw. The draw function accomplishes the following:
-- Causes the background image to scroll infinitely toward the left, to create the impression of movement
-- Randomly draws new, oncoming Pokémon, based on the following probabilities: 32.5% chance (Kabuto, Omanyte), 15% chance (Kabutops, Omastar), 5% chance (Aerodactyl). The height of the Pokémon on the game canvas is automatically assigned based on the Pokémon type (walking vs. flying)
+The game engine relies on one custom JavaScript function: draw. This function:
+- Causes the background image to scroll infinitely
+- Draws new, oncoming Pokémon, with the following probabilities: 32.5% (Kabuto, Omanyte), 15% chance (Kabutops, Omastar), 5% (Aerodactyl). The pokémon's x-position on the canvas is automatically assigned based on whether or not it flies
 - Allows the biker to jump and descend
 - Maintains the game timer (bottom left corner) based on real UTC time
-- Reloads the screen (i.e. game over) if a collision occurs between the biker and a Pokémon
+- Reloads the screen (i.e. game over) if a collision occurs between biker and Pokémon
 
 
 ## Authors and Acknowledgements
 
-This game was created by Mike Koscinski in June of 2020. It is his first programming project.
-
-Ackowledgements and sincere thanks must be extended to the following sources, without which this game would not be possible:
+This game was created by Mike Koscinski in June of 2020. It is his first programming project. Other sources include:
 
 Images:
-- Pokémon sprites were graciously obtained from https://pokemondb.net/sprites.
-- Background images were obtained from the opening cut scenes of Pokémon Emerald for GameBoy Advance. They were obtained via a Google Images search. Unfortunately, I do not remember the specific site I obtained them from. 
-- Character images were obtained from Giphy: https://giphy.com/gifs/pokemon-emerald-LJGpExgmRpUbK. They were modified using several free online image editors. 
+- Pokémon sprites: https://pokemondb.net/sprites
+- Background images: opening cut scenes of Pokémon Emerald (GameBoy Advance)
+- Biker images: Giphy: https://giphy.com/gifs/pokemon-emerald-LJGpExgmRpUbK
 
 Guidance:
-- This game was inspired by a JavaScript tutorial created by the Code Explained YouTube channel (https://www.youtube.com/watch?v=L07i4g-zhDA). This tutorial walks viewers through the creation of a Flappy Bird clone. The core logic of my game (its draw function) was informed by this tutorial.
+- This game was inspired by a JavaScript tutorial created by the Code Explained YouTube channel (https://www.youtube.com/watch?v=L07i4g-zhDA). This tutorial walks viewers through the creation of a Flappy Bird (2013) clone
 
 
 ## Opportunities for Improvement
