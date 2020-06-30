@@ -95,8 +95,8 @@ const jumpHeight = cyclingHeight - 210;
 // Add gravity effect that causes biker to descend post-jump
 const gravity = 3;
 
-// Initialize jumpUp state as null (to prevent instant jump)
-let jumpUp = null;
+// Initialize jumpUp state as false (to prevent instant jump)
+let jumpUp = false;
 
 // Jump if user clicks or touches AND biker is already on ground
 // The AND prevents double-jumps before they return to ground
@@ -128,34 +128,21 @@ function draw () {
 	ctx.drawImage(background, bgWidth, 0);
 	ctx.drawImage(background, bgWidth + cvs.width, 0);
 
-	if (bgWidth == -cvs.width) {
-		scrollReset = true;
-	} else {
-		scrollReset = false;
-	}
-
-	if (scrollReset == true) {
-		bgWidth = 0;
-	} else {
-		bgWidth -= scrollSpeed;
-	}
+	// For looping the two background images infinitely
+	// Reset the loop if the entire first image has exited the canvas window
+	scrollReset = (bgWidth == -cvs.width);
+	scrollReset == true ? bgWidth = 0 : bgWidth -= scrollSpeed;
 
 	// Draw the biker
 	ctx.drawImage(biker, bikerX, bikerY);
 	
 	// Set the maximum and minimum heights for the biker
-	if (bikerY >= jumpHeight && jumpUp == true) {
-		jumpUp = true;
-	} else {
-		jumpUp = false;
-	}
+
+	bikerY >= jumpHeight && jumpUp == true ? jumpUp = true : jumpUp = false;
 
 	// If jumpUp is set to true, biker rises upward at the force of gravity. Else, sinks down at the force of gravity
-	if (jumpUp == true) {
-		Math.max(bikerY -= gravity, jumpHeight);
-	} else {
-		bikerY = Math.min(cyclingHeight, bikerY+= gravity);
-	}
+	
+	jumpUp == true ? Math.max(bikerY -= gravity, jumpHeight) : bikerY = Math.min(cyclingHeight, bikerY+= gravity);
 
 	//////////////
 	/// TIMER: ///
