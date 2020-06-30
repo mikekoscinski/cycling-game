@@ -145,7 +145,7 @@ function draw () {
 	/// TIMER: ///
 	//////////////
 
-	// Increment each time unit using real time:
+	// Increment each time unit for the display timer using real UTC time:
 
 	// Seconds:
 	secs = 
@@ -175,23 +175,8 @@ function draw () {
 	// Concatenate all time units
 	let timer = hrsPad + ":" + minsPad + ":" + secsPad;
 
-	ctx.font = "20px Verdana";
+	ctx.font = "20px Helvetica";
 	ctx.fillText("Timer: " + timer, 10, cvs.height - 20);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	
 
 	//////////////////////////////
 	/// DRAW ONCOMING POKEMON: ///
@@ -199,7 +184,6 @@ function draw () {
 
 	// Continuously draw and push new oncoming pokemon to the oncoming array
 	for (let i = 0; i < oncoming.length; i++) {
-		
 		// Draw the oncoming pokemon
 		ctx.drawImage(oncoming[i].pokemon, oncoming[i].x, oncoming[i].y);
 
