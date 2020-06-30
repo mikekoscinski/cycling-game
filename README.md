@@ -2,7 +2,7 @@
 
 Single-player, side-scrolling game for adventure, cycling, and pokémon enthusiasts alike. Players take the role of a biker, who must avoid oncoming prehistoric pokémon to complete the longest bike ride possible.
 
-You can play the game at: https://www.pokecycle.com/. This game utilizes Firebase hosting. Domain name services were provided by NameCheap.
+This game is hosted with Firebase. Domain name services are provided by Namecheap. You can play the game at: https://www.pokecycle.com/
 
 (This game is not endorsed by or affiliated with Nintendo or The Pokémon Company.)
 
@@ -17,6 +17,16 @@ The game engine relies on one custom JavaScript function: draw. This function:
 - Allows the biker to jump and descend
 - Maintains the game timer (bottom left corner) based on real UTC time
 - Reloads the screen (i.e. game over) if a collision occurs between biker and Pokémon
+
+## Future Development
+
+This game can still be made much better. Known opportunities for improvement include:
+- Choose your character
+- Mute background music
+- Game-over pop-up window
+- Save scores to all-time leaderboard
+- Add event listener that pauses the timer if the player navigates to a different active browser tab. Currently, the game will pause when this occurs. However, the game timer will continue to update. This bug allows players to register artificially high scores
+- Make game engine responsive to the frames-per-second supported by a player's device. This causes an uneven cross-device gaming experience. For instance, my external monitor renders much slower than my native laptop screen
 
 
 ## Authors and Acknowledgements
@@ -34,7 +44,7 @@ Guidance:
 
 ## Project Status
 
-This game is still in active development.
+This game is still in active development. It is live and available for play at: https://www.pokecycle.com/
 
 
 ## Easter Eggs
