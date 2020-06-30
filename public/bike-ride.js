@@ -13,29 +13,29 @@ function newImage(src) {
 	return tmp;
 }
 
-const biker = newImage("images/male-biker-right.gif");
-const background = newImage("images/ocean-background.jpg");
-const kabuto = newImage("images/kabuto.gif");
-const omanyte = newImage("images/omanyte.gif");
-const kabutops = newImage("images/kabutops.gif");
-const omastar = newImage("images/omastar.gif");
-const aerodactyl = newImage("images/aerodactyl.gif");
+const BIKER = newImage("images/male-BIKER-right.gif");
+const BACKGROUND = newImage("images/ocean-BACKGROUND.jpg");
+const KABUTO = newImage("images/KABUTO.gif");
+const OMANYTE = newImage("images/OMANYTE.gif");
+const KABUTOPS = newImage("images/KABUTOPS.gif");
+const OMASTAR = newImage("images/OMASTAR.gif");
+const AERODACTYL = newImage("images/AERODACTYL.gif");
 
 //////////////
 /// AUDIO: ///
 //////////////
 
-const soundtrack = new Audio();
-const jumpSound = new Audio();
-const scor = new Audio();
+const SOUNDTRACK = new Audio();
+const JUMP_SOUND = new Audio();
+const SCOR = new Audio();
 
-soundtrack.src = "audio/gen3-cycling-music.mp3";
-jumpSound.src = "audio/mario-jump.mp3";
-scor.src = "audio/sfx_point.mp3";
+SOUNDTRACK.src = "audio/gen3-cycling-music.mp3";
+JUMP_SOUND.src = "audio/mario-jump.mp3";
+SCOR.src = "audio/sfx_point.mp3";
 
-// Play background music in a loop
-soundtrack.loop = true;
-soundtrack.play();
+// Play BACKGROUND music in a loop
+SOUNDTRACK.loop = true;
+SOUNDTRACK.play();
 
 //////////////
 /// TIMER: ///
@@ -47,7 +47,7 @@ let mins = 0;
 let hrs = 0;
 
 // Initialize start time for timer tracking duration of bike ride (bottom left corner)
-const startTime = Date.now();
+const START_TIME = Date.now();
 // Note: the timer itself must be rendered in the draw function, as it must be redrawn every time a second passes
 
 ////////////////
@@ -55,11 +55,11 @@ const startTime = Date.now();
 ////////////////
 
 // Pokemon running and flying heights
-const runningHeight = 445;
-const flyingHeight = runningHeight - 175;
+const RUNNING_HEIGHT = 445;
+const FLYING_HEIGHT = RUNNING_HEIGHT - 175;
 
-// Biker cycling height
-const cyclingHeight = 360;
+// BIKER cycling height
+const CYCLING_HEIGHT = 360;
 
 ////////////////
 /// POKEMON: ///
@@ -69,41 +69,41 @@ const cyclingHeight = 360;
 let oncoming = [];
 
 // Create the first value for the oncoming array
-let firstPokemon = Math.random() < 0.50 ? kabuto : omanyte;
+let firstPokemon = Math.random() < 0.50 ? KABUTO : OMANYTE;
 
 oncoming[0] = {
-	pokemon : firstPokemon, // eventually, make this 50% chance of omanyte or kabuto
+	pokemon : firstPokemon, // eventually, make this 50% chance of OMANYTE or KABUTO
 	x 		: cvs.width,
-	y 		: runningHeight,
+	y 		: RUNNING_HEIGHT,
 };
 
 //////////////
 /// BIKER: ///
 //////////////
 
-// Biker coordinates on the canvas
-const bikerX = 10;
-let bikerY = cyclingHeight;
+// BIKER coordinates on the canvas
+const BIKER_X = 10;
+let bikerY = CYCLING_HEIGHT;
 
 /////////////
 /// JUMP: ///
 /////////////
 
 // Set maximum jumping height
-const jumpHeight = cyclingHeight - 210;
+const JUMP_HEIGHT = CYCLING_HEIGHT - 210;
 
-// Add gravity effect that causes biker to descend post-jump
-const gravity = 3;
+// Add GRAVITY effect that causes BIKER to descend post-jump
+const GRAVITY = 3;
 
 // Initialize jumpUp state as false (to prevent instant jump)
 let jumpUp = false;
 
-// Jump if user clicks or touches AND biker is already on ground
+// Jump if user clicks or touches AND BIKER is already on ground
 // The AND prevents double-jumps before they return to ground
 document.addEventListener("click" || "touchend", event => {
-	if (bikerY == cyclingHeight) {
+	if (bikerY == CYCLING_HEIGHT) {
 		jumpUp = true;
-		jumpSound.play();
+		JUMP_SOUND.play();
 	}
 	null;
 });
@@ -112,7 +112,7 @@ document.addEventListener("click" || "touchend", event => {
 /// BACKGROUND: ///
 ///////////////////
 
-// Background scroll variables that must exist in the global scope:
+// BACKGROUND scroll variables that must exist in the global scope:
 let bgWidth = 0; // Start the first image at (0,0)
 let scrollSpeed = 1; // Must be divisible by cvs.width
 let scrollReset = null;
@@ -122,24 +122,24 @@ let scrollReset = null;
 ////////////////////////
 
 function draw () {
-	// Draw the background and have it scroll infinitely to the left
-	// This only uses two background images. Once the entire first image is hidden, the loop resets
-	ctx.drawImage(background, bgWidth, 0);
-	ctx.drawImage(background, bgWidth + cvs.width, 0);
+	// Draw the BACKGROUND and have it scroll infinitely to the left
+	// This only uses two BACKGROUND images. Once the entire first image is hidden, the loop resets
+	ctx.drawImage(BACKGROUND, bgWidth, 0);
+	ctx.drawImage(BACKGROUND, bgWidth + cvs.width, 0);
 
-	// For looping the two background images infinitely
+	// For looping the two BACKGROUND images infinitely
 	// Reset the loop if the entire first image has exited the canvas window
 	scrollReset = (bgWidth == -cvs.width);
 	scrollReset == true ? bgWidth = 0 : bgWidth -= scrollSpeed;
 
-	// Draw the biker
-	ctx.drawImage(biker, bikerX, bikerY);
+	// Draw the BIKER
+	ctx.drawImage(BIKER, BIKER_X, bikerY);
 	
-	// Set the maximum and minimum heights for the biker
-	bikerY >= jumpHeight && jumpUp == true ? jumpUp = true : jumpUp = false;
+	// Set the maximum and minimum heights for the BIKER
+	bikerY >= JUMP_HEIGHT && jumpUp == true ? jumpUp = true : jumpUp = false;
 
-	// If jumpUp is set to true, biker rises upward at the force of gravity. Else, sinks down at the force of gravity
-	jumpUp == true ? Math.max(bikerY -= gravity, jumpHeight) : bikerY = Math.min(cyclingHeight, bikerY+= gravity);
+	// If jumpUp is set to true, BIKER rises upward at the force of GRAVITY. Else, sinks down at the force of GRAVITY
+	jumpUp == true ? Math.max(bikerY -= GRAVITY, JUMP_HEIGHT) : bikerY = Math.min(CYCLING_HEIGHT, bikerY+= GRAVITY);
 
 	//////////////
 	/// TIMER: ///
@@ -150,22 +150,22 @@ function draw () {
 	// Seconds:
 	secs = 
 	// Count total secs elapsed...
-	Math.floor((Date.now() - startTime) / 1000) // 1000 milliseconds per second
+	Math.floor((Date.now() - START_TIME) / 1000) // 1000 milliseconds per second
 	// ... then subtract secs already counted in mins
-	- (Math.floor((Date.now() - startTime) / 60000) * 60); // 60000 milliseconds per minute
+	- (Math.floor((Date.now() - START_TIME) / 60000) * 60); // 60000 milliseconds per minute
 
 	// Minutes:
 	mins = 
 	// Count total mins elapsed...
-	Math.floor((Date.now() - startTime) / 60000) // 60000 milliseconds per minute
+	Math.floor((Date.now() - START_TIME) / 60000) // 60000 milliseconds per minute
 	/// ... then subtract mins already counted in hrs
-	- (Math.floor((Date.now() - startTime) / 3600000) * 60); // 3.6e+6 (3.6 million) milliseconds per hour
+	- (Math.floor((Date.now() - START_TIME) / 3600000) * 60); // 3.6e+6 (3.6 million) milliseconds per hour
 
 	// Hours:
 	// Note: Hours is the largest time unit we track... Nobody should have a run that lasts more than 24 hrs... go outside!
 	hrs =
 	// Count total hrs elapsed
-	Math.floor((Date.now() - startTime) / 3600000) // 3600000 milliseconds per hour
+	Math.floor((Date.now() - START_TIME) / 3600000) // 3600000 milliseconds per hour
 
 	// Each time unit padded w/ two zeroes
 	let secsPad	= secs.toString().padStart(2, "0");
@@ -177,6 +177,21 @@ function draw () {
 
 	ctx.font = "20px Verdana";
 	ctx.fillText("Timer: " + timer, 10, cvs.height - 20);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
 
 	//////////////////////////////
 	/// DRAW ONCOMING POKEMON: ///
@@ -191,51 +206,51 @@ function draw () {
 		// Approach speed of oncoming pokemon (change of x-position measured in pixels per frame)
 		let oncomingSpeed = 2;
 
-		// Each oncoming pokemon should change its x position this many pixels closer to the biker with each passing frame
+		// Each oncoming pokemon should change its x position this many pixels closer to the BIKER with each passing frame
 		oncoming[i].x -= oncomingSpeed;
 
 		// Once the current oncoming pokemon gets within a certain range, draw a new one, starting it at the far right of the canvas
-		if (oncoming[i].x == bikerX) {
+		if (oncoming[i].x == BIKER_X) {
 			let pokemonOdds = Math.random()
 			if (pokemonOdds < 0.325) {
-				newPokemon = kabuto;
+				newPokemon = KABUTO;
 			} else if (pokemonOdds < 0.650) {
-				newPokemon = omanyte;
+				newPokemon = OMANYTE;
 			} else if (pokemonOdds < 0.800) {
-				newPokemon = kabutops;
+				newPokemon = KABUTOPS;
 			} else if (pokemonOdds < .950) {
-				newPokemon = omastar;
-			} else newPokemon = aerodactyl;
+				newPokemon = OMASTAR;
+			} else newPokemon = AERODACTYL;
 
 			oncoming.push({
 				pokemon : newPokemon,
 				x : cvs.width,
-				y : newPokemon == aerodactyl ? flyingHeight : runningHeight
+				y : newPokemon == AERODACTYL ? FLYING_HEIGHT : RUNNING_HEIGHT
 			});
 		}
 
 		// Collision detection variables:
 		
-		// Is the Pokemon within the biker's range of X values?
-		let pokemonInBikerX = (
-			// Is front of pokemon (oncoming[i].x) within biker's range of x values?
-				(bikerX <= oncoming[i].x && oncoming[i].x <= bikerX + biker.width)
+		// Is the Pokemon within the BIKER's range of X values?
+		let pokemonInBIKER_X = (
+			// Is front of pokemon (oncoming[i].x) within BIKER's range of x values?
+				(BIKER_X <= oncoming[i].x && oncoming[i].x <= BIKER_X + BIKER.width)
 			||
-			// Is back of pokemon (oncoming[i].x + oncoming[i].pokemon.width) within biker's range of x values?
-				(bikerX <= oncoming[i].x + oncoming[i].pokemon.width && oncoming[i].x + oncoming[i].pokemon.width <= bikerX + biker.width)
+			// Is back of pokemon (oncoming[i].x + oncoming[i].pokemon.width) within BIKER's range of x values?
+				(BIKER_X <= oncoming[i].x + oncoming[i].pokemon.width && oncoming[i].x + oncoming[i].pokemon.width <= BIKER_X + BIKER.width)
 		)
 
-		// Is the Pokemon within the biker's range of Y values?
-		let pokemonInBikerY = (
-			// Is top of pokemon (oncoming[i].y) within biker's range of y values?
-				(bikerY <= oncoming[i].y && oncoming[i].y <= bikerY + biker.height)
+		// Is the Pokemon within the BIKER's range of Y values?
+		let pokemonInbikerY = (
+			// Is top of pokemon (oncoming[i].y) within BIKER's range of y values?
+				(bikerY <= oncoming[i].y && oncoming[i].y <= bikerY + BIKER.height)
 			||
-			// Is bottom of pokemon (oncoming[i].y + oncoming[i].pokemon.height) within biker's range of y values?
-				(bikerY <= oncoming[i].y + oncoming[i].pokemon.height && oncoming[i].y + oncoming[i].pokemon.height <= bikerY + biker.height)
+			// Is bottom of pokemon (oncoming[i].y + oncoming[i].pokemon.height) within BIKER's range of y values?
+				(bikerY <= oncoming[i].y + oncoming[i].pokemon.height && oncoming[i].y + oncoming[i].pokemon.height <= bikerY + BIKER.height)
 		)
 
 		// If a collision has occured, reload the page
-		if (pokemonInBikerX == true && pokemonInBikerY == true) location.reload();
+		if (pokemonInBIKER_X == true && pokemonInbikerY == true) location.reload();
 	}
 	requestAnimationFrame(draw);
 }
