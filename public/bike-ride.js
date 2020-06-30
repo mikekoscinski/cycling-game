@@ -188,11 +188,14 @@ function draw () {
 		// Draw the oncoming pokemon
 		ctx.drawImage(oncoming[i].pokemon, oncoming[i].x, oncoming[i].y);
 
+		// Approach speed of oncoming pokemon (change of x-position measured in pixels per frame)
+		let oncomingSpeed = 2;
+
 		// Each oncoming pokemon should change its x position this many pixels closer to the biker with each passing frame
-		oncoming[i].x -= 2;
+		oncoming[i].x -= oncomingSpeed;
 
 		// Once the current oncoming pokemon gets within a certain range, draw a new one, starting it at the far right of the canvas
-		if (oncoming[i].x == 300) {
+		if (oncoming[i].x == bikerX) {
 			let pokemonOdds = Math.random()
 			if (pokemonOdds < 0.325) {
 				newPokemon = kabuto;
