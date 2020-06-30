@@ -91,7 +91,7 @@ let bikerY 	= cyclingHeight;
 /////////////
 
 // Set maximum jumping height
-let jumpHeight = cyclingHeight - 225;
+let jumpHeight = cyclingHeight - 200;
 
 // Add gravity effect that causes biker to descend post-jump
 let gravity = 6;
