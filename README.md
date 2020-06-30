@@ -2,6 +2,8 @@
 
 Single-player, side-scrolling game for adventure, cycling, and pokémon enthusiasts alike. Players take the role of a biker, who must avoid oncoming prehistoric pokémon to complete the longest bike ride possible.
 
+You can play the game at: https://www.pokecycle.com/. This game utilizes Firebase hosting. Domain name services were provided by NameCheap.
+
 (This game is not endorsed by or affiliated with Nintendo or The Pokémon Company.)
 
 
