@@ -27,6 +27,7 @@ Features:
 - Mute background music
 - Game-over pop-up window
 - Save scores to all-time leaderboard
+- Game should get faster over time to increase the difficulty. This will require re-writing the oncoming pokemon logic. Currently, a new pokemon is pushed to the "oncoming" array only when oncoming[i].x is _**exactly**_ equal to bikerX. This must be updated so that a new oncoming pokemon will be pushed to the array even if these two are not exactly equal (e.g. if a non-whole value for oncomingSpeed caused oncoming[i].x to equal 99.97, where bikerX == 100)
 
 Bugs:
 - Add **event listener** that pauses the timer if the player navigates to a different active browser tab. Currently, the game will pause when this occurs. However, the game timer will continue to update. This bug allows players to register artificially high scores
