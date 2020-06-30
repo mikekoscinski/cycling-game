@@ -54,6 +54,7 @@ const startTime = Date.now();
 /// HEIGHTS: ///
 ////////////////
 
+// Pokemon running and flying heights
 const runningHeight = 445;
 const flyingHeight = runningHeight - 175;
 
@@ -68,7 +69,6 @@ const cyclingHeight = 360;
 let oncoming = [];
 
 // Create the first value for the oncoming array
-
 let firstPokemon = Math.random() < 0.50 ? kabuto : omanyte;
 
 oncoming[0] = {
@@ -113,7 +113,6 @@ document.addEventListener("click" || "touchend", event => {
 ///////////////////
 
 // Background scroll variables that must exist in the global scope:
-
 let bgWidth = 0; // Start the first image at (0,0)
 let scrollSpeed = 1; // Must be divisible by cvs.width
 let scrollReset = null;
@@ -137,11 +136,9 @@ function draw () {
 	ctx.drawImage(biker, bikerX, bikerY);
 	
 	// Set the maximum and minimum heights for the biker
-
 	bikerY >= jumpHeight && jumpUp == true ? jumpUp = true : jumpUp = false;
 
 	// If jumpUp is set to true, biker rises upward at the force of gravity. Else, sinks down at the force of gravity
-	
 	jumpUp == true ? Math.max(bikerY -= gravity, jumpHeight) : bikerY = Math.min(cyclingHeight, bikerY+= gravity);
 
 	//////////////
@@ -209,35 +206,32 @@ function draw () {
 
 			oncoming.push({
 				pokemon : newPokemon,
-				x 		: cvs.width,
-				y 		: newPokemon == aerodactyl ? flyingHeight : runningHeight
+				x : cvs.width,
+				y : newPokemon == aerodactyl ? flyingHeight : runningHeight
 			});
 		}
 
-		// Detect collision
-		if (
-			// First, check pokemon vs. biker's x values:
-				(
-					// Is front of pokemon (oncoming[i].x) within biker's range of x values?
-					(bikerX <= oncoming[i].x && oncoming[i].x <= bikerX + biker.width)
-					||
-					// Is back of pokemon (oncoming[i].x + oncoming[i].pokemon.width) within biker's range of x values?
-					(bikerX <= oncoming[i].x + oncoming[i].pokemon.width && oncoming[i].x + oncoming[i].pokemon.width <= bikerX + biker.width)
-				)
-			&&
-			// Then, check pokemon vs. biker's y values
-				(
-					// Is top of pokemon (oncoming[i].y) within biker's range of y values?
-					(bikerY <= oncoming[i].y && oncoming[i].y <= bikerY + biker.height)
-					||
-					// Is bottom of pokemon (oncoming[i].y + oncoming[i].pokemon.height) within biker's range of y values?
-					(bikerY <= oncoming[i].y + oncoming[i].pokemon.height && oncoming[i].y + oncoming[i].pokemon.height <= bikerY + biker.height)
-				)
-			)
-		{
-			// If contact has been made, reload the page
-			location.reload();
-		}
+		// Collision detection variables:
+		
+		// Is the Pokemon within the biker's range of X values?
+		let pokemonInBikerX = (
+			// Is front of pokemon (oncoming[i].x) within biker's range of x values?
+				(bikerX <= oncoming[i].x && oncoming[i].x <= bikerX + biker.width)
+			||
+			// Is back of pokemon (oncoming[i].x + oncoming[i].pokemon.width) within biker's range of x values?
+				(bikerX <= oncoming[i].x + oncoming[i].pokemon.width && oncoming[i].x + oncoming[i].pokemon.width <= bikerX + biker.width)
+		)
+
+		// Is the Pokemon within the biker's range of Y values?
+		let pokemonInBikerY = (
+			// Is top of pokemon (oncoming[i].y) within biker's range of y values?
+				(bikerY <= oncoming[i].y && oncoming[i].y <= bikerY + biker.height)
+			||
+			// Is bottom of pokemon (oncoming[i].y + oncoming[i].pokemon.height) within biker's range of y values?
+				(bikerY <= oncoming[i].y + oncoming[i].pokemon.height && oncoming[i].y + oncoming[i].pokemon.height <= bikerY + biker.height)
+		)
+
+		if (pokemonInBikerX == true && pokemonInBikerY == true) location.reload();
 	}
 	requestAnimationFrame(draw);
 }
