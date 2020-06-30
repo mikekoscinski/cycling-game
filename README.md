@@ -1,6 +1,6 @@
 # The Pokémon Cycling Game
 
-Single-player, side-scrolling game for adventure, cycling, and pokémon enthusiasts alike. Players take the role of a biker, who must avoid oncoming prehistoric pokémon to complete the longest bike ride possible.
+Single-player, side-scrolling adventure game for pokémon enthusiasts. Players take the role of a biker, who must avoid oncoming prehistoric pokémon to complete the longest bike ride possible.
 
 This game is hosted with Firebase. Domain name services are provided by Namecheap. You can play the game at: https://www.pokecycle.com/
 
@@ -9,7 +9,7 @@ This game is hosted with Firebase. Domain name services are provided by Namechea
 
 ## Description
 
-This game was written in JavaScript. It makes modest use of HTML and CSS as well.
+This game was written in JavaScript. It also makes modest use of HTML and CSS.
 
 The game engine relies on one custom JavaScript function: draw. This function:
 - Causes the background image to scroll infinitely
@@ -29,8 +29,8 @@ Features:
 - Save scores to all-time leaderboard
 
 Bugs:
-- Add event listener that pauses the timer if the player navigates to a different active browser tab. Currently, the game will pause when this occurs. However, the game timer will continue to update. This bug allows players to register artificially high scores
-- Make game engine responsive to the frames-per-second supported by a player's device. This causes an uneven cross-device gaming experience. For instance, my external monitor renders much slower than my native laptop screen
+- Add **event listener** that pauses the timer if the player navigates to a different active browser tab. Currently, the game will pause when this occurs. However, the game timer will continue to update. This bug allows players to register artificially high scores
+- Make the game engine **responsive to frame rates**. For example, my external monitor renders much slower than my native laptop screen. This causes an uneven cross-device gaming experience that is unpleasant for users
 
 
 ## Authors and Acknowledgements
@@ -48,11 +48,11 @@ Guidance:
 
 ## Project Status
 
-This game is still in active development. It is live and available for play at: https://www.pokecycle.com/
+This game is still in active development. It is live at: https://www.pokecycle.com/
 
 
 ## Easter Eggs
 
 This game was inspired by Flappy Bird (2013) and the "Attack of the Prehistoric Pokémon" episode from the Pokémon anime (S1E46).
 
-This game could only take place at the North or South Pole. The sun's reflection persistently appears in the ocean background. This could only happen if the biker were cycling in a circle at the North or South Pole. 
+The sun's reflection repeatedly appears in the ocean background, despite the biker consistently making forward progress along the ocean's coast. This could only happen if the biker were cycling in a circle at the North or South Pole. (Whether or not there would be green grass there is a separate issue!)
