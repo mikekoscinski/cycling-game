@@ -6,29 +6,28 @@ let ctx = cvs.getContext("2d");
 /// IMAGES: ///
 ///////////////
 
-let biker = new Image();
-let background = new Image();
-let kabuto = new Image();
-let omanyte = new Image();
-let kabutops = new Image();
-let omastar = new Image();
-let aerodactyl = new Image();
+// Concise function to create new image without duplicating initialize and assign lines
+function newImage(src) {
+	let tmp = new Image();
+	tmp.src = src;
+	return tmp;
+}
 
-biker.src = "images/male-biker-right.gif";
-background.src = "images/ocean-background.jpg";
-kabuto.src = "images/kabuto.gif";
-omanyte.src = "images/omanyte.gif";
-kabutops.src = "images/kabutops.gif";
-omastar.src = "images/omastar.gif";
-aerodactyl.src = "images/aerodactyl.gif";
+const biker = newImage("images/male-biker-right.gif");
+const background = newImage("images/ocean-background.jpg");
+const kabuto = newImage("images/kabuto.gif");
+const omanyte = newImage("images/omanyte.gif");
+const kabutops = newImage("images/kabutops.gif");
+const omastar = newImage("images/omastar.gif");
+const aerodactyl = newImage("images/aerodactyl.gif");
 
 //////////////
 /// AUDIO: ///
 //////////////
 
-let soundtrack = new Audio();
-let jumpSound = new Audio();
-let scor = new Audio();
+const soundtrack = new Audio();
+const jumpSound = new Audio();
+const scor = new Audio();
 
 soundtrack.src = "audio/gen3-cycling-music.mp3";
 jumpSound.src = "audio/mario-jump.mp3";
@@ -42,24 +41,24 @@ soundtrack.play();
 /// TIMER: ///
 //////////////
 
-// Initialize time units
+// Initialize time units for timer tracking duration of bike ride (bottom left corner)
 let secs = 0;
 let mins = 0;
 let hrs = 0;
 
-// Initialize start time
-let startTime = Date.now();
+// Initialize start time for timer tracking duration of bike ride (bottom left corner)
+const startTime = Date.now();
 // Note: the timer itself must be rendered in the draw function, as it must be redrawn every time a second passes
 
 ////////////////
 /// HEIGHTS: ///
 ////////////////
 
-let runningHeight = 445;
-let flyingHeight = runningHeight - 175;
+const runningHeight = 445;
+const flyingHeight = runningHeight - 175;
 
 // Biker cycling height
-let cyclingHeight = 360;
+const cyclingHeight = 360;
 
 ////////////////
 /// POKEMON: ///
@@ -83,20 +82,20 @@ oncoming[0] = {
 //////////////
 
 // Biker coordinates on the canvas
-let bikerX 	= 10;
-let bikerY 	= cyclingHeight;
+const bikerX = 10;
+let bikerY = cyclingHeight;
 
 /////////////
 /// JUMP: ///
 /////////////
 
 // Set maximum jumping height
-let jumpHeight = cyclingHeight - 210;
+const jumpHeight = cyclingHeight - 210;
 
 // Add gravity effect that causes biker to descend post-jump
-let gravity = 3;
+const gravity = 3;
 
-// Intialize jumpUp status
+// Initialize jumpUp state as null (to prevent instant jump)
 let jumpUp = null;
 
 // Jump if user clicks or touches AND biker is already on ground
