@@ -13,13 +13,13 @@ function newImage(src) {
 	return tmp;
 }
 
-const BIKER = newImage("images/male-BIKER-right.gif");
-const BACKGROUND = newImage("images/ocean-BACKGROUND.jpg");
-const KABUTO = newImage("images/KABUTO.gif");
-const OMANYTE = newImage("images/OMANYTE.gif");
-const KABUTOPS = newImage("images/KABUTOPS.gif");
-const OMASTAR = newImage("images/OMASTAR.gif");
-const AERODACTYL = newImage("images/AERODACTYL.gif");
+const BIKER = newImage("images/male-biker-right.gif");
+const BACKGROUND = newImage("images/ocean-background.jpg");
+const KABUTO = newImage("images/kabuto.gif");
+const OMANYTE = newImage("images/omanyte.gif");
+const KABUTOPS = newImage("images/kabutops.gif");
+const OMASTAR = newImage("images/omastar.gif");
+const AERODACTYL = newImage("images/aerodactyl.gif");
 
 //////////////
 /// AUDIO: ///
