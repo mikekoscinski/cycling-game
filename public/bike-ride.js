@@ -91,10 +91,10 @@ let bikerY 	= cyclingHeight;
 /////////////
 
 // Set maximum jumping height
-let jumpHeight = cyclingHeight - 200;
+let jumpHeight = cyclingHeight - 210;
 
 // Add gravity effect that causes biker to descend post-jump
-let gravity = 6;
+let gravity = 3;
 
 // Intialize jumpUp status
 let jumpUp = null;
@@ -116,7 +116,7 @@ document.addEventListener("click" || "touchend", event => {
 // Background scroll variables that must exist in the global scope:
 
 let bgWidth = 0; // Start the first image at (0,0)
-let scrollSpeed = 2; // Must be divisible by cvs.width
+let scrollSpeed = 1; // Must be divisible by cvs.width
 let scrollReset = null;
 
 ////////////////////////
@@ -206,7 +206,7 @@ function draw () {
 		ctx.drawImage(oncoming[i].pokemon, oncoming[i].x, oncoming[i].y);
 
 		// Each oncoming pokemon should change its x position this many pixels closer to the biker with each passing frame
-		oncoming[i].x -= 4;
+		oncoming[i].x -= 2;
 
 		// Once the current oncoming pokemon gets within a certain range, draw a new one, starting it at the far right of the canvas
 		if (oncoming[i].x == 300) {
