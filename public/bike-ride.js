@@ -55,11 +55,11 @@ let startTime = Date.now();
 /// HEIGHTS: ///
 ////////////////
 
-let runningHeight = 890;
-let flyingHeight = runningHeight - 400;
+let runningHeight = 445;
+let flyingHeight = runningHeight - 175;
 
 // Biker cycling height
-let cyclingHeight = 700;
+let cyclingHeight = 360;
 
 ////////////////
 /// POKEMON: ///
@@ -91,10 +91,10 @@ let bikerY 	= cyclingHeight;
 /////////////
 
 // Set maximum jumping height
-let jumpHeight = cyclingHeight - 550;
+let jumpHeight = cyclingHeight - 225;
 
 // Add gravity effect that causes biker to descend post-jump
-let gravity = 8;
+let gravity = 6;
 
 // Intialize jumpUp status
 let jumpUp = null;
@@ -192,7 +192,7 @@ function draw () {
 	// Concatenate all time units
 	let timer = hrsPad + ":" + minsPad + ":" + secsPad;
 
-	ctx.font = "40px Verdana";
+	ctx.font = "20px Verdana";
 	ctx.fillText("Timer: " + timer, 10, cvs.height - 20);
 
 	//////////////////////////////
@@ -206,10 +206,10 @@ function draw () {
 		ctx.drawImage(oncoming[i].pokemon, oncoming[i].x, oncoming[i].y);
 
 		// Each oncoming pokemon should change its x position this many pixels closer to the biker with each passing frame
-		oncoming[i].x -= 6;
+		oncoming[i].x -= 4;
 
 		// Once the current oncoming pokemon gets within a certain range, draw a new one, starting it at the far right of the canvas
-		if (oncoming[i].x == 600) {
+		if (oncoming[i].x == 300) {
 			let pokemonOdds = Math.random()
 			if (pokemonOdds < 0.325) {
 				newPokemon = kabuto;
