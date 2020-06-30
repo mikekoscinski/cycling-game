@@ -231,6 +231,7 @@ function draw () {
 				(bikerY <= oncoming[i].y + oncoming[i].pokemon.height && oncoming[i].y + oncoming[i].pokemon.height <= bikerY + biker.height)
 		)
 
+		// If a collision has occured, reload the page
 		if (pokemonInBikerX == true && pokemonInBikerY == true) location.reload();
 	}
 	requestAnimationFrame(draw);
