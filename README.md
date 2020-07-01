@@ -32,6 +32,7 @@ Features:
 Bugs:
 - Add **event listener** that pauses the timer if the player navigates to a different active browser tab. Currently, the game will pause when this occurs. However, the game timer will continue to update. This bug allows players to register artificially high scores
 - Make the game engine **responsive to frame rates**. For example, my external monitor renders much slower than my native laptop screen. This causes an uneven cross-device gaming experience that is unpleasant for users
+- Collision logic does not register if the bottom of the biker is above the bottom of the pokemon. Currently, this has been resolved by increasing BIKER_HEIGHT. A more effective fix is needed
 
 
 ## Authors and Acknowledgements
