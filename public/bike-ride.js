@@ -72,9 +72,9 @@ let oncoming = [];
 let firstPokemon = Math.random() < 0.50 ? KABUTO : OMANYTE;
 
 oncoming[0] = {
-	pokemon : firstPokemon, // eventually, make this 50% chance of OMANYTE or KABUTO
-	x 		: cvs.width,
-	y 		: RUNNING_HEIGHT,
+	pokemon: firstPokemon, // eventually, make this 50% chance of OMANYTE or KABUTO
+	x: cvs.width,
+	y: RUNNING_HEIGHT,
 };
 
 //////////////
