@@ -59,7 +59,7 @@ const RUNNING_HEIGHT = 445;
 const FLYING_HEIGHT = RUNNING_HEIGHT - 175;
 
 // BIKER cycling height
-const CYCLING_HEIGHT = 360;
+const CYCLING_HEIGHT = 370;
 
 ////////////////
 /// POKEMON: ///
@@ -223,7 +223,6 @@ function draw () {
 			// Is back of pokemon (oncoming[i].x + oncoming[i].pokemon.width) within BIKER's range of x values?
 				(BIKER_X <= oncoming[i].x + oncoming[i].pokemon.width && oncoming[i].x + oncoming[i].pokemon.width <= BIKER_X + BIKER.width)
 		)
-
 		// Is the Pokemon within the BIKER's range of Y values?
 		let pokemonInbikerY = (
 			// Is top of pokemon (oncoming[i].y) within BIKER's range of y values?
@@ -232,7 +231,6 @@ function draw () {
 			// Is bottom of pokemon (oncoming[i].y + oncoming[i].pokemon.height) within BIKER's range of y values?
 				(bikerY <= oncoming[i].y + oncoming[i].pokemon.height && oncoming[i].y + oncoming[i].pokemon.height <= bikerY + BIKER.height)
 		)
-
 		// If a collision has occured, reload the page
 		if (pokemonInBIKER_X == true && pokemonInbikerY == true) location.reload();
 	}
