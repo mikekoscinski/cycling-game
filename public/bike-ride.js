@@ -1,8 +1,8 @@
-// Create canvas and context
+// Canvas & Context
 let cvs = document.getElementById('canvas'); 
 let ctx = cvs.getContext('2d'); 
 
-// Create new images
+// Images
 function loadImage(src) {
 	let tmp = new Image();
 	tmp.src = src;
@@ -16,7 +16,7 @@ const KABUTOPS = loadImage('images/kabutops.gif');
 const OMASTAR = loadImage('images/omastar.gif');
 const AERODACTYL = loadImage('images/aerodactyl.gif');
 
-// Create audio files
+// Audio
 const SOUNDTRACK = new Audio();
 const JUMP_SOUND = new Audio();
 const SCOR = new Audio();
@@ -24,11 +24,10 @@ SOUNDTRACK.src = 'audio/gen3-cycling-music.mp3';
 JUMP_SOUND.src = 'audio/mario-jump.mp3';
 SCOR.src = 'audio/sfx_point.mp3';
 
-// Loop background music
 SOUNDTRACK.loop = true;
 SOUNDTRACK.play();
 
-// Initialize bike ride timer
+// Bike ride timer
 let secs = 0;
 let mins = 0;
 let hrs = 0;
@@ -51,8 +50,11 @@ document.addEventListener('click' || 'touchend', event => {
 // Oncoming pokemon
 const RUNNING_HEIGHT = 445;
 const FLYING_HEIGHT = RUNNING_HEIGHT - 175;
+const ONCOMING_SPEED = 2;
+
 let oncoming = [];
 let firstPokemon = Math.random() < 0.50 ? KABUTO : OMANYTE;
+
 oncoming[0] = {
 	pokemon: firstPokemon,
 	x: cvs.width,
@@ -73,12 +75,8 @@ function draw () {
 
 	// Biker
 	ctx.drawImage(BIKER, BIKER_X, bikerY);
-	
-	// Set the maximum and minimum heights for the BIKER
-	bikerY >= JUMP_HEIGHT && jumpUp == true ? jumpUp = true : jumpUp = false;
-
-	// If jumpUp is set to true, BIKER rises upward at the force of GRAVITY. Else, sinks down at the force of GRAVITY
-	jumpUp == true ? Math.max(bikerY -= GRAVITY, JUMP_HEIGHT) : bikerY = Math.min(CYCLING_HEIGHT, bikerY+= GRAVITY);
+	bikerY >= JUMP_HEIGHT && jumpUp == true ? jumpUp = true : jumpUp = false; // Max & min heights for biker
+	jumpUp == true ? Math.max(bikerY -= GRAVITY, JUMP_HEIGHT) : bikerY = Math.min(CYCLING_HEIGHT, bikerY+= GRAVITY); // Did biker jump (Y/N)? -> gravity effect
 
 	// Timer (1000 millisecs per second; subtract secs already counted as mins (60000 milliseconds per minute))
 	secs = Math.floor((Date.now() - START_TIME) / 1000) - (Math.floor((Date.now() - START_TIME) / 60000) * 60); 
@@ -95,25 +93,20 @@ function draw () {
 
 	// Continuously draw and push new oncoming pokemon to the oncoming array
 	for (let i = 0; i < oncoming.length; i++) {
-		// Draw the oncoming pokemon
 		ctx.drawImage(oncoming[i].pokemon, oncoming[i].x, oncoming[i].y);
-
-		// Approach speed of oncoming pokemon (change of x-position measured in pixels per frame)
-		let oncomingSpeed = 2;
-
-		// Each oncoming pokemon should change its x position this many pixels closer to the BIKER with each passing frame
-		oncoming[i].x -= oncomingSpeed;
+		
+		oncoming[i].x -= ONCOMING_SPEED;
 
 		// Once the current oncoming pokemon gets within a certain range, draw a new one, starting it at the far right of the canvas
 		if (oncoming[i].x == BIKER_X) {
-			let pokemonOdds = Math.random()
+			let pokemonOdds = Math.random();
 			if (pokemonOdds < 0.325) {
 				newPokemon = KABUTO;
 			} else if (pokemonOdds < 0.650) {
 				newPokemon = OMANYTE;
 			} else if (pokemonOdds < 0.800) {
 				newPokemon = KABUTOPS;
-			} else if (pokemonOdds < .950) {
+			} else if (pokemonOdds < 0.950) {
 				newPokemon = OMASTAR;
 			} else newPokemon = AERODACTYL;
 
@@ -123,8 +116,8 @@ function draw () {
 				y : newPokemon == AERODACTYL ? FLYING_HEIGHT : RUNNING_HEIGHT
 			});
 		}
-
-		// Collision detection variables:
+		
+		// Collision detection:
 		
 		// Is the Pokemon within the BIKER's range of X values?
 		let pokemonInBIKER_X = (
