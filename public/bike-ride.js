@@ -1,138 +1,77 @@
-// Create the canvas and context variables
-let cvs = document.getElementById("canvas"); 
-let ctx = cvs.getContext("2d"); 
+// Create canvas and context
+let cvs = document.getElementById('canvas'); 
+let ctx = cvs.getContext('2d'); 
 
-///////////////
-/// IMAGES: ///
-///////////////
-
-// Concise function to create new image without duplicating initialize and assign lines
-function newImage(src) {
+// Create new images
+function loadImage(src) {
 	let tmp = new Image();
 	tmp.src = src;
 	return tmp;
 }
+const BIKER = loadImage('images/male-biker-right.gif');
+const BACKGROUND = loadImage('images/ocean-background.jpg');
+const KABUTO = loadImage('images/kabuto.gif');
+const OMANYTE = loadImage('images/omanyte.gif');
+const KABUTOPS = loadImage('images/kabutops.gif');
+const OMASTAR = loadImage('images/omastar.gif');
+const AERODACTYL = loadImage('images/aerodactyl.gif');
 
-const BIKER = newImage("images/male-biker-right.gif");
-const BACKGROUND = newImage("images/ocean-background.jpg");
-const KABUTO = newImage("images/kabuto.gif");
-const OMANYTE = newImage("images/omanyte.gif");
-const KABUTOPS = newImage("images/kabutops.gif");
-const OMASTAR = newImage("images/omastar.gif");
-const AERODACTYL = newImage("images/aerodactyl.gif");
-
-//////////////
-/// AUDIO: ///
-//////////////
-
+// Create audio files
 const SOUNDTRACK = new Audio();
 const JUMP_SOUND = new Audio();
 const SCOR = new Audio();
+SOUNDTRACK.src = 'audio/gen3-cycling-music.mp3';
+JUMP_SOUND.src = 'audio/mario-jump.mp3';
+SCOR.src = 'audio/sfx_point.mp3';
 
-SOUNDTRACK.src = "audio/gen3-cycling-music.mp3";
-JUMP_SOUND.src = "audio/mario-jump.mp3";
-SCOR.src = "audio/sfx_point.mp3";
-
-// Play BACKGROUND music in a loop
+// Loop background music
 SOUNDTRACK.loop = true;
 SOUNDTRACK.play();
 
-//////////////
-/// TIMER: ///
-//////////////
-
-// Initialize time units for timer tracking duration of bike ride (bottom left corner)
+// Initialize bike ride timer
 let secs = 0;
 let mins = 0;
 let hrs = 0;
-
-// Initialize start time for timer tracking duration of bike ride (bottom left corner)
 const START_TIME = Date.now();
-// Note: the timer itself must be rendered in the draw function, as it must be redrawn every time a second passes
 
-////////////////
-/// HEIGHTS: ///
-////////////////
-
-// Pokemon running and flying heights
-const RUNNING_HEIGHT = 445;
-const FLYING_HEIGHT = RUNNING_HEIGHT - 175;
-
-// BIKER cycling height
+// Biker
 const CYCLING_HEIGHT = 370;
-
-////////////////
-/// POKEMON: ///
-////////////////
-
-// Oncoming pokemon coordinates stored in array
-let oncoming = [];
-
-// Create the first value for the oncoming array
-let firstPokemon = Math.random() < 0.50 ? KABUTO : OMANYTE;
-
-oncoming[0] = {
-	pokemon: firstPokemon, // eventually, make this 50% chance of OMANYTE or KABUTO
-	x: cvs.width,
-	y: RUNNING_HEIGHT,
-};
-
-//////////////
-/// BIKER: ///
-//////////////
-
-// BIKER coordinates on the canvas
+const JUMP_HEIGHT = CYCLING_HEIGHT - 210;
+const GRAVITY = 3;
 const BIKER_X = 10;
 let bikerY = CYCLING_HEIGHT;
-
-/////////////
-/// JUMP: ///
-/////////////
-
-// Set maximum jumping height
-const JUMP_HEIGHT = CYCLING_HEIGHT - 210;
-
-// Add GRAVITY effect that causes BIKER to descend post-jump
-const GRAVITY = 3;
-
-// Initialize jumpUp state as false (to prevent instant jump)
 let jumpUp = false;
-
-// Jump if user clicks or touches AND BIKER is already on ground
-// The AND prevents double-jumps before they return to ground
-document.addEventListener("click" || "touchend", event => {
+document.addEventListener('click' || 'touchend', event => {
 	if (bikerY == CYCLING_HEIGHT) {
 		jumpUp = true;
 		JUMP_SOUND.play();
 	}
-	null;
 });
 
-///////////////////
-/// BACKGROUND: ///
-///////////////////
+// Oncoming pokemon
+const RUNNING_HEIGHT = 445;
+const FLYING_HEIGHT = RUNNING_HEIGHT - 175;
+let oncoming = [];
+let firstPokemon = Math.random() < 0.50 ? KABUTO : OMANYTE;
+oncoming[0] = {
+	pokemon: firstPokemon,
+	x: cvs.width,
+	y: RUNNING_HEIGHT,
+};
 
-// BACKGROUND scroll variables that must exist in the global scope:
+// Infinite background scroll
 let bgWidth = 0; // Start the first image at (0,0)
 let scrollSpeed = 1; // Must be divisible by cvs.width
-let scrollReset = null;
-
-////////////////////////
-/// FRAME ANIMATION: ///
-////////////////////////
+let scrollReset = false;
 
 function draw () {
-	// Draw the BACKGROUND and have it scroll infinitely to the left
-	// This only uses two BACKGROUND images. Once the entire first image is hidden, the loop resets
+	// Infinite background scroll; reset once 1st image entirely exits canvas (uses two images)
 	ctx.drawImage(BACKGROUND, bgWidth, 0);
 	ctx.drawImage(BACKGROUND, bgWidth + cvs.width, 0);
-
-	// For looping the two BACKGROUND images infinitely
-	// Reset the loop if the entire first image has exited the canvas window
 	scrollReset = (bgWidth == -cvs.width);
 	scrollReset == true ? bgWidth = 0 : bgWidth -= scrollSpeed;
 
-	// Draw the BIKER
+	// Biker
 	ctx.drawImage(BIKER, BIKER_X, bikerY);
 	
 	// Set the maximum and minimum heights for the BIKER
@@ -141,46 +80,18 @@ function draw () {
 	// If jumpUp is set to true, BIKER rises upward at the force of GRAVITY. Else, sinks down at the force of GRAVITY
 	jumpUp == true ? Math.max(bikerY -= GRAVITY, JUMP_HEIGHT) : bikerY = Math.min(CYCLING_HEIGHT, bikerY+= GRAVITY);
 
-	//////////////
-	/// TIMER: ///
-	//////////////
+	// Timer (1000 millisecs per second; subtract secs already counted as mins (60000 milliseconds per minute))
+	secs = Math.floor((Date.now() - START_TIME) / 1000) - (Math.floor((Date.now() - START_TIME) / 60000) * 60); 
+	mins = Math.floor((Date.now() - START_TIME) / 60000) - (Math.floor((Date.now() - START_TIME) / 3600000) * 60); 
+	hrs = Math.floor((Date.now() - START_TIME) / 3600000);
 
-	// Increment each time unit for the display timer using real UTC time:
+	let secsPad	= secs.toString().padStart(2, '0');
+	let minsPad	= mins.toString().padStart(2, '0');
+	let hrsPad	= hrs.toString().padStart(2, '0');
 
-	// Seconds:
-	secs = 
-	// Count total secs elapsed...
-	Math.floor((Date.now() - START_TIME) / 1000) // 1000 milliseconds per second
-	// ... then subtract secs already counted in mins
-	- (Math.floor((Date.now() - START_TIME) / 60000) * 60); // 60000 milliseconds per minute
-
-	// Minutes:
-	mins = 
-	// Count total mins elapsed...
-	Math.floor((Date.now() - START_TIME) / 60000) // 60000 milliseconds per minute
-	/// ... then subtract mins already counted in hrs
-	- (Math.floor((Date.now() - START_TIME) / 3600000) * 60); // 3.6e+6 (3.6 million) milliseconds per hour
-
-	// Hours:
-	// Note: Hours is the largest time unit we track... Nobody should have a run that lasts more than 24 hrs... go outside!
-	hrs =
-	// Count total hrs elapsed
-	Math.floor((Date.now() - START_TIME) / 3600000) // 3600000 milliseconds per hour
-
-	// Each time unit padded w/ two zeroes
-	let secsPad	= secs.toString().padStart(2, "0");
-	let minsPad	= mins.toString().padStart(2, "0");
-	let hrsPad	= hrs.toString().padStart(2, "0");
-
-	// Concatenate all time units
-	let timer = hrsPad + ":" + minsPad + ":" + secsPad;
-
-	ctx.font = "20px Helvetica";
-	ctx.fillText("Timer: " + timer, 10, cvs.height - 20);
-
-	//////////////////////////////
-	/// DRAW ONCOMING POKEMON: ///
-	//////////////////////////////
+	let timer = hrsPad + ':' + minsPad + ':' + secsPad;
+	ctx.font = '20px Helvetica';
+	ctx.fillText('Timer: ' + timer, 10, cvs.height - 20);
 
 	// Continuously draw and push new oncoming pokemon to the oncoming array
 	for (let i = 0; i < oncoming.length; i++) {
