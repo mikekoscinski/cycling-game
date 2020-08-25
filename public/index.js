@@ -17,12 +17,14 @@ const OMASTAR = loadImage('images/omastar.gif');
 const AERODACTYL = loadImage('images/aerodactyl.gif');
 
 // Audio
-const SOUNDTRACK = new Audio();
-const JUMP_SOUND = new Audio();
-const SCOR = new Audio();
-SOUNDTRACK.src = 'audio/gen3-cycling-music.mp3';
-JUMP_SOUND.src = 'audio/mario-jump.mp3';
-SCOR.src = 'audio/sfx_point.mp3';
+function loadAudio(src) {
+	let tmp = new Audio();
+	tmp.src = src;
+	return tmp;
+}
+const SOUNDTRACK = loadAudio('audio/gen3-cycling-music.mp3');
+const JUMP_SOUND = loadAudio('audio/mario-jump.mp3');
+const SCOR = loadAudio('audio/sfx_point.mp3');
 
 SOUNDTRACK.loop = true;
 SOUNDTRACK.play();
