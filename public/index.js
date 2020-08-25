@@ -33,7 +33,7 @@ SOUNDTRACK.play();
 let secs = 0;
 let mins = 0;
 let hrs = 0;
-const START_TIME = Date.now();
+const SESSION_START_TIME = Date.now();
 
 // Biker
 const CYCLING_HEIGHT = 370;
@@ -81,9 +81,9 @@ function draw () {
 	jumpUp == true ? Math.max(bikerY -= GRAVITY, JUMP_HEIGHT) : bikerY = Math.min(CYCLING_HEIGHT, bikerY+= GRAVITY); // Did biker jump (Y/N)? -> gravity effect
 
 	// Timer (1000 millisecs per second; subtract secs already counted as mins (60000 milliseconds per minute))
-	secs = Math.floor((Date.now() - START_TIME) / 1000) - (Math.floor((Date.now() - START_TIME) / 60000) * 60); 
-	mins = Math.floor((Date.now() - START_TIME) / 60000) - (Math.floor((Date.now() - START_TIME) / 3600000) * 60); 
-	hrs = Math.floor((Date.now() - START_TIME) / 3600000);
+	secs = Math.floor((Date.now() - SESSION_START_TIME) / 1000) - (Math.floor((Date.now() - SESSION_START_TIME) / 60000) * 60); 
+	mins = Math.floor((Date.now() - SESSION_START_TIME) / 60000) - (Math.floor((Date.now() - SESSION_START_TIME) / 3600000) * 60); 
+	hrs = Math.floor((Date.now() - SESSION_START_TIME) / 3600000);
 
 	let secsPad	= secs.toString().padStart(2, '0');
 	let minsPad	= mins.toString().padStart(2, '0');
