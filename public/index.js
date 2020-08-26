@@ -71,7 +71,7 @@ let bgWidth = 0; // Start first image at (0,0)
 const scrollSpeed = 1; // Must be divisible by cvs.width
 let scrollReset = false;
 
-function draw () {
+function draw() {
 	// Perpetually loop two background images
 	ctx.drawImage(background, bgWidth, 0);
 	ctx.drawImage(background, bgWidth + cvs.width, 0);
@@ -84,13 +84,11 @@ function draw () {
 
 	// Biker
 	ctx.drawImage(biker, BIKER_X, bikerY);
-
 	if(bikerY >= JUMP_HEIGHT && jumpUp == true) {
 		jumpUp = true;
 	} else {
 		jumpUp = false;
 	}
-
 	if(jumpUp == true) {
 		Math.max(bikerY -= GRAVITY, JUMP_HEIGHT);
 	} else {
@@ -105,7 +103,6 @@ function draw () {
 	let secsPad	= secs.toString().padStart(2, '0');
 	let minsPad	= mins.toString().padStart(2, '0');
 	let hrsPad	= hrs.toString().padStart(2, '0');
-
 	let timer = hrsPad + ':' + minsPad + ':' + secsPad;
 	ctx.font = '20px Helvetica';
 	ctx.fillText('Timer: ' + timer, 10, cvs.height - 20);
@@ -113,9 +110,7 @@ function draw () {
 	// Continuously draw and push new oncoming pokemon to the oncoming array
 	for (let i = 0; i < oncoming.length; i++) {
 		ctx.drawImage(oncoming[i].pokemon, oncoming[i].x, oncoming[i].y);
-
 		oncoming[i].x -= ONCOMING_SPEED;
-
 		// Once the current oncoming pokemon gets within a certain range, draw a new one, starting it at the far right of the canvas
 		if (oncoming[i].x == BIKER_X) {
 			let pokemonOdds = Math.random();
@@ -137,7 +132,6 @@ function draw () {
 					RUNNING_HEIGHT
 			});
 		}
-		
 		// Collision detection:
 		// Is the Pokemon within the BIKER's range of X values?
 		let pokemonInBIKER_X = (
@@ -161,6 +155,7 @@ function draw () {
 	requestAnimationFrame(draw);
 }
 draw();
+ctx.clearRect(0, 0, canvas.width, canvas.height);
 
 // Bonus point: Can you figure out which episode of the Pokémon anime this is based on...? ¯\_(ツ)_/¯
 // Bonus point: Can you figure out where in the world this game takes place...? ¯\_(ツ)_/¯
