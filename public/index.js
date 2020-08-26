@@ -6,13 +6,13 @@ function loadImage(src) {
 	tmp.src = src;
 	return tmp;
 }
-const BIKER = loadImage('images/male-biker-right.gif');
-const BACKGROUND = loadImage('images/ocean-background.jpg');
-const KABUTO = loadImage('images/kabuto.gif');
-const OMANYTE = loadImage('images/omanyte.gif');
-const KABUTOPS = loadImage('images/kabutops.gif');
-const OMASTAR = loadImage('images/omastar.gif');
-const AERODACTYL = loadImage('images/aerodactyl.gif');
+const biker = loadImage('images/biker.gif');
+const background = loadImage('images/background.jpg');
+const kabuto = loadImage('images/kabuto.gif');
+const omanyte = loadImage('images/omanyte.gif');
+const kabutops = loadImage('images/kabutops.gif');
+const omastar = loadImage('images/omastar.gif');
+const aerodactyl = loadImage('images/aerodactyl.gif');
 
 function loadAudio(src) {
 	let tmp = new Audio();
@@ -58,7 +58,7 @@ const FLYING_HEIGHT = RUNNING_HEIGHT - 175;
 const ONCOMING_SPEED = 2;
 
 let oncoming = [];
-let firstPokemon = Math.random() < 0.50 ? KABUTO : OMANYTE;
+let firstPokemon = Math.random() < 0.50 ? kabuto : omanyte;
 
 oncoming[0] = {
 	pokemon: firstPokemon,
@@ -73,13 +73,13 @@ let scrollReset = false;
 
 function draw () {
 	// Infinite background scroll; reset once 1st image entirely exits canvas (uses two images)
-	ctx.drawImage(BACKGROUND, bgWidth, 0);
-	ctx.drawImage(BACKGROUND, bgWidth + cvs.width, 0);
+	ctx.drawImage(background, bgWidth, 0);
+	ctx.drawImage(background, bgWidth + cvs.width, 0);
 	scrollReset = (bgWidth == -cvs.width);
 	scrollReset == true ? bgWidth = 0 : bgWidth -= scrollSpeed;
 
 	// Biker
-	ctx.drawImage(BIKER, BIKER_X, bikerY);
+	ctx.drawImage(biker, BIKER_X, bikerY);
 	bikerY >= JUMP_HEIGHT && jumpUp == true ? jumpUp = true : jumpUp = false; // Max & min heights for biker
 	jumpUp == true ? Math.max(bikerY -= GRAVITY, JUMP_HEIGHT) : bikerY = Math.min(CYCLING_HEIGHT, bikerY+= GRAVITY); // Did biker jump (Y/N)? -> gravity effect
 
@@ -106,19 +106,19 @@ function draw () {
 		if (oncoming[i].x == BIKER_X) {
 			let pokemonOdds = Math.random();
 			if (pokemonOdds < 0.325) {
-				newPokemon = KABUTO;
+				newPokemon = kabuto;
 			} else if (pokemonOdds < 0.650) {
-				newPokemon = OMANYTE;
+				newPokemon = omanyte;
 			} else if (pokemonOdds < 0.800) {
-				newPokemon = KABUTOPS;
+				newPokemon = kabutops;
 			} else if (pokemonOdds < 0.950) {
-				newPokemon = OMASTAR;
-			} else newPokemon = AERODACTYL;
+				newPokemon = omastar;
+			} else newPokemon = aerodactyl;
 
 			oncoming.push({
 				pokemon : newPokemon,
 				x : cvs.width,
-				y : newPokemon == AERODACTYL ? FLYING_HEIGHT : RUNNING_HEIGHT
+				y : newPokemon == aerodactyl ? FLYING_HEIGHT : RUNNING_HEIGHT
 			});
 		}
 		
@@ -126,18 +126,18 @@ function draw () {
 		// Is the Pokemon within the BIKER's range of X values?
 		let pokemonInBIKER_X = (
 			// Is front of pokemon (oncoming[i].x) within BIKER's range of x values?
-				(BIKER_X <= oncoming[i].x && oncoming[i].x <= BIKER_X + BIKER.width)
+				(BIKER_X <= oncoming[i].x && oncoming[i].x <= BIKER_X + biker.width)
 			||
 			// Is back of pokemon (oncoming[i].x + oncoming[i].pokemon.width) within BIKER's range of x values?
-				(BIKER_X <= oncoming[i].x + oncoming[i].pokemon.width && oncoming[i].x + oncoming[i].pokemon.width <= BIKER_X + BIKER.width)
+				(BIKER_X <= oncoming[i].x + oncoming[i].pokemon.width && oncoming[i].x + oncoming[i].pokemon.width <= BIKER_X + biker.width)
 		)
 		// Is the Pokemon within the BIKER's range of Y values?
 		let pokemonInbikerY = (
 			// Is top of pokemon (oncoming[i].y) within BIKER's range of y values?
-				(bikerY <= oncoming[i].y && oncoming[i].y <= bikerY + BIKER.height)
+				(bikerY <= oncoming[i].y && oncoming[i].y <= bikerY + biker.height)
 			||
 			// Is bottom of pokemon (oncoming[i].y + oncoming[i].pokemon.height) within BIKER's range of y values?
-				(bikerY <= oncoming[i].y + oncoming[i].pokemon.height && oncoming[i].y + oncoming[i].pokemon.height <= bikerY + BIKER.height)
+				(bikerY <= oncoming[i].y + oncoming[i].pokemon.height && oncoming[i].y + oncoming[i].pokemon.height <= bikerY + biker.height)
 		)
 		// If a collision has occured, reload the page
 		if (pokemonInBIKER_X == true && pokemonInbikerY == true) location.reload();
