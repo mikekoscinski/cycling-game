@@ -84,8 +84,18 @@ function draw () {
 
 	// Biker
 	ctx.drawImage(biker, BIKER_X, bikerY);
-	bikerY >= JUMP_HEIGHT && jumpUp == true ? jumpUp = true : jumpUp = false; // Max & min heights for biker
-	jumpUp == true ? Math.max(bikerY -= GRAVITY, JUMP_HEIGHT) : bikerY = Math.min(CYCLING_HEIGHT, bikerY+= GRAVITY); // Did biker jump (Y/N)? -> gravity effect
+
+	if(bikerY >= JUMP_HEIGHT && jumpUp == true) {
+		jumpUp = true;
+	} else {
+		jumpUp = false;
+	}
+
+	if(jumpUp == true) {
+		Math.max(bikerY -= GRAVITY, JUMP_HEIGHT);
+	} else {
+		bikerY = Math.min(CYCLING_HEIGHT, bikerY+= GRAVITY);
+	}
 
 	// Timer (1000 millisecs per second; subtract secs already counted as mins (60000 milliseconds per minute))
 	secs = Math.floor((Date.now() - SESSION_START_TIME) / 1000) - (Math.floor((Date.now() - SESSION_START_TIME) / 60000) * 60); 
