@@ -1,8 +1,6 @@
-// Canvas & Context
 let cvs = document.getElementById('canvas'); 
 let ctx = cvs.getContext('2d'); 
 
-// Images
 function loadImage(src) {
 	let tmp = new Image();
 	tmp.src = src;
@@ -16,7 +14,6 @@ const KABUTOPS = loadImage('images/kabutops.gif');
 const OMASTAR = loadImage('images/omastar.gif');
 const AERODACTYL = loadImage('images/aerodactyl.gif');
 
-// Audio
 function loadAudio(src) {
 	let tmp = new Audio();
 	tmp.src = src;
@@ -26,8 +23,11 @@ const SOUNDTRACK = loadAudio('audio/gen3-cycling-music.mp3');
 const JUMP_SOUND = loadAudio('audio/mario-jump.mp3');
 const SCOR = loadAudio('audio/sfx_point.mp3');
 
-SOUNDTRACK.loop = true;
-SOUNDTRACK.play();
+const musicOn = false;
+if(musicOn) {
+	SOUNDTRACK.loop = true;
+	SOUNDTRACK.play();
+}
 
 // Bike ride timer
 let secs = 0;
@@ -41,11 +41,14 @@ const JUMP_HEIGHT = CYCLING_HEIGHT - 210;
 const GRAVITY = 3;
 const BIKER_X = 10;
 let bikerY = CYCLING_HEIGHT;
+
 let jumpUp = false;
 document.addEventListener('click' || 'touchend', event => {
 	if (bikerY == CYCLING_HEIGHT) {
 		jumpUp = true;
-		JUMP_SOUND.play();
+		if(musicOn) {
+			JUMP_SOUND.play();
+		}
 	}
 });
 
@@ -120,7 +123,6 @@ function draw () {
 		}
 		
 		// Collision detection:
-		
 		// Is the Pokemon within the BIKER's range of X values?
 		let pokemonInBIKER_X = (
 			// Is front of pokemon (oncoming[i].x) within BIKER's range of x values?
@@ -145,5 +147,4 @@ function draw () {
 draw();
 
 // Bonus point: Can you figure out which episode of the Pokémon anime this is based on...? ¯\_(ツ)_/¯
-
 // Bonus point: Can you figure out where in the world this game takes place...? ¯\_(ツ)_/¯
