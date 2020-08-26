@@ -5,7 +5,7 @@ function loadImage(src) {
 	let tmp = new Image();
 	tmp.src = src;
 	return tmp;
-}
+};
 const biker = loadImage('images/biker.gif');
 const background = loadImage('images/background.jpg');
 const kabuto = loadImage('images/kabuto.gif');
@@ -18,16 +18,16 @@ function loadAudio(src) {
 	let tmp = new Audio();
 	tmp.src = src;
 	return tmp;
-}
-const SOUNDTRACK = loadAudio('audio/gen3-cycling-music.mp3');
-const JUMP_SOUND = loadAudio('audio/mario-jump.mp3');
-const SCOR = loadAudio('audio/sfx_point.mp3');
+};
+const themeAudio = loadAudio('audio/theme-audio.mp3');
+const jumpAudio = loadAudio('audio/jump-audio.mp3');
+const scoreAudio = loadAudio('audio/score-audio.mp3');
 
 const musicOn = false;
 if(musicOn) {
-	SOUNDTRACK.loop = true;
-	SOUNDTRACK.play();
-}
+	themeAudio.loop = true;
+	themeAudio.play();
+};
 
 // Bike ride timer
 let secs = 0;
@@ -47,7 +47,7 @@ document.addEventListener('click' || 'touchend', event => {
 	if (bikerY == CYCLING_HEIGHT) {
 		jumpUp = true;
 		if(musicOn) {
-			JUMP_SOUND.play();
+			jumpAudio.play();
 		}
 	}
 });
@@ -56,10 +56,10 @@ document.addEventListener('click' || 'touchend', event => {
 const RUNNING_HEIGHT = 445;
 const FLYING_HEIGHT = RUNNING_HEIGHT - 175;
 const ONCOMING_SPEED = 2;
-
-let oncoming = [];
-let firstPokemon = Math.random() < 0.50 ? kabuto : omanyte;
-
+const oncoming = [];
+const firstPokemon = Math.random() < 0.50 ? 
+	kabuto : 
+	omanyte;
 oncoming[0] = {
 	pokemon: firstPokemon,
 	x: cvs.width,
@@ -67,16 +67,20 @@ oncoming[0] = {
 };
 
 // Infinite background scroll
-let bgWidth = 0; // Start the first image at (0,0)
-let scrollSpeed = 1; // Must be divisible by cvs.width
+let bgWidth = 0; // Start first image at (0,0)
+const scrollSpeed = 1; // Must be divisible by cvs.width
 let scrollReset = false;
 
 function draw () {
-	// Infinite background scroll; reset once 1st image entirely exits canvas (uses two images)
+	// Perpetually loop two background images
 	ctx.drawImage(background, bgWidth, 0);
 	ctx.drawImage(background, bgWidth + cvs.width, 0);
 	scrollReset = (bgWidth == -cvs.width);
-	scrollReset == true ? bgWidth = 0 : bgWidth -= scrollSpeed;
+	if(scrollReset) {
+		bgWidth = 0;
+	} else {
+		bgWidth -= scrollSpeed
+	};
 
 	// Biker
 	ctx.drawImage(biker, BIKER_X, bikerY);
@@ -99,7 +103,7 @@ function draw () {
 	// Continuously draw and push new oncoming pokemon to the oncoming array
 	for (let i = 0; i < oncoming.length; i++) {
 		ctx.drawImage(oncoming[i].pokemon, oncoming[i].x, oncoming[i].y);
-		
+
 		oncoming[i].x -= ONCOMING_SPEED;
 
 		// Once the current oncoming pokemon gets within a certain range, draw a new one, starting it at the far right of the canvas
@@ -118,7 +122,9 @@ function draw () {
 			oncoming.push({
 				pokemon : newPokemon,
 				x : cvs.width,
-				y : newPokemon == aerodactyl ? FLYING_HEIGHT : RUNNING_HEIGHT
+				y : newPokemon == aerodactyl ? 
+					FLYING_HEIGHT : 
+					RUNNING_HEIGHT
 			});
 		}
 		
