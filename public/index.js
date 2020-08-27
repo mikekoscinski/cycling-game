@@ -91,9 +91,12 @@ function draw() {
 		bikerY = Math.min(CYCLING_HEIGHT, bikerY+= GRAVITY);
 	}
 
-	const secs = (Math.floor((Date.now() - SESSION_START_TIME) / 1000) % 60).toString().padStart(2, '0');
-	const mins = (Math.floor((Date.now() - SESSION_START_TIME) / 60000) % 60).toString().padStart(2, '0');
-	const hrs = (Math.floor((Date.now() - SESSION_START_TIME) / 3600000) % 60).toString().padStart(2, '0');
+	function formatTime(msPerUnit) {
+		return (Math.floor((Date.now() - SESSION_START_TIME) / msPerUnit) % 60).toString().padStart(2, '0');
+	}
+	const secs = formatTime(1000);
+	const mins = formatTime(60000);
+	const hrs = formatTime(3600000);
 	const timer = hrs + ':' + mins + ':' + secs;
 	ctx.font = '20px Helvetica';
 	ctx.fillText('Timer: ' + timer, 10, cvs.height - 20);
