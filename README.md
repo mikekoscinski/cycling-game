@@ -18,7 +18,9 @@ Sources for the game assets include:
 
 ## Project Status
 
-This game is still in active development. It is live at: https://www.pokecycle.com/
+This game is in passive development. Substantially new features may be added at an undetermined future date.
+
+The game is live and available to play at: https://www.pokecycle.com/.
 
 ## Easter Eggs
 
