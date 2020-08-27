@@ -1,5 +1,5 @@
 let cvs = document.getElementById('canvas'); 
-let ctx = cvs.getContext('2d'); 
+let ctx = cvs.getContext('2d');
 
 function loadImage(src) {
 	let tmp = new Image();
@@ -29,10 +29,6 @@ if(musicOn) {
 	themeAudio.play();
 };
 
-// Bike ride timer
-let secs = 0;
-let mins = 0;
-let hrs = 0;
 const SESSION_START_TIME = Date.now();
 
 // Biker
@@ -95,15 +91,10 @@ function draw() {
 		bikerY = Math.min(CYCLING_HEIGHT, bikerY+= GRAVITY);
 	}
 
-	// Timer (1000 millisecs per second; subtract secs already counted as mins (60000 milliseconds per minute))
-	secs = Math.floor((Date.now() - SESSION_START_TIME) / 1000) - (Math.floor((Date.now() - SESSION_START_TIME) / 60000) * 60); 
-	mins = Math.floor((Date.now() - SESSION_START_TIME) / 60000) - (Math.floor((Date.now() - SESSION_START_TIME) / 3600000) * 60); 
-	hrs = Math.floor((Date.now() - SESSION_START_TIME) / 3600000);
-
-	let secsPad	= secs.toString().padStart(2, '0');
-	let minsPad	= mins.toString().padStart(2, '0');
-	let hrsPad	= hrs.toString().padStart(2, '0');
-	let timer = hrsPad + ':' + minsPad + ':' + secsPad;
+	const secs = (Math.floor((Date.now() - SESSION_START_TIME) / 1000) % 60).toString().padStart(2, '0');
+	const mins = (Math.floor((Date.now() - SESSION_START_TIME) / 60000) % 60).toString().padStart(2, '0');
+	const hrs = (Math.floor((Date.now() - SESSION_START_TIME) / 3600000) % 60).toString().padStart(2, '0');
+	const timer = hrs + ':' + mins + ':' + secs;
 	ctx.font = '20px Helvetica';
 	ctx.fillText('Timer: ' + timer, 10, cvs.height - 20);
 
@@ -154,8 +145,8 @@ function draw() {
 	}
 	requestAnimationFrame(draw);
 }
+
 draw();
-ctx.clearRect(0, 0, canvas.width, canvas.height);
 
 // Bonus point: Can you figure out which episode of the Pokémon anime this is based on...? ¯\_(ツ)_/¯
 // Bonus point: Can you figure out where in the world this game takes place...? ¯\_(ツ)_/¯
