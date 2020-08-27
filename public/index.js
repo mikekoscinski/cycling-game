@@ -3,6 +3,13 @@ let ctx = cvs.getContext('2d');
 
 const SESSION_START_TIME = Date.now();
 
+let isGameOver = false;
+function handleGameOver() {
+	if(isGameOver) {
+		location.reload();
+	}
+}
+
 function loadImage(src) {
 	let tmp = new Image();
 	tmp.src = src;
@@ -30,6 +37,7 @@ if(musicOn) {
 	themeAudio.play();
 };
 
+// Infinitely loop two copies of background.jpg
 let backgroundX = 0;
 const scrollSpeed = 1; // Must be divisible by cvs.width
 let scrollReset = false;
@@ -55,6 +63,7 @@ function drawTimer() {
 	requestAnimationFrame(drawTimer);
 }
 
+// Biker
 const CYCLING_HEIGHT = 370;
 const JUMP_HEIGHT = CYCLING_HEIGHT - 210;
 const GRAVITY = 3;
@@ -86,13 +95,7 @@ function didJump() {
 	});
 }
 
-let isGameOver = false;
-function handleGameOver(isGameOver) {
-	if(isGameOver) {
-		location.reload();
-	}
-}
-
+// Oncoming
 const RUNNING_HEIGHT = 445;
 const FLYING_HEIGHT = RUNNING_HEIGHT - 175;
 const ONCOMING_SPEED = 2;
@@ -139,7 +142,8 @@ function drawOncoming() {
 		)
 		const didCollide = didXCollide && didYCollide;
 		if(didCollide) {
-			location.reload();
+			isGameOver = true;
+			handleGameOver();
 		}
 	}
 	requestAnimationFrame(drawOncoming);
@@ -151,5 +155,5 @@ drawBiker();
 didJump();
 drawOncoming();
 
-// Quiz: Which episode of the Pokémon anime this is based on...? ¯\_(ツ)_/¯
-// Quiz: Where in the world this game takes place...? ¯\_(ツ)_/¯
+// Quiz: Which episode of the Pokémon anime this is based on? ¯\_(ツ)_/¯
+// Quiz: Where does this game take place? ¯\_(ツ)_/¯
