@@ -14,6 +14,8 @@ const kabutops = loadImage('images/kabutops.gif');
 const omastar = loadImage('images/omastar.gif');
 const aerodactyl = loadImage('images/aerodactyl.gif');
 
+const SESSION_START_TIME = Date.now();
+
 function loadAudio(src) {
 	let tmp = new Audio();
 	tmp.src = src;
@@ -29,7 +31,6 @@ if(musicOn) {
 	themeAudio.play();
 };
 
-const SESSION_START_TIME = Date.now();
 
 // Biker
 const CYCLING_HEIGHT = 370;
@@ -66,8 +67,7 @@ oncoming[0] = {
 let bgWidth = 0; // Start first image at (0,0)
 const scrollSpeed = 1; // Must be divisible by cvs.width
 let scrollReset = false;
-
-function draw() {
+function drawBackground() {
 	// Perpetually loop two background images
 	ctx.drawImage(background, bgWidth, 0);
 	ctx.drawImage(background, bgWidth + cvs.width, 0);
@@ -77,7 +77,10 @@ function draw() {
 	} else {
 		bgWidth -= scrollSpeed
 	};
+	requestAnimationFrame(drawBackground);
+}
 
+function draw() {
 	// Biker
 	ctx.drawImage(biker, BIKER_X, bikerY);
 	if(bikerY >= JUMP_HEIGHT && jumpUp == true) {
@@ -90,16 +93,6 @@ function draw() {
 	} else {
 		bikerY = Math.min(CYCLING_HEIGHT, bikerY+= GRAVITY);
 	}
-
-	function formatTime(msPerUnit) {
-		return (Math.floor((Date.now() - SESSION_START_TIME) / msPerUnit) % 60).toString().padStart(2, '0');
-	}
-	const secs = formatTime(1000);
-	const mins = formatTime(60000);
-	const hrs = formatTime(3600000);
-	const timer = hrs + ':' + mins + ':' + secs;
-	ctx.font = '20px Helvetica';
-	ctx.fillText('Timer: ' + timer, 10, cvs.height - 20);
 
 	// Continuously draw and push new oncoming pokemon to the oncoming array
 	for (let i = 0; i < oncoming.length; i++) {
@@ -149,6 +142,21 @@ function draw() {
 	requestAnimationFrame(draw);
 }
 
+function drawTimer() {
+	function formatTime(msPerUnit) {
+		return (Math.floor((Date.now() - SESSION_START_TIME) / msPerUnit) % 60).toString().padStart(2, '0');
+	}
+	const secs = formatTime(1000);
+	const mins = formatTime(60000);
+	const hrs = formatTime(3600000);
+	const timer = hrs + ':' + mins + ':' + secs;
+	ctx.font = '20px Helvetica';
+	ctx.fillText('Timer: ' + timer, 10, cvs.height - 20);
+	requestAnimationFrame(drawTimer);
+}
+
+drawBackground();
+drawTimer();
 draw();
 
 // Bonus point: Can you figure out which episode of the Pokémon anime this is based on...? ¯\_(ツ)_/¯
