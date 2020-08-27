@@ -91,11 +91,10 @@ const RUNNING_HEIGHT = 445;
 const FLYING_HEIGHT = RUNNING_HEIGHT - 175;
 const ONCOMING_SPEED = 2;
 const oncoming = [];
-const firstPokemon = Math.random() < 0.50 ? 
-	kabuto : 
-	omanyte;
 oncoming[0] = {
-	pokemon: firstPokemon,
+	pokemon: Math.random() < 0.50 ? 
+		kabuto : 
+		omanyte,
 	x: cvs.width,
 	y: RUNNING_HEIGHT,
 };
@@ -116,7 +115,6 @@ function drawOncoming() {
 			} else if (pokemonOdds < 0.950) {
 				newPokemon = omastar;
 			} else newPokemon = aerodactyl;
-
 			oncoming.push({
 				pokemon : newPokemon,
 				x : cvs.width,
@@ -152,7 +150,7 @@ drawBackground();
 drawTimer();
 drawBiker();
 didJump();
-drawOncoming();
+// drawOncoming();
 
 // Bonus point: Can you figure out which episode of the Pokémon anime this is based on...? ¯\_(ツ)_/¯
 // Bonus point: Can you figure out where in the world this game takes place...? ¯\_(ツ)_/¯
