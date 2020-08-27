@@ -118,7 +118,7 @@ function generateRandomPokemon(pokemonOdds) {
 		newPokemon = omastar;
 	} else newPokemon = aerodactyl;
 }
-function identifyCollision(maxIndex) {
+function detectCollision(maxIndex) {
 	const didXCollide = (
 		(BIKER_X <= oncoming[maxIndex].x && oncoming[maxIndex].x <= BIKER_X + biker.width)
 		||
@@ -150,7 +150,7 @@ function drawOncoming() {
 		});
 	}
 	requestAnimationFrame(drawOncoming);
-	identifyCollision(maxIndex);
+	detectCollision(maxIndex);
 }
 
 drawBackground();
@@ -159,8 +159,11 @@ drawBiker();
 didJump();
 drawOncoming();
 
-// ctx.clearRect(0, 0, canvas.width, canvas.height);
-// add this later 
+function clearCanvas() {
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	setTimeout(clearCanvas, 1);
+}
+clearCanvas();
 
 // Quiz: Which episode of the Pokémon anime this is based on? ¯\_(ツ)_/¯
 // Quiz: Where does this game take place? ¯\_(ツ)_/¯
