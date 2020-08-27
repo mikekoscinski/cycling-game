@@ -107,25 +107,29 @@ oncoming[0] = {
 	x: cvs.width,
 	y: RUNNING_HEIGHT,
 };
+
+function generateRandomPokemon(pokemonOdds) {
+	if (pokemonOdds < 0.325) {
+		newPokemon = kabuto;
+	} else if (pokemonOdds < 0.650) {
+		newPokemon = omanyte;
+	} else if (pokemonOdds < 0.800) {
+		newPokemon = kabutops;
+	} else if (pokemonOdds < 0.950) {
+		newPokemon = omastar;
+	} else newPokemon = aerodactyl;
+}
+
 function drawOncoming() {
 	for (let i = 0; i < oncoming.length; i++) {
 		ctx.drawImage(oncoming[i].pokemon, oncoming[i].x, oncoming[i].y);
 		oncoming[i].x -= ONCOMING_SPEED;
 		if (oncoming[i].x == BIKER_X) {
-			let pokemonOdds = Math.random();
-			if (pokemonOdds < 0.325) {
-				newPokemon = kabuto;
-			} else if (pokemonOdds < 0.650) {
-				newPokemon = omanyte;
-			} else if (pokemonOdds < 0.800) {
-				newPokemon = kabutops;
-			} else if (pokemonOdds < 0.950) {
-				newPokemon = omastar;
-			} else newPokemon = aerodactyl;
+			generateRandomPokemon(Math.random());
 			oncoming.push({
-				pokemon : newPokemon,
-				x : cvs.width,
-				y : newPokemon == aerodactyl ? 
+				pokemon: newPokemon,
+				x: cvs.width,
+				y: newPokemon == aerodactyl ? 
 					FLYING_HEIGHT : 
 					RUNNING_HEIGHT
 			});
