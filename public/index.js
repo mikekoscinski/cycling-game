@@ -1,5 +1,5 @@
-let cvs = document.getElementById('canvas'); 
-let ctx = cvs.getContext('2d');
+const cvs = document.getElementById('canvas'); 
+const ctx = cvs.getContext('2d');
 
 const SESSION_START_TIME = Date.now();
 
@@ -107,7 +107,6 @@ oncoming[0] = {
 	x: cvs.width,
 	y: RUNNING_HEIGHT,
 };
-
 function generateRandomPokemon(pokemonOdds) {
 	if (pokemonOdds < 0.325) {
 		newPokemon = kabuto;
@@ -119,38 +118,39 @@ function generateRandomPokemon(pokemonOdds) {
 		newPokemon = omastar;
 	} else newPokemon = aerodactyl;
 }
-
+function identifyCollision(maxIndex) {
+	const didXCollide = (
+		(BIKER_X <= oncoming[maxIndex].x && oncoming[maxIndex].x <= BIKER_X + biker.width)
+		||
+		(BIKER_X <= oncoming[maxIndex].x + oncoming[maxIndex].pokemon.width && oncoming[maxIndex].x + oncoming[maxIndex].pokemon.width <= BIKER_X + biker.width)
+	)
+	const didYCollide = (
+		(bikerY <= oncoming[maxIndex].y && oncoming[maxIndex].y <= bikerY + biker.height)
+		||
+		(bikerY <= oncoming[maxIndex].y + oncoming[maxIndex].pokemon.height && oncoming[maxIndex].y + oncoming[maxIndex].pokemon.height <= bikerY + biker.height)
+	)
+	const didCollide = didXCollide && didYCollide;
+	if(didCollide) {
+		isGameOver = true;
+		handleGameOver();
+	}
+}
 function drawOncoming() {
-	for (let i = 0; i < oncoming.length; i++) {
-		ctx.drawImage(oncoming[i].pokemon, oncoming[i].x, oncoming[i].y);
-		oncoming[i].x -= ONCOMING_SPEED;
-		if (oncoming[i].x == BIKER_X) {
-			generateRandomPokemon(Math.random());
-			oncoming.push({
-				pokemon: newPokemon,
-				x: cvs.width,
-				y: newPokemon == aerodactyl ? 
-					FLYING_HEIGHT : 
-					RUNNING_HEIGHT
-			});
-		}
-		let didXCollide = (
-			(BIKER_X <= oncoming[i].x && oncoming[i].x <= BIKER_X + biker.width)
-			||
-			(BIKER_X <= oncoming[i].x + oncoming[i].pokemon.width && oncoming[i].x + oncoming[i].pokemon.width <= BIKER_X + biker.width)
-		)
-		let didYCollide = (
-			(bikerY <= oncoming[i].y && oncoming[i].y <= bikerY + biker.height)
-			||
-			(bikerY <= oncoming[i].y + oncoming[i].pokemon.height && oncoming[i].y + oncoming[i].pokemon.height <= bikerY + biker.height)
-		)
-		const didCollide = didXCollide && didYCollide;
-		if(didCollide) {
-			isGameOver = true;
-			handleGameOver();
-		}
+	const maxIndex = oncoming.length - 1;
+	ctx.drawImage(oncoming[maxIndex].pokemon, oncoming[maxIndex].x, oncoming[maxIndex].y);
+	oncoming[maxIndex].x -= ONCOMING_SPEED;
+	if (oncoming[maxIndex].x + oncoming[maxIndex].pokemon.width + 1 == 0) {
+		generateRandomPokemon(Math.random());
+		oncoming.push({
+			pokemon: newPokemon,
+			x: cvs.width,
+			y: newPokemon == aerodactyl ? 
+				FLYING_HEIGHT : 
+				RUNNING_HEIGHT
+		});
 	}
 	requestAnimationFrame(drawOncoming);
+	identifyCollision(maxIndex);
 }
 
 drawBackground();
@@ -158,6 +158,9 @@ drawTimer();
 drawBiker();
 didJump();
 drawOncoming();
+
+// ctx.clearRect(0, 0, canvas.width, canvas.height);
+// add this later 
 
 // Quiz: Which episode of the Pokémon anime this is based on? ¯\_(ツ)_/¯
 // Quiz: Where does this game take place? ¯\_(ツ)_/¯
