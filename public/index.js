@@ -1,6 +1,8 @@
 let cvs = document.getElementById('canvas'); 
 let ctx = cvs.getContext('2d');
 
+const SESSION_START_TIME = Date.now();
+
 function loadImage(src) {
 	let tmp = new Image();
 	tmp.src = src;
@@ -14,8 +16,6 @@ const kabutops = loadImage('images/kabutops.gif');
 const omastar = loadImage('images/omastar.gif');
 const aerodactyl = loadImage('images/aerodactyl.gif');
 
-const SESSION_START_TIME = Date.now();
-
 function loadAudio(src) {
 	let tmp = new Audio();
 	tmp.src = src;
@@ -24,21 +24,57 @@ function loadAudio(src) {
 const themeAudio = loadAudio('audio/theme-audio.mp3');
 const jumpAudio = loadAudio('audio/jump-audio.mp3');
 const scoreAudio = loadAudio('audio/score-audio.mp3');
-
 const musicOn = false;
 if(musicOn) {
 	themeAudio.loop = true;
 	themeAudio.play();
 };
 
+let backgroundX = 0; // Start first image at (0,0)
+const scrollSpeed = 1; // Must be divisible by cvs.width
+let scrollReset = false;
+function drawBackground() {
+	// Perpetually loop two background images
+	ctx.drawImage(background, backgroundX, 0);
+	ctx.drawImage(background, backgroundX + cvs.width, 0);
+	scrollReset = (backgroundX == -cvs.width);
+	if(scrollReset) {
+		backgroundX = 0;
+	} else {
+		backgroundX -= scrollSpeed
+	};
+	requestAnimationFrame(drawBackground);
+}
 
-// Biker
+function drawTimer() {
+	function formatTime(msPerUnit) {
+		return (Math.floor((Date.now() - SESSION_START_TIME) / msPerUnit) % 60).toString().padStart(2, '0');
+	}
+	const timer = formatTime(3600000) + ':' + formatTime(60000) + ':' + formatTime(1000);
+	ctx.font = '20px Helvetica';
+	ctx.fillText('Timer: ' + timer, 10, cvs.height - 20);
+	requestAnimationFrame(drawTimer);
+}
+
 const CYCLING_HEIGHT = 370;
 const JUMP_HEIGHT = CYCLING_HEIGHT - 210;
 const GRAVITY = 3;
 const BIKER_X = 10;
 let bikerY = CYCLING_HEIGHT;
-
+function drawBiker() {
+	ctx.drawImage(biker, BIKER_X, bikerY);
+	if(bikerY >= JUMP_HEIGHT && jumpUp == true) {
+		jumpUp = true;
+	} else {
+		jumpUp = false;
+	}
+	if(jumpUp == true) {
+		Math.max(bikerY -= GRAVITY, JUMP_HEIGHT);
+	} else {
+		bikerY = Math.min(CYCLING_HEIGHT, bikerY+= GRAVITY);
+	}
+	requestAnimationFrame(drawBiker);
+}
 let jumpUp = false;
 document.addEventListener('click' || 'touchend', event => {
 	if (bikerY == CYCLING_HEIGHT) {
@@ -49,7 +85,7 @@ document.addEventListener('click' || 'touchend', event => {
 	}
 });
 
-// Oncoming pokemon
+// Oncoming
 const RUNNING_HEIGHT = 445;
 const FLYING_HEIGHT = RUNNING_HEIGHT - 175;
 const ONCOMING_SPEED = 2;
@@ -63,37 +99,7 @@ oncoming[0] = {
 	y: RUNNING_HEIGHT,
 };
 
-// Infinite background scroll
-let bgWidth = 0; // Start first image at (0,0)
-const scrollSpeed = 1; // Must be divisible by cvs.width
-let scrollReset = false;
-function drawBackground() {
-	// Perpetually loop two background images
-	ctx.drawImage(background, bgWidth, 0);
-	ctx.drawImage(background, bgWidth + cvs.width, 0);
-	scrollReset = (bgWidth == -cvs.width);
-	if(scrollReset) {
-		bgWidth = 0;
-	} else {
-		bgWidth -= scrollSpeed
-	};
-	requestAnimationFrame(drawBackground);
-}
-
 function draw() {
-	// Biker
-	ctx.drawImage(biker, BIKER_X, bikerY);
-	if(bikerY >= JUMP_HEIGHT && jumpUp == true) {
-		jumpUp = true;
-	} else {
-		jumpUp = false;
-	}
-	if(jumpUp == true) {
-		Math.max(bikerY -= GRAVITY, JUMP_HEIGHT);
-	} else {
-		bikerY = Math.min(CYCLING_HEIGHT, bikerY+= GRAVITY);
-	}
-
 	// Continuously draw and push new oncoming pokemon to the oncoming array
 	for (let i = 0; i < oncoming.length; i++) {
 		ctx.drawImage(oncoming[i].pokemon, oncoming[i].x, oncoming[i].y);
@@ -142,21 +148,9 @@ function draw() {
 	requestAnimationFrame(draw);
 }
 
-function drawTimer() {
-	function formatTime(msPerUnit) {
-		return (Math.floor((Date.now() - SESSION_START_TIME) / msPerUnit) % 60).toString().padStart(2, '0');
-	}
-	const secs = formatTime(1000);
-	const mins = formatTime(60000);
-	const hrs = formatTime(3600000);
-	const timer = hrs + ':' + mins + ':' + secs;
-	ctx.font = '20px Helvetica';
-	ctx.fillText('Timer: ' + timer, 10, cvs.height - 20);
-	requestAnimationFrame(drawTimer);
-}
-
 drawBackground();
 drawTimer();
+drawBiker();
 draw();
 
 // Bonus point: Can you figure out which episode of the Pokémon anime this is based on...? ¯\_(ツ)_/¯
