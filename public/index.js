@@ -30,11 +30,10 @@ if(musicOn) {
 	themeAudio.play();
 };
 
-let backgroundX = 0; // Start first image at (0,0)
+let backgroundX = 0;
 const scrollSpeed = 1; // Must be divisible by cvs.width
 let scrollReset = false;
 function drawBackground() {
-	// Perpetually loop two background images
 	ctx.drawImage(background, backgroundX, 0);
 	ctx.drawImage(background, backgroundX + cvs.width, 0);
 	scrollReset = (backgroundX == -cvs.width);
@@ -87,6 +86,13 @@ function didJump() {
 	});
 }
 
+let isGameOver = false;
+function handleGameOver(isGameOver) {
+	if(isGameOver) {
+		location.reload();
+	}
+}
+
 const RUNNING_HEIGHT = 445;
 const FLYING_HEIGHT = RUNNING_HEIGHT - 175;
 const ONCOMING_SPEED = 2;
@@ -99,11 +105,9 @@ oncoming[0] = {
 	y: RUNNING_HEIGHT,
 };
 function drawOncoming() {
-	// Continuously draw and push new oncoming pokemon to the oncoming array
 	for (let i = 0; i < oncoming.length; i++) {
 		ctx.drawImage(oncoming[i].pokemon, oncoming[i].x, oncoming[i].y);
 		oncoming[i].x -= ONCOMING_SPEED;
-		// Once the nearest oncoming pokemon reaches biker, draw a new oncoming at the far right of the canvas
 		if (oncoming[i].x == BIKER_X) {
 			let pokemonOdds = Math.random();
 			if (pokemonOdds < 0.325) {
@@ -123,25 +127,20 @@ function drawOncoming() {
 					RUNNING_HEIGHT
 			});
 		}
-		// Collision detection:
-		// Is the Pokemon within the BIKER's range of X values?
 		let didXCollide = (
-			// Is front of pokemon (oncoming[i].x) within BIKER's range of x values?
-				(BIKER_X <= oncoming[i].x && oncoming[i].x <= BIKER_X + biker.width)
+			(BIKER_X <= oncoming[i].x && oncoming[i].x <= BIKER_X + biker.width)
 			||
-			// Is back of pokemon (oncoming[i].x + oncoming[i].pokemon.width) within BIKER's range of x values?
-				(BIKER_X <= oncoming[i].x + oncoming[i].pokemon.width && oncoming[i].x + oncoming[i].pokemon.width <= BIKER_X + biker.width)
+			(BIKER_X <= oncoming[i].x + oncoming[i].pokemon.width && oncoming[i].x + oncoming[i].pokemon.width <= BIKER_X + biker.width)
 		)
-		// Is the Pokemon within the BIKER's range of Y values?
 		let didYCollide = (
-			// Is top of pokemon (oncoming[i].y) within BIKER's range of y values?
-				(bikerY <= oncoming[i].y && oncoming[i].y <= bikerY + biker.height)
+			(bikerY <= oncoming[i].y && oncoming[i].y <= bikerY + biker.height)
 			||
-			// Is bottom of pokemon (oncoming[i].y + oncoming[i].pokemon.height) within BIKER's range of y values?
-				(bikerY <= oncoming[i].y + oncoming[i].pokemon.height && oncoming[i].y + oncoming[i].pokemon.height <= bikerY + biker.height)
+			(bikerY <= oncoming[i].y + oncoming[i].pokemon.height && oncoming[i].y + oncoming[i].pokemon.height <= bikerY + biker.height)
 		)
-		// If a collision has occured, reload the page
-		if (didXCollide == true && didYCollide == true) location.reload();
+		const didCollide = didXCollide && didYCollide;
+		if(didCollide) {
+			location.reload();
+		}
 	}
 	requestAnimationFrame(drawOncoming);
 }
@@ -150,7 +149,7 @@ drawBackground();
 drawTimer();
 drawBiker();
 didJump();
-// drawOncoming();
+drawOncoming();
 
-// Bonus point: Can you figure out which episode of the Pokémon anime this is based on...? ¯\_(ツ)_/¯
-// Bonus point: Can you figure out where in the world this game takes place...? ¯\_(ツ)_/¯
+// Quiz: Which episode of the Pokémon anime this is based on...? ¯\_(ツ)_/¯
+// Quiz: Where in the world this game takes place...? ¯\_(ツ)_/¯
