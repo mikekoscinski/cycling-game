@@ -4,10 +4,8 @@ const CTX = CVS.getContext('2d');
 const SESSION_START_TIME = Date.now();
 
 let isGameOver = false;
-function handleGameOver() {
-	if(isGameOver) {
-		location.reload();
-	}
+function handleGameOver () {
+	if (isGameOver) return location.reload();
 }
 
 function loadImage(src) {
@@ -32,24 +30,21 @@ const THEME_AUDIO = loadAudio('audio/theme-audio.mp3');
 const JUMP_AUDIO = loadAudio('audio/jump-audio.mp3');
 const SCORE_AUDIO = loadAudio('audio/score-audio.mp3'); // TODO: Will fire in future when user registers new high score
 const musicOn = false; // TODO: Disabled until DOM element is added to toggle music on/off. Will eventually be defined with 'let'
-if(musicOn) {
-	THEME_AUDIO.loop = true;
-	THEME_AUDIO.play();
-};
+if (musicOn) THEME_AUDIO.loop = true && THEME_AUDIO.play();
 
 // Infinitely loop two copies of background.jpg
 let backgroundX = 0;
 const SCROLL_SPEED = 1; // Must be divisible by cvs.width
 let scrollReset = false;
+function resetBackgroundScroll() {
+	if (scrollReset) return backgroundX = 0;
+	return backgroundX -= SCROLL_SPEED;
+}
 function drawBackground() {
 	CTX.drawImage(BACKGROUND, backgroundX, 0);
 	CTX.drawImage(BACKGROUND, backgroundX + CVS.width, 0);
 	scrollReset = (backgroundX == -CVS.width);
-	if(scrollReset) {
-		backgroundX = 0;
-	} else {
-		backgroundX -= SCROLL_SPEED
-	};
+	resetBackgroundScroll();
 	requestAnimationFrame(drawBackground);
 }
 
@@ -69,29 +64,25 @@ const JUMP_HEIGHT = CYCLING_HEIGHT - 210;
 const GRAVITY = 3;
 const BIKER_X = 10;
 let bikerY = CYCLING_HEIGHT;
+
+function didBikerJump() {
+	if (bikerY >= JUMP_HEIGHT && jumpUp) return jumpUp = true;
+	return jumpUp = false;
+}
+function handleBikerJump() {
+	if (jumpUp) return Math.max(bikerY -= GRAVITY, JUMP_HEIGHT);
+	return bikerY = Math.min(CYCLING_HEIGHT, bikerY+= GRAVITY);
+}
 function drawBiker() {
 	CTX.drawImage(BIKER, BIKER_X, bikerY);
-	if(bikerY >= JUMP_HEIGHT && jumpUp) {
-		jumpUp = true;
-	} else {
-		jumpUp = false;
-	}
-	if(jumpUp) {
-		Math.max(bikerY -= GRAVITY, JUMP_HEIGHT);
-	} else {
-		bikerY = Math.min(CYCLING_HEIGHT, bikerY+= GRAVITY);
-	}
+	didBikerJump();
+	handleBikerJump();
 	requestAnimationFrame(drawBiker);
 }
 let jumpUp = false;
 function didJump() {
 	document.addEventListener('click' || 'touchend', event => {
-		if (bikerY == CYCLING_HEIGHT) {
-			jumpUp = true;
-			if(musicOn) {
-				JUMP_AUDIO.play();
-			}
-		}
+		if (bikerY == CYCLING_HEIGHT) return (jumpUp = true) && (musicOn && JUMP_AUDIO.play());
 	});
 }
 
@@ -108,15 +99,11 @@ ONCOMING[0] = {
 	y: RUNNING_HEIGHT,
 };
 function generateRandomPokemon(pokemonOdds) {
-	if (pokemonOdds < 0.325) {
-		newPokemon = KABUTO;
-	} else if (pokemonOdds < 0.650) {
-		newPokemon = OMANYTE;
-	} else if (pokemonOdds < 0.800) {
-		newPokemon = KABUTOPS;
-	} else if (pokemonOdds < 0.950) {
-		newPokemon = OMASTAR;
-	} else newPokemon = AERODACTYL;
+	if (pokemonOdds < 0.325) return newPokemon = KABUTO;
+	if (pokemonOdds < 0.650) return newPokemon = OMANYTE;
+	if (pokemonOdds < 0.800) return newPokemon = KABUTOPS;
+	if (pokemonOdds < 0.950) return newPokemon = OMASTAR;
+	return newPokemon = AERODACTYL;
 }
 function detectCollision(maxIndex) {
 	const DID_X_COLLIDE = (
@@ -130,12 +117,7 @@ function detectCollision(maxIndex) {
 		(bikerY <= ONCOMING[maxIndex].y + ONCOMING[maxIndex].pokemon.height && ONCOMING[maxIndex].y + ONCOMING[maxIndex].pokemon.height <= bikerY + BIKER.height)
 	)
 	const DID_COLLIDE = DID_X_COLLIDE && DID_Y_COLLIDE;
-	if(DID_COLLIDE) {
-		isGameOver = true;
-		if(isGameOver) {
-			handleGameOver();
-		}
-	}
+	if (DID_COLLIDE) return (isGameOver = true) && handleGameOver();
 }
 
 function drawOncoming() {
