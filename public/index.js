@@ -7,7 +7,6 @@ let isGameOver = false;
 function handleGameOver() {
 	if(isGameOver) {
 		location.reload();
-		return;
 	}
 }
 
@@ -133,7 +132,9 @@ function detectCollision(maxIndex) {
 	const DID_COLLIDE = DID_X_COLLIDE && DID_Y_COLLIDE;
 	if(DID_COLLIDE) {
 		isGameOver = true;
-		handleGameOver();
+		if(isGameOver) {
+			handleGameOver();
+		}
 	}
 }
 
@@ -168,24 +169,12 @@ function clearCanvas() {
 	setTimeout(clearCanvas, 1);
 }
 
-function animate() {
-	drawBackground();
-	drawTimer();
-	drawBiker();
-	didJump();
-	drawOncoming();
-	clearCanvas();
-}
-
-function run() {
-	if(!isGameOver) {
-		animate();
-	} else {
-		return;
-	}
-}
-run();
-
+drawBackground();
+drawTimer();
+drawBiker();
+didJump();
+drawOncoming();
+clearCanvas();
 
 // Quiz: Which episode of the Pokémon anime this is based on? ¯\_(ツ)_/¯
 // Quiz: Where does this game take place? ¯\_(ツ)_/¯
