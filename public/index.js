@@ -168,12 +168,24 @@ function clearCanvas() {
 	setTimeout(clearCanvas, 1);
 }
 
-drawBackground();
-drawTimer();
-drawBiker();
-didJump();
-drawOncoming();
-clearCanvas();
+function animate() {
+	drawBackground();
+	drawTimer();
+	drawBiker();
+	didJump();
+	drawOncoming();
+	clearCanvas();
+}
+
+function run() {
+	if(!isGameOver) {
+		animate();
+	} else {
+		return;
+	}
+}
+run();
+
 
 // Quiz: Which episode of the Pokémon anime this is based on? ¯\_(ツ)_/¯
 // Quiz: Where does this game take place? ¯\_(ツ)_/¯
