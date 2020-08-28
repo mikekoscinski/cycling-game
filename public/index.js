@@ -1,5 +1,5 @@
-const cvs = document.getElementById('canvas'); 
-const ctx = cvs.getContext('2d');
+const CVS = document.getElementById('canvas'); 
+const CTX = CVS.getContext('2d');
 
 const SESSION_START_TIME = Date.now();
 
@@ -15,40 +15,40 @@ function loadImage(src) {
 	tmp.src = src;
 	return tmp;
 };
-const biker = loadImage('images/biker.gif');
-const background = loadImage('images/background.jpg');
-const kabuto = loadImage('images/kabuto.gif');
-const omanyte = loadImage('images/omanyte.gif');
-const kabutops = loadImage('images/kabutops.gif');
-const omastar = loadImage('images/omastar.gif');
-const aerodactyl = loadImage('images/aerodactyl.gif');
+const BIKER = loadImage('images/biker.gif');
+const BACKGROUND = loadImage('images/background.jpg');
+const KABUTO = loadImage('images/kabuto.gif');
+const OMANYTE = loadImage('images/omanyte.gif');
+const KABUTOPS = loadImage('images/kabutops.gif');
+const OMASTAR = loadImage('images/omastar.gif');
+const AERODACTYL = loadImage('images/aerodactyl.gif');
 
 function loadAudio(src) {
 	let tmp = new Audio();
 	tmp.src = src;
 	return tmp;
 };
-const themeAudio = loadAudio('audio/theme-audio.mp3');
-const jumpAudio = loadAudio('audio/jump-audio.mp3');
-const scoreAudio = loadAudio('audio/score-audio.mp3'); // TODO: Will fire in future when user registers new high score
-const musicOn = false; // TODO: Disabled until DOM element is added to toggle music on/off
+const THEME_AUDIO = loadAudio('audio/theme-audio.mp3');
+const JUMP_AUDIO = loadAudio('audio/jump-audio.mp3');
+const SCORE_AUDIO = loadAudio('audio/score-audio.mp3'); // TODO: Will fire in future when user registers new high score
+const musicOn = false; // TODO: Disabled until DOM element is added to toggle music on/off. Will eventually be defined with 'let'
 if(musicOn) {
-	themeAudio.loop = true;
-	themeAudio.play();
+	THEME_AUDIO.loop = true;
+	THEME_AUDIO.play();
 };
 
 // Infinitely loop two copies of background.jpg
 let backgroundX = 0;
-const scrollSpeed = 1; // Must be divisible by cvs.width
+const SCROLL_SPEED = 1; // Must be divisible by cvs.width
 let scrollReset = false;
 function drawBackground() {
-	ctx.drawImage(background, backgroundX, 0);
-	ctx.drawImage(background, backgroundX + cvs.width, 0);
-	scrollReset = (backgroundX == -cvs.width);
+	CTX.drawImage(BACKGROUND, backgroundX, 0);
+	CTX.drawImage(BACKGROUND, backgroundX + CVS.width, 0);
+	scrollReset = (backgroundX == -CVS.width);
 	if(scrollReset) {
 		backgroundX = 0;
 	} else {
-		backgroundX -= scrollSpeed
+		backgroundX -= SCROLL_SPEED
 	};
 	requestAnimationFrame(drawBackground);
 }
@@ -57,9 +57,9 @@ function drawTimer() {
 	function formatTime(msPerUnit) {
 		return (Math.floor((Date.now() - SESSION_START_TIME) / msPerUnit) % 60).toString().padStart(2, '0');
 	}
-	const timer = formatTime(3600000) + ':' + formatTime(60000) + ':' + formatTime(1000);
-	ctx.font = '20px Helvetica';
-	ctx.fillText('Timer: ' + timer, 10, cvs.height - 20);
+	const TIMER = formatTime(3600000) + ':' + formatTime(60000) + ':' + formatTime(1000);
+	CTX.font = '20px Helvetica';
+	CTX.fillText('Timer: ' + TIMER, 10, CVS.height - 20);
 	requestAnimationFrame(drawTimer);
 }
 
@@ -70,7 +70,7 @@ const GRAVITY = 3;
 const BIKER_X = 10;
 let bikerY = CYCLING_HEIGHT;
 function drawBiker() {
-	ctx.drawImage(biker, BIKER_X, bikerY);
+	CTX.drawImage(BIKER, BIKER_X, bikerY);
 	if(bikerY >= JUMP_HEIGHT && jumpUp) {
 		jumpUp = true;
 	} else {
@@ -89,7 +89,7 @@ function didJump() {
 		if (bikerY == CYCLING_HEIGHT) {
 			jumpUp = true;
 			if(musicOn) {
-				jumpAudio.play();
+				JUMP_AUDIO.play();
 			}
 		}
 	});
@@ -99,62 +99,62 @@ function didJump() {
 const RUNNING_HEIGHT = 445;
 const FLYING_HEIGHT = RUNNING_HEIGHT - 175;
 const ONCOMING_SPEED = 2;
-const oncoming = [];
-oncoming[0] = {
+const ONCOMING = [];
+ONCOMING[0] = {
 	pokemon: Math.random() < 0.50 ? 
-		kabuto : 
-		omanyte,
-	x: cvs.width,
+		KABUTO : 
+		OMANYTE,
+	x: CVS.width,
 	y: RUNNING_HEIGHT,
 };
 function generateRandomPokemon(pokemonOdds) {
 	if (pokemonOdds < 0.325) {
-		newPokemon = kabuto;
+		newPokemon = KABUTO;
 	} else if (pokemonOdds < 0.650) {
-		newPokemon = omanyte;
+		newPokemon = OMANYTE;
 	} else if (pokemonOdds < 0.800) {
-		newPokemon = kabutops;
+		newPokemon = KABUTOPS;
 	} else if (pokemonOdds < 0.950) {
-		newPokemon = omastar;
-	} else newPokemon = aerodactyl;
+		newPokemon = OMASTAR;
+	} else newPokemon = AERODACTYL;
 }
 function detectCollision(maxIndex) {
-	const didXCollide = (
-		(BIKER_X <= oncoming[maxIndex].x && oncoming[maxIndex].x <= BIKER_X + biker.width)
+	const DID_X_COLLIDE = (
+		(BIKER_X <= ONCOMING[maxIndex].x && ONCOMING[maxIndex].x <= BIKER_X + BIKER.width)
 		||
-		(BIKER_X <= oncoming[maxIndex].x + oncoming[maxIndex].pokemon.width && oncoming[maxIndex].x + oncoming[maxIndex].pokemon.width <= BIKER_X + biker.width)
+		(BIKER_X <= ONCOMING[maxIndex].x + ONCOMING[maxIndex].pokemon.width && ONCOMING[maxIndex].x + ONCOMING[maxIndex].pokemon.width <= BIKER_X + BIKER.width)
 	)
-	const didYCollide = (
-		(bikerY <= oncoming[maxIndex].y && oncoming[maxIndex].y <= bikerY + biker.height)
+	const DID_Y_COLLIDE = (
+		(bikerY <= ONCOMING[maxIndex].y && ONCOMING[maxIndex].y <= bikerY + BIKER.height)
 		||
-		(bikerY <= oncoming[maxIndex].y + oncoming[maxIndex].pokemon.height && oncoming[maxIndex].y + oncoming[maxIndex].pokemon.height <= bikerY + biker.height)
+		(bikerY <= ONCOMING[maxIndex].y + ONCOMING[maxIndex].pokemon.height && ONCOMING[maxIndex].y + ONCOMING[maxIndex].pokemon.height <= bikerY + BIKER.height)
 	)
-	const didCollide = didXCollide && didYCollide;
-	if(didCollide) {
+	const DID_COLLIDE = DID_X_COLLIDE && DID_Y_COLLIDE;
+	if(DID_COLLIDE) {
 		isGameOver = true;
 		handleGameOver();
 	}
 }
 function drawOncoming() {
-	const maxIndex = oncoming.length - 1;
-	ctx.drawImage(oncoming[maxIndex].pokemon, oncoming[maxIndex].x, oncoming[maxIndex].y);
-	oncoming[maxIndex].x -= ONCOMING_SPEED;
-	if (oncoming[maxIndex].x + oncoming[maxIndex].pokemon.width + 1 == 0) {
+	const MAX_INDEX = ONCOMING.length - 1;
+	CTX.drawImage(ONCOMING[MAX_INDEX].pokemon, ONCOMING[MAX_INDEX].x, ONCOMING[MAX_INDEX].y);
+	ONCOMING[MAX_INDEX].x -= ONCOMING_SPEED;
+	if (ONCOMING[MAX_INDEX].x + ONCOMING[MAX_INDEX].pokemon.width + 1 == 0) {
 		generateRandomPokemon(Math.random());
-		oncoming.push({
+		ONCOMING.push({
 			pokemon: newPokemon,
-			x: cvs.width,
-			y: newPokemon == aerodactyl ? 
+			x: CVS.width,
+			y: newPokemon == AERODACTYL ? 
 				FLYING_HEIGHT : 
 				RUNNING_HEIGHT
 		});
 	}
 	requestAnimationFrame(drawOncoming);
-	detectCollision(maxIndex);
+	detectCollision(MAX_INDEX);
 }
 
 function clearCanvas() {
-	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	CTX.clearRect(0, 0, canvas.width, canvas.height);
 	setTimeout(clearCanvas, 1);
 }
 
