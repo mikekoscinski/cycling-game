@@ -30,8 +30,8 @@ function loadAudio(src) {
 };
 const themeAudio = loadAudio('audio/theme-audio.mp3');
 const jumpAudio = loadAudio('audio/jump-audio.mp3');
-const scoreAudio = loadAudio('audio/score-audio.mp3');
-const musicOn = false;
+const scoreAudio = loadAudio('audio/score-audio.mp3'); // TODO: Will fire in future when user registers new high score
+const musicOn = false; // TODO: Disabled until DOM element is added to toggle music on/off
 if(musicOn) {
 	themeAudio.loop = true;
 	themeAudio.play();
@@ -153,16 +153,16 @@ function drawOncoming() {
 	detectCollision(maxIndex);
 }
 
+function clearCanvas() {
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	setTimeout(clearCanvas, 1);
+}
+
 drawBackground();
 drawTimer();
 drawBiker();
 didJump();
 drawOncoming();
-
-function clearCanvas() {
-	ctx.clearRect(0, 0, canvas.width, canvas.height);
-	setTimeout(clearCanvas, 1);
-}
 clearCanvas();
 
 // Quiz: Which episode of the Pokémon anime this is based on? ¯\_(ツ)_/¯
