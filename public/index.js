@@ -7,6 +7,7 @@ let isGameOver = false;
 function handleGameOver() {
 	if(isGameOver) {
 		location.reload();
+		return;
 	}
 }
 
@@ -135,6 +136,15 @@ function detectCollision(maxIndex) {
 		handleGameOver();
 	}
 }
+
+// TODO: Simplify collision logic
+// function testDidCollide(maxIndex) {
+// 	const BIKER_HIT_TOP = null;
+// 	const BIKER_HIT_BOTTOM = null;
+// 	const BIKER_HIT_LEFT = null;
+// 	const BIKER_HIT_RIGHT = null;
+// };
+
 function drawOncoming() {
 	const MAX_INDEX = ONCOMING.length - 1;
 	CTX.drawImage(ONCOMING[MAX_INDEX].pokemon, ONCOMING[MAX_INDEX].x, ONCOMING[MAX_INDEX].y);
