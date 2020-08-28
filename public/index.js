@@ -71,12 +71,12 @@ const BIKER_X = 10;
 let bikerY = CYCLING_HEIGHT;
 function drawBiker() {
 	ctx.drawImage(biker, BIKER_X, bikerY);
-	if(bikerY >= JUMP_HEIGHT && jumpUp == true) {
+	if(bikerY >= JUMP_HEIGHT && jumpUp) {
 		jumpUp = true;
 	} else {
 		jumpUp = false;
 	}
-	if(jumpUp == true) {
+	if(jumpUp) {
 		Math.max(bikerY -= GRAVITY, JUMP_HEIGHT);
 	} else {
 		bikerY = Math.min(CYCLING_HEIGHT, bikerY+= GRAVITY);
