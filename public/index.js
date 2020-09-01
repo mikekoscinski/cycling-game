@@ -1,9 +1,37 @@
 const CVS = document.getElementById('canvas'); 
 const CTX = CVS.getContext('2d');
 
+// State
 const SESSION_START_TIME = Date.now();
-
 let isGameOver = false;
+const musicOn = false; // TODO: Disabled until DOM element is added to toggle music on/off. Will eventually be defined with 'let'
+
+// Background
+let backgroundX = 0;
+const SCROLL_SPEED = 1; // Must be divisible by cvs.width
+let scrollReset = false;
+
+// Biker
+const CYCLING_HEIGHT = 370;
+const JUMP_HEIGHT = CYCLING_HEIGHT - 210;
+const GRAVITY = 3;
+const BIKER_X = 10;
+let bikerY = CYCLING_HEIGHT;
+let jumpUp = false;
+
+// Oncoming
+const RUNNING_HEIGHT = 445;
+const FLYING_HEIGHT = RUNNING_HEIGHT - 175;
+const ONCOMING_SPEED = 2;
+const ONCOMING = [];
+ONCOMING[0] = {
+	pokemon: Math.random() < 0.50 ? 
+		KABUTO : 
+		OMANYTE,
+	x: CVS.width,
+	y: RUNNING_HEIGHT,
+};
+
 function handleGameOver () {
 	if (isGameOver) return location.reload();
 }
@@ -29,13 +57,9 @@ function loadAudio(src) {
 const THEME_AUDIO = loadAudio('audio/theme-audio.mp3');
 const JUMP_AUDIO = loadAudio('audio/jump-audio.mp3');
 const SCORE_AUDIO = loadAudio('audio/score-audio.mp3'); // TODO: Will fire in future when user registers new high score
-const musicOn = false; // TODO: Disabled until DOM element is added to toggle music on/off. Will eventually be defined with 'let'
 if (musicOn) THEME_AUDIO.loop = true && THEME_AUDIO.play();
 
 // Infinitely loop two copies of background.jpg
-let backgroundX = 0;
-const SCROLL_SPEED = 1; // Must be divisible by cvs.width
-let scrollReset = false;
 function resetBackgroundScroll() {
 	if (scrollReset) return backgroundX = 0;
 	return backgroundX -= SCROLL_SPEED;
@@ -58,13 +82,6 @@ function drawTimer() {
 	requestAnimationFrame(drawTimer);
 }
 
-// Biker
-const CYCLING_HEIGHT = 370;
-const JUMP_HEIGHT = CYCLING_HEIGHT - 210;
-const GRAVITY = 3;
-const BIKER_X = 10;
-let bikerY = CYCLING_HEIGHT;
-
 function didBikerJump() {
 	if (bikerY >= JUMP_HEIGHT && jumpUp) return jumpUp = true;
 	return jumpUp = false;
@@ -79,25 +96,12 @@ function drawBiker() {
 	handleBikerJump();
 	requestAnimationFrame(drawBiker);
 }
-let jumpUp = false;
 function didJump() {
 	document.addEventListener('click' || 'touchend', event => {
 		if (bikerY == CYCLING_HEIGHT) return (jumpUp = true) && (musicOn && JUMP_AUDIO.play());
 	});
 }
 
-// Oncoming
-const RUNNING_HEIGHT = 445;
-const FLYING_HEIGHT = RUNNING_HEIGHT - 175;
-const ONCOMING_SPEED = 2;
-const ONCOMING = [];
-ONCOMING[0] = {
-	pokemon: Math.random() < 0.50 ? 
-		KABUTO : 
-		OMANYTE,
-	x: CVS.width,
-	y: RUNNING_HEIGHT,
-};
 function generateRandomPokemon(pokemonOdds) {
 	if (pokemonOdds < 0.325) return newPokemon = KABUTO;
 	if (pokemonOdds < 0.650) return newPokemon = OMANYTE;
