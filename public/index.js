@@ -1,6 +1,15 @@
 const CVS = document.getElementById('canvas'); 
 const CTX = CVS.getContext('2d');
 
+// Images:
+const BIKER = loadImage('images/biker.gif');
+const BACKGROUND = loadImage('images/background.jpg');
+const KABUTO = loadImage('images/kabuto.gif');
+const OMANYTE = loadImage('images/omanyte.gif');
+const KABUTOPS = loadImage('images/kabutops.gif');
+const OMASTAR = loadImage('images/omastar.gif');
+const AERODACTYL = loadImage('images/aerodactyl.gif');
+
 // State
 const SESSION_START_TIME = Date.now();
 let isGameOver = false;
@@ -26,8 +35,8 @@ const ONCOMING_SPEED = 2;
 const ONCOMING = [];
 ONCOMING[0] = {
 	pokemon: Math.random() < 0.50 ? 
-		KABUTO : 
-		OMANYTE,
+	KABUTO : 
+	OMANYTE,
 	x: CVS.width,
 	y: RUNNING_HEIGHT,
 };
@@ -41,13 +50,6 @@ function loadImage(src) {
 	tmp.src = src;
 	return tmp;
 };
-const BIKER = loadImage('images/biker.gif');
-const BACKGROUND = loadImage('images/background.jpg');
-const KABUTO = loadImage('images/kabuto.gif');
-const OMANYTE = loadImage('images/omanyte.gif');
-const KABUTOPS = loadImage('images/kabutops.gif');
-const OMASTAR = loadImage('images/omastar.gif');
-const AERODACTYL = loadImage('images/aerodactyl.gif');
 
 function loadAudio(src) {
 	let tmp = new Audio();
