@@ -2,7 +2,6 @@ const CVS = document.getElementById('canvas');
 const CTX = CVS.getContext('2d');
 
 // Images:
-// const BIKER = loadImage('images/biker.gif');
 const BACKGROUND = loadImage('images/background.jpg');
 const KABUTO = loadImage('images/kabuto.gif');
 const OMANYTE = loadImage('images/omanyte.gif');
@@ -20,16 +19,43 @@ let backgroundX = 0;
 const SCROLL_SPEED = 1; // Must be divisible by cvs.width
 let scrollReset = false;
 
-// Biker
 const biker = {
 	img: loadImage('images/biker.gif'),
 	cyclingHeight: 370,
-	jumpHeight: 160,
 	yPosition: 370,
 	xPosition: 10,
+	jumpHeight: 160,
 	gravity: 3,
-	jumpUp: false
+	jumpUp: false,
+	
+	printGravity: function () {
+		console.log(this.gravity)
+		console.log(this)
+		const printGravity = this.printGravity.bind(biker)
+		window.setTimeout(printGravity, 1000)
+	},
+	draw: function() {
+		// TODO: 'this' = window on recursive calls; need .bind()
+		CTX.drawImage(this.img, this.xPosition, this.yPosition);
+		didBikerJump();
+		handleBikerJump();
+		const draw = this.draw.bind(biker)
+		requestAnimationFrame(draw);
+	}
 }
+
+biker.printGravity()
+
+
+// Cannot recursively call requestAnimationFrame in object initialization without .bind(biker)
+/*
+biker.draw = () => {
+	CTX.drawImage(biker.img, biker.xPosition, biker.yPosition);
+	didBikerJump();
+	handleBikerJump();
+	requestAnimationFrame(biker.draw);
+}
+*/
 
 // Oncoming
 const RUNNING_HEIGHT = 445;
@@ -97,13 +123,6 @@ function handleBikerJump() {
 	return biker.yPosition = Math.min(biker.cyclingHeight, biker.yPosition+= biker.gravity);
 }
 
-function drawBiker() {
-	CTX.drawImage(biker.img, biker.xPosition, biker.yPosition);
-	didBikerJump();
-	handleBikerJump();
-	requestAnimationFrame(drawBiker);
-}
-
 function didJump() {
 	document.addEventListener('click' || 'touchend', event => {
 		if (biker.yPosition == biker.cyclingHeight) return (biker.jumpUp = true) && (musicOn && JUMP_AUDIO.play());
@@ -160,7 +179,7 @@ function clearCanvas() {
 
 drawBackground();
 drawTimer();
-drawBiker();
+biker.draw()
 didJump();
 drawOncoming();
 clearCanvas();
