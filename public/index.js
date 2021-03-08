@@ -27,15 +27,7 @@ const biker = {
 	jumpHeight: 160,
 	gravity: 3,
 	jumpUp: false,
-	
-	printGravity: function () {
-		console.log(this.gravity)
-		console.log(this)
-		const printGravity = this.printGravity.bind(biker)
-		window.setTimeout(printGravity, 1000)
-	},
 	draw: function() {
-		// TODO: 'this' = window on recursive calls; need .bind()
 		CTX.drawImage(this.img, this.xPosition, this.yPosition);
 		didBikerJump();
 		handleBikerJump();
@@ -43,19 +35,6 @@ const biker = {
 		requestAnimationFrame(draw);
 	}
 }
-
-biker.printGravity()
-
-
-// Cannot recursively call requestAnimationFrame in object initialization without .bind(biker)
-/*
-biker.draw = () => {
-	CTX.drawImage(biker.img, biker.xPosition, biker.yPosition);
-	didBikerJump();
-	handleBikerJump();
-	requestAnimationFrame(biker.draw);
-}
-*/
 
 // Oncoming
 const RUNNING_HEIGHT = 445;
