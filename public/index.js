@@ -21,33 +21,15 @@ const SCROLL_SPEED = 1; // Must be divisible by cvs.width
 let scrollReset = false;
 
 // Biker
-
 const biker = {
 	img: loadImage('images/biker.gif'),
 	cyclingHeight: 370,
-	// TODO: Currently undefined; can't reference an object during initialization when using object literal syntax. Need to use getter Fn
-	jumpHeight: () => this.cyclingHeight - 210,
-	
-	
-	gravity: 3,
+	jumpHeight: 160,
+	yPosition: 370,
 	xPosition: 10,
-	// TODO: Currently undefined; can't reference an object during initialization when using object literal syntax. Need to use getter Fn
-	// TODO: Should combine cyclingHeight and yPosition; check if any cyclingHeight references need it to remain constant (e.g. if yPosition is set to max of cyclingHeight, yPosition - gravity...)
-	yPosition: this.cyclingHeight,
-	
-	
+	gravity: 3,
 	jumpUp: false
 }
-// debugger;
-
-/*
-const CYCLING_HEIGHT = 370;
-const JUMP_HEIGHT = CYCLING_HEIGHT - 210;
-const GRAVITY = 3;
-const BIKER_X = 10;
-let bikerY = CYCLING_HEIGHT;
-let jumpUp = false;
-*/
 
 // Oncoming
 const RUNNING_HEIGHT = 445;
