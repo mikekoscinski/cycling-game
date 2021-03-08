@@ -2,7 +2,7 @@ const CVS = document.getElementById('canvas');
 const CTX = CVS.getContext('2d');
 
 // Images:
-const BIKER = loadImage('images/biker.gif');
+// const BIKER = loadImage('images/biker.gif');
 const BACKGROUND = loadImage('images/background.jpg');
 const KABUTO = loadImage('images/kabuto.gif');
 const OMANYTE = loadImage('images/omanyte.gif');
@@ -21,12 +21,33 @@ const SCROLL_SPEED = 1; // Must be divisible by cvs.width
 let scrollReset = false;
 
 // Biker
+
+const biker = {
+	img: loadImage('images/biker.gif'),
+	cyclingHeight: 370,
+	// TODO: Currently undefined; can't reference an object during initialization when using object literal syntax. Need to use getter Fn
+	jumpHeight: () => this.cyclingHeight - 210,
+	
+	
+	gravity: 3,
+	xPosition: 10,
+	// TODO: Currently undefined; can't reference an object during initialization when using object literal syntax. Need to use getter Fn
+	// TODO: Should combine cyclingHeight and yPosition; check if any cyclingHeight references need it to remain constant (e.g. if yPosition is set to max of cyclingHeight, yPosition - gravity...)
+	yPosition: this.cyclingHeight,
+	
+	
+	jumpUp: false
+}
+// debugger;
+
+/*
 const CYCLING_HEIGHT = 370;
 const JUMP_HEIGHT = CYCLING_HEIGHT - 210;
 const GRAVITY = 3;
 const BIKER_X = 10;
 let bikerY = CYCLING_HEIGHT;
 let jumpUp = false;
+*/
 
 // Oncoming
 const RUNNING_HEIGHT = 445;
@@ -85,22 +106,25 @@ function drawTimer() {
 }
 
 function didBikerJump() {
-	if (bikerY >= JUMP_HEIGHT && jumpUp) return jumpUp = true;
-	return jumpUp = false;
+	if (biker.yPosition >= biker.jumpHeight && biker.jumpUp) return biker.jumpUp = true;
+	return biker.jumpUp = false;
 }
+
 function handleBikerJump() {
-	if (jumpUp) return Math.max(bikerY -= GRAVITY, JUMP_HEIGHT);
-	return bikerY = Math.min(CYCLING_HEIGHT, bikerY+= GRAVITY);
+	if (biker.jumpUp) return Math.max(biker.yPosition -= biker.gravity, biker.jumpHeight);
+	return biker.yPosition = Math.min(biker.cyclingHeight, biker.yPosition+= biker.gravity);
 }
+
 function drawBiker() {
-	CTX.drawImage(BIKER, BIKER_X, bikerY);
+	CTX.drawImage(biker.img, biker.xPosition, biker.yPosition);
 	didBikerJump();
 	handleBikerJump();
 	requestAnimationFrame(drawBiker);
 }
+
 function didJump() {
 	document.addEventListener('click' || 'touchend', event => {
-		if (bikerY == CYCLING_HEIGHT) return (jumpUp = true) && (musicOn && JUMP_AUDIO.play());
+		if (biker.yPosition == biker.cyclingHeight) return (biker.jumpUp = true) && (musicOn && JUMP_AUDIO.play());
 	});
 }
 
@@ -111,17 +135,20 @@ function generateRandomPokemon(pokemonOdds) {
 	if (pokemonOdds < 0.950) return newPokemon = OMASTAR;
 	return newPokemon = AERODACTYL;
 }
+
 function detectCollision(maxIndex) {
 	const DID_X_COLLIDE = (
-		(BIKER_X <= ONCOMING[maxIndex].x && ONCOMING[maxIndex].x <= BIKER_X + BIKER.width)
+		(biker.xPosition <= ONCOMING[maxIndex].x && ONCOMING[maxIndex].x <= biker.xPosition + biker.img.width)
 		||
-		(BIKER_X <= ONCOMING[maxIndex].x + ONCOMING[maxIndex].pokemon.width && ONCOMING[maxIndex].x + ONCOMING[maxIndex].pokemon.width <= BIKER_X + BIKER.width)
+		(biker.xPosition <= ONCOMING[maxIndex].x + ONCOMING[maxIndex].pokemon.width && ONCOMING[maxIndex].x + ONCOMING[maxIndex].pokemon.width <= biker.xPosition + biker.img.width)
 	)
+
 	const DID_Y_COLLIDE = (
-		(bikerY <= ONCOMING[maxIndex].y && ONCOMING[maxIndex].y <= bikerY + BIKER.height)
+		(biker.yPosition <= ONCOMING[maxIndex].y && ONCOMING[maxIndex].y <= biker.yPosition + biker.img.height)
 		||
-		(bikerY <= ONCOMING[maxIndex].y + ONCOMING[maxIndex].pokemon.height && ONCOMING[maxIndex].y + ONCOMING[maxIndex].pokemon.height <= bikerY + BIKER.height)
+		(biker.yPosition <= ONCOMING[maxIndex].y + ONCOMING[maxIndex].pokemon.height && ONCOMING[maxIndex].y + ONCOMING[maxIndex].pokemon.height <= biker.yPosition + biker.img.height)
 	)
+
 	const DID_COLLIDE = DID_X_COLLIDE && DID_Y_COLLIDE;
 	if (DID_COLLIDE) return (isGameOver = true) && handleGameOver();
 }
@@ -155,6 +182,3 @@ drawBiker();
 didJump();
 drawOncoming();
 clearCanvas();
-
-// Quiz: Which episode of the Pokémon anime this is based on? ¯\_(ツ)_/¯
-// Quiz: Where does this game take place? ¯\_(ツ)_/¯
