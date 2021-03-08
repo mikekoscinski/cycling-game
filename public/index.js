@@ -2,7 +2,7 @@ const CVS = document.getElementById('canvas');
 const CTX = CVS.getContext('2d');
 
 // Images:
-const BACKGROUND = loadImage('images/background.jpg');
+// const BACKGROUND = loadImage('images/background.jpg');
 const KABUTO = loadImage('images/kabuto.gif');
 const OMANYTE = loadImage('images/omanyte.gif');
 const KABUTOPS = loadImage('images/kabutops.gif');
@@ -15,9 +15,34 @@ let isGameOver = false;
 const musicOn = false; // TODO: Disabled until DOM element is added to toggle music on/off. Will eventually be defined with 'let'
 
 // Background
-let backgroundX = 0;
-const SCROLL_SPEED = 1; // Must be divisible by cvs.width
-let scrollReset = false;
+const background = {
+	img: loadImage('images/background.jpg'),
+	xPosition: 0,
+	scrollSpeed: 1, // must be divisible by cvs.width
+	scrollReset: false,
+	resetScroll: function() {
+		if (this.scrollReset) return background.xPosition = 0;
+		return background.xPosition -= background.scrollSpeed
+	}
+}
+
+// Infinitely loop two copies of background.jpg
+function resetBackgroundScroll() {
+	if (scrollReset) return background.xPosition = 0;
+	return background.xPosition -= background.scrollSpeed;
+}
+
+function drawBackground() {
+	CTX.drawImage(background.img, background.xPosition, 0);
+	CTX.drawImage(background.img, background.xPosition + CVS.width, 0);
+	background.scrollReset = (background.xPosition == -CVS.width);
+	
+	// TODO: testing
+	// resetBackgroundScroll();
+	background.resetScroll()
+	requestAnimationFrame(drawBackground);
+}
+
 
 const biker = {
 	img: loadImage('images/biker.gif'),
@@ -34,6 +59,22 @@ const biker = {
 		const draw = this.draw.bind(biker)
 		requestAnimationFrame(draw);
 	}
+}
+
+function didBikerJump() {
+	if (biker.yPosition >= biker.jumpHeight && biker.jumpUp) return biker.jumpUp = true;
+	return biker.jumpUp = false;
+}
+
+function handleBikerJump() {
+	if (biker.jumpUp) return Math.max(biker.yPosition -= biker.gravity, biker.jumpHeight);
+	return biker.yPosition = Math.min(biker.cyclingHeight, biker.yPosition+= biker.gravity);
+}
+
+function listenForJump() {
+	document.addEventListener('click' || 'touchend', event => {
+		if (biker.yPosition == biker.cyclingHeight) return (biker.jumpUp = true) && (musicOn && JUMP_AUDIO.play());
+	});
 }
 
 // Oncoming
@@ -69,19 +110,6 @@ const JUMP_AUDIO = loadAudio('audio/jump-audio.mp3');
 const SCORE_AUDIO = loadAudio('audio/score-audio.mp3'); // TODO: Will fire in future when user registers new high score
 if (musicOn) THEME_AUDIO.loop = true && THEME_AUDIO.play();
 
-// Infinitely loop two copies of background.jpg
-function resetBackgroundScroll() {
-	if (scrollReset) return backgroundX = 0;
-	return backgroundX -= SCROLL_SPEED;
-}
-function drawBackground() {
-	CTX.drawImage(BACKGROUND, backgroundX, 0);
-	CTX.drawImage(BACKGROUND, backgroundX + CVS.width, 0);
-	scrollReset = (backgroundX == -CVS.width);
-	resetBackgroundScroll();
-	requestAnimationFrame(drawBackground);
-}
-
 function drawTimer() {
 	function formatTime(msPerUnit) {
 		return (Math.floor((Date.now() - SESSION_START_TIME) / msPerUnit) % 60).toString().padStart(2, '0');
@@ -90,22 +118,6 @@ function drawTimer() {
 	CTX.font = '20px Helvetica';
 	CTX.fillText('Timer: ' + TIMER, 10, CVS.height - 20);
 	requestAnimationFrame(drawTimer);
-}
-
-function didBikerJump() {
-	if (biker.yPosition >= biker.jumpHeight && biker.jumpUp) return biker.jumpUp = true;
-	return biker.jumpUp = false;
-}
-
-function handleBikerJump() {
-	if (biker.jumpUp) return Math.max(biker.yPosition -= biker.gravity, biker.jumpHeight);
-	return biker.yPosition = Math.min(biker.cyclingHeight, biker.yPosition+= biker.gravity);
-}
-
-function didJump() {
-	document.addEventListener('click' || 'touchend', event => {
-		if (biker.yPosition == biker.cyclingHeight) return (biker.jumpUp = true) && (musicOn && JUMP_AUDIO.play());
-	});
 }
 
 function generateRandomPokemon(pokemonOdds) {
@@ -159,6 +171,6 @@ function clearCanvas() {
 drawBackground();
 drawTimer();
 biker.draw()
-didJump();
+listenForJump();
 drawOncoming();
 clearCanvas();
