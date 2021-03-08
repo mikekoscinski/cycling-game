@@ -23,26 +23,16 @@ const background = {
 	resetScroll: function() {
 		if (this.scrollReset) return background.xPosition = 0;
 		return background.xPosition -= background.scrollSpeed
+	},
+	draw: function () {
+		CTX.drawImage(background.img, background.xPosition, 0);
+		CTX.drawImage(background.img, background.xPosition + CVS.width, 0);
+		background.scrollReset = (background.xPosition == -CVS.width);
+		background.resetScroll()
+		const draw = this.draw.bind(background)
+		requestAnimationFrame(draw);
 	}
 }
-
-// Infinitely loop two copies of background.jpg
-function resetBackgroundScroll() {
-	if (scrollReset) return background.xPosition = 0;
-	return background.xPosition -= background.scrollSpeed;
-}
-
-function drawBackground() {
-	CTX.drawImage(background.img, background.xPosition, 0);
-	CTX.drawImage(background.img, background.xPosition + CVS.width, 0);
-	background.scrollReset = (background.xPosition == -CVS.width);
-	
-	// TODO: testing
-	// resetBackgroundScroll();
-	background.resetScroll()
-	requestAnimationFrame(drawBackground);
-}
-
 
 const biker = {
 	img: loadImage('images/biker.gif'),
@@ -168,7 +158,8 @@ function clearCanvas() {
 	setTimeout(clearCanvas, 1);
 }
 
-drawBackground();
+// drawBackground();
+background.draw()
 drawTimer();
 biker.draw()
 listenForJump();
