@@ -1,5 +1,3 @@
-// TODO: pokemon class
-
 const CVS = document.getElementById('canvas'); 
 const CTX = CVS.getContext('2d');
 
@@ -109,13 +107,11 @@ const pokemon = {
 		flying: 270
 	},
 	speed: 2, // speed = change in pokemon's xPosition per frame
-	
 	kabuto: util.load('image')('images/kabuto.gif'),
 	omanyte: util.load('image')('images/omanyte.gif'),
 	kabutops: util.load('image')('images/kabutops.gif'),
 	omastar: util.load('image')('images/omastar.gif'),
 	aerodactyl: util.load('image')('images/aerodactyl.gif'),
-	
 	oncoming: [],
 	generateFirst: () => {
 		pokemon.oncoming.push({
@@ -126,7 +122,6 @@ const pokemon = {
 			y: pokemon.height.running,
 		}
 	)},
-	
 	generate: (rand) => {
 		if (rand < 0.325) return pokemon.kabuto;
 		if (rand < 0.650) return pokemon.omanyte;
@@ -134,24 +129,20 @@ const pokemon = {
 		if (rand < 0.950) return pokemon.omastar;
 		return pokemon.aerodactyl;
 	},
-		
 	detectCollision: (maxIndex) => {
 		const DID_X_COLLIDE = (
 			(biker.xPosition <= pokemon.oncoming[maxIndex].x && pokemon.oncoming[maxIndex].x <= biker.xPosition + biker.img.width)
 			||
 			(biker.xPosition <= pokemon.oncoming[maxIndex].x + pokemon.oncoming[maxIndex].species.width && pokemon.oncoming[maxIndex].x + pokemon.oncoming[maxIndex].species.width <= biker.xPosition + biker.img.width)
 		)
-
 		const DID_Y_COLLIDE = (
 			(biker.yPosition <= pokemon.oncoming[maxIndex].y && pokemon.oncoming[maxIndex].y <= biker.yPosition + biker.img.height)
 			||
 			(biker.yPosition <= pokemon.oncoming[maxIndex].y + pokemon.oncoming[maxIndex].species.height && pokemon.oncoming[maxIndex].y + pokemon.oncoming[maxIndex].species.height <= biker.yPosition + biker.img.height)
 		)
-
 		const DID_COLLIDE = DID_X_COLLIDE && DID_Y_COLLIDE;
 		if (DID_COLLIDE) return (game.isOver = true) && game.handleIsOver();
 	},
-	
 	draw: function () {
 		const MAX_INDEX = pokemon.oncoming.length - 1;
 		CTX.drawImage(pokemon.oncoming[MAX_INDEX].species, pokemon.oncoming[MAX_INDEX].x, pokemon.oncoming[MAX_INDEX].y);
