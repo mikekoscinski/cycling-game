@@ -64,7 +64,12 @@ const biker = {
 
 const timer = {
 	start: Date.now(),
-	output: () => `${util.formatTime(3600000)}:${util.formatTime(60000)}:${util.formatTime(1000)}`,
+	format: (msPerUnit) => {
+		return (Math.floor((Date.now() - timer.start) / msPerUnit) % 60).toString().padStart(2, '0');
+	},
+	output: () => {
+		return `${timer.format(3600000)}:${timer.format(60000)}:${timer.format(1000)}`
+	},
 	draw: function () {
 		CTX.font = '20px Helvetica'
 		CTX.fillText(`Timer: ${timer.output()}`, 10, CVS.height - 20)
@@ -84,9 +89,7 @@ const audio = {
 }
 
 const util = {
-	formatTime: (msPerUnit) => {
-		return (Math.floor((Date.now() - timer.start) / msPerUnit) % 60).toString().padStart(2, '0');
-	}
+	// TODO:
 }
 
 function clearCanvas() {
