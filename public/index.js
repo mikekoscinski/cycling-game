@@ -1,3 +1,6 @@
+// TODO: Add 'clearCanvas' to util first, then worry about pokemon class
+// Tackle pokemon class last. Do util Fns class first
+
 const CVS = document.getElementById('canvas'); 
 const CTX = CVS.getContext('2d');
 
@@ -61,18 +64,26 @@ const biker = {
 	}
 }
 
-// Oncoming
-const RUNNING_HEIGHT = 445;
-const FLYING_HEIGHT = RUNNING_HEIGHT - 175;
-const ONCOMING_SPEED = 2;
-const ONCOMING = [];
-ONCOMING[0] = {
-	pokemon: Math.random() < 0.50 ? 
-	KABUTO : 
-	OMANYTE,
-	x: CVS.width,
-	y: RUNNING_HEIGHT,
-};
+const timer = {
+	output: () => `${util.formatTime(3600000)}:${util.formatTime(60000)}:${util.formatTime(1000)}`,
+	draw: function () {
+		CTX.font = '20px Helvetica'
+		CTX.fillText(`Timer: ${timer.output()}`, 10, CVS.height - 20)
+		const draw = this.draw.bind(timer) // must .bind, 'this' = window after 1st frame
+		requestAnimationFrame(draw)
+	}
+}
+
+const util = {
+	formatTime: (msPerUnit) => {
+		return (Math.floor((Date.now() - SESSION_START_TIME) / msPerUnit) % 60).toString().padStart(2, '0');
+	}
+}
+
+function clearCanvas() {
+	CTX.clearRect(0, 0, canvas.width, canvas.height);
+	setTimeout(clearCanvas, 1);
+}
 
 function handleGameOver () {
 	if (isGameOver) return location.reload();
@@ -90,26 +101,29 @@ function loadAudio(src) {
 	return tmp;
 };
 
+if (musicOn) THEME_AUDIO.loop = true && THEME_AUDIO.play();
+
 const THEME_AUDIO = loadAudio('audio/theme-audio.mp3');
 const JUMP_AUDIO = loadAudio('audio/jump-audio.mp3');
 const SCORE_AUDIO = loadAudio('audio/score-audio.mp3'); // TODO: Will fire in future when user registers new high score
 
-if (musicOn) THEME_AUDIO.loop = true && THEME_AUDIO.play();
 
-function drawTimer() {
-	function formatTime(msPerUnit) {
-		return (Math.floor((Date.now() - SESSION_START_TIME) / msPerUnit) % 60).toString().padStart(2, '0');
-	}
-	const TIMER = formatTime(3600000) + ':' + formatTime(60000) + ':' + formatTime(1000);
-	CTX.font = '20px Helvetica';
-	CTX.fillText('Timer: ' + TIMER, 10, CVS.height - 20);
-	requestAnimationFrame(drawTimer);
-}
+// TODO: This needs to be one class. It should be renamed to 'pokemon'. Its properties/methods should probably be renamed too
 
+// Oncoming
+const RUNNING_HEIGHT = 445;
+const FLYING_HEIGHT = RUNNING_HEIGHT - 175;
+const ONCOMING_SPEED = 2;
+const ONCOMING = [];
+ONCOMING[0] = {
+	pokemon: Math.random() < 0.50 ? 
+	KABUTO : 
+	OMANYTE,
+	x: CVS.width,
+	y: RUNNING_HEIGHT,
+};
 
-
-
-
+// TODO: rename pokemon.generate
 function generateRandomPokemon(pokemonOdds) {
 	if (pokemonOdds < 0.325) return newPokemon = KABUTO;
 	if (pokemonOdds < 0.650) return newPokemon = OMANYTE;
@@ -153,14 +167,8 @@ function drawOncoming() {
 	detectCollision(MAX_INDEX);
 }
 
-function clearCanvas() {
-	CTX.clearRect(0, 0, canvas.width, canvas.height);
-	setTimeout(clearCanvas, 1);
-}
-
-// drawBackground();
 background.draw()
-drawTimer();
+timer.draw();
 biker.draw()
 biker.listenForJump();
 drawOncoming();
