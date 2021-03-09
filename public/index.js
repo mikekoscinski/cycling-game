@@ -1,5 +1,5 @@
 // TODO: Add 'clearCanvas' to util first, then worry about pokemon class
-// Tackle pokemon class last. Do util Fns class first. Need an 'audio' class too
+// Tackle pokemon class last. Do util Fns class first
 
 const CVS = document.getElementById('canvas'); 
 const CTX = CVS.getContext('2d');
@@ -12,7 +12,6 @@ const OMASTAR = loadImage('images/omastar.gif');
 const AERODACTYL = loadImage('images/aerodactyl.gif');
 
 // State
-const SESSION_START_TIME = Date.now(); // TODO: This should be in timer class?
 let isGameOver = false;
 
 const background = {
@@ -64,6 +63,7 @@ const biker = {
 }
 
 const timer = {
+	start: Date.now(),
 	output: () => `${util.formatTime(3600000)}:${util.formatTime(60000)}:${util.formatTime(1000)}`,
 	draw: function () {
 		CTX.font = '20px Helvetica'
@@ -85,7 +85,7 @@ const audio = {
 
 const util = {
 	formatTime: (msPerUnit) => {
-		return (Math.floor((Date.now() - SESSION_START_TIME) / msPerUnit) % 60).toString().padStart(2, '0');
+		return (Math.floor((Date.now() - timer.start) / msPerUnit) % 60).toString().padStart(2, '0');
 	}
 }
 
@@ -178,6 +178,8 @@ function drawOncoming() {
 	requestAnimationFrame(drawOncoming);
 	detectCollision(MAX_INDEX);
 }
+
+
 
 background.draw()
 timer.draw();
