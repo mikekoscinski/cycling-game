@@ -2,7 +2,6 @@ const CVS = document.getElementById('canvas');
 const CTX = CVS.getContext('2d');
 
 // Images:
-// const BACKGROUND = loadImage('images/background.jpg');
 const KABUTO = loadImage('images/kabuto.gif');
 const OMANYTE = loadImage('images/omanyte.gif');
 const KABUTOPS = loadImage('images/kabutops.gif');
@@ -14,14 +13,14 @@ const SESSION_START_TIME = Date.now();
 let isGameOver = false;
 const musicOn = false; // TODO: Disabled until DOM element is added to toggle music on/off. Will eventually be defined with 'let'
 
-// Background
 const background = {
 	img: loadImage('images/background.jpg'),
 	xPosition: 0,
 	scrollSpeed: 1, // must be divisible by cvs.width
 	scrollReset: false,
-	resetScroll: function() {
-		if (this.scrollReset) return background.xPosition = 0;
+	// arrow Fns have no 'this' - only need explicit function declaration if 'this' is needed
+	resetScroll: () => {
+		if (background.scrollReset) return background.xPosition = 0;
 		return background.xPosition -= background.scrollSpeed
 	},
 	draw: function () {
@@ -29,7 +28,7 @@ const background = {
 		CTX.drawImage(background.img, background.xPosition + CVS.width, 0);
 		background.scrollReset = (background.xPosition == -CVS.width);
 		background.resetScroll()
-		const draw = this.draw.bind(background)
+		const draw = this.draw.bind(background) // without .bind, 'this' = window after 1st frame (1st two imgs will be drawn, but will not be re-looped after they scroll past. xPos gets increasingly negative)
 		requestAnimationFrame(draw);
 	}
 }
@@ -42,29 +41,24 @@ const biker = {
 	jumpHeight: 160,
 	gravity: 3,
 	jumpUp: false,
+	// arrow Fns have no 'this' - only need explicit function declaration if 'this' is needed
+	didJump: () => biker.jumpUp = (biker.yPosition >= biker.jumpHeight && biker.jumpUp),
+	handleJump: () => {
+		if (biker.jumpUp) return Math.max(biker.yPosition -= biker.gravity, biker.jumpHeight);
+		return biker.yPosition = Math.min(biker.cyclingHeight, biker.yPosition+= biker.gravity);
+	},
+	listenForJump: () => {
+		document.addEventListener('click' || 'touchend', event => {
+			if (biker.yPosition == biker.cyclingHeight) return (biker.jumpUp = true) && (musicOn && JUMP_AUDIO.play());
+		});
+	},
 	draw: function() {
-		CTX.drawImage(this.img, this.xPosition, this.yPosition);
-		didBikerJump();
-		handleBikerJump();
-		const draw = this.draw.bind(biker)
+		CTX.drawImage(biker.img, biker.xPosition, biker.yPosition);
+		this.didJump()
+		this.handleJump()
+		const draw = this.draw.bind(biker) // without .bind, 'this' = 'window' after 1st frame
 		requestAnimationFrame(draw);
 	}
-}
-
-function didBikerJump() {
-	if (biker.yPosition >= biker.jumpHeight && biker.jumpUp) return biker.jumpUp = true;
-	return biker.jumpUp = false;
-}
-
-function handleBikerJump() {
-	if (biker.jumpUp) return Math.max(biker.yPosition -= biker.gravity, biker.jumpHeight);
-	return biker.yPosition = Math.min(biker.cyclingHeight, biker.yPosition+= biker.gravity);
-}
-
-function listenForJump() {
-	document.addEventListener('click' || 'touchend', event => {
-		if (biker.yPosition == biker.cyclingHeight) return (biker.jumpUp = true) && (musicOn && JUMP_AUDIO.play());
-	});
 }
 
 // Oncoming
@@ -95,9 +89,11 @@ function loadAudio(src) {
 	tmp.src = src;
 	return tmp;
 };
+
 const THEME_AUDIO = loadAudio('audio/theme-audio.mp3');
 const JUMP_AUDIO = loadAudio('audio/jump-audio.mp3');
 const SCORE_AUDIO = loadAudio('audio/score-audio.mp3'); // TODO: Will fire in future when user registers new high score
+
 if (musicOn) THEME_AUDIO.loop = true && THEME_AUDIO.play();
 
 function drawTimer() {
@@ -109,6 +105,10 @@ function drawTimer() {
 	CTX.fillText('Timer: ' + TIMER, 10, CVS.height - 20);
 	requestAnimationFrame(drawTimer);
 }
+
+
+
+
 
 function generateRandomPokemon(pokemonOdds) {
 	if (pokemonOdds < 0.325) return newPokemon = KABUTO;
@@ -162,6 +162,6 @@ function clearCanvas() {
 background.draw()
 drawTimer();
 biker.draw()
-listenForJump();
+biker.listenForJump();
 drawOncoming();
 clearCanvas();
