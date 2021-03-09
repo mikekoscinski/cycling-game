@@ -140,29 +140,29 @@ const pokemon = {
 		if (rand < 0.950) return pokemon.omastar;
 		return pokemon.aerodactyl;
 	},
+		
+	detectCollision: (maxIndex) => {
+		const DID_X_COLLIDE = (
+			(biker.xPosition <= pokemon.oncoming[maxIndex].x && pokemon.oncoming[maxIndex].x <= biker.xPosition + biker.img.width)
+			||
+			(biker.xPosition <= pokemon.oncoming[maxIndex].x + pokemon.oncoming[maxIndex].species.width && pokemon.oncoming[maxIndex].x + pokemon.oncoming[maxIndex].species.width <= biker.xPosition + biker.img.width)
+		)
+
+		const DID_Y_COLLIDE = (
+			(biker.yPosition <= pokemon.oncoming[maxIndex].y && pokemon.oncoming[maxIndex].y <= biker.yPosition + biker.img.height)
+			||
+			(biker.yPosition <= pokemon.oncoming[maxIndex].y + pokemon.oncoming[maxIndex].species.height && pokemon.oncoming[maxIndex].y + pokemon.oncoming[maxIndex].species.height <= biker.yPosition + biker.img.height)
+		)
+
+		const DID_COLLIDE = DID_X_COLLIDE && DID_Y_COLLIDE;
+		if (DID_COLLIDE) return (game.isOver = true) && game.handleIsOver();
+	},
 	
-	// TODO: detectCollision, draw
+	// TODO: pokemon.draw()
+	
 	
 }
 
-
-
-function detectCollision(maxIndex) {
-	const DID_X_COLLIDE = (
-		(biker.xPosition <= pokemon.oncoming[maxIndex].x && pokemon.oncoming[maxIndex].x <= biker.xPosition + biker.img.width)
-		||
-		(biker.xPosition <= pokemon.oncoming[maxIndex].x + pokemon.oncoming[maxIndex].species.width && pokemon.oncoming[maxIndex].x + pokemon.oncoming[maxIndex].species.width <= biker.xPosition + biker.img.width)
-	)
-
-	const DID_Y_COLLIDE = (
-		(biker.yPosition <= pokemon.oncoming[maxIndex].y && pokemon.oncoming[maxIndex].y <= biker.yPosition + biker.img.height)
-		||
-		(biker.yPosition <= pokemon.oncoming[maxIndex].y + pokemon.oncoming[maxIndex].species.height && pokemon.oncoming[maxIndex].y + pokemon.oncoming[maxIndex].species.height <= biker.yPosition + biker.img.height)
-	)
-
-	const DID_COLLIDE = DID_X_COLLIDE && DID_Y_COLLIDE;
-	if (DID_COLLIDE) return (game.isOver = true) && game.handleIsOver();
-}
 
 function drawOncoming() {
 	const MAX_INDEX = pokemon.oncoming.length - 1;
@@ -179,7 +179,7 @@ function drawOncoming() {
 		});
 	}
 	requestAnimationFrame(drawOncoming);
-	detectCollision(MAX_INDEX);
+	pokemon.detectCollision(MAX_INDEX);
 }
 
 
