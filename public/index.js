@@ -133,18 +133,19 @@ const pokemon = {
 		}
 	)},
 	
+	generate: (rand) => {
+		if (rand < 0.325) return pokemon.kabuto;
+		if (rand < 0.650) return pokemon.omanyte;
+		if (rand < 0.800) return pokemon.kabutops;
+		if (rand < 0.950) return pokemon.omastar;
+		return pokemon.aerodactyl;
+	},
+	
+	// TODO: detectCollision, draw
 	
 }
 
 
-// TODO: rename pokemon.generate
-function generateRandomPokemon(pokemonOdds) {
-	if (pokemonOdds < 0.325) return newPokemon = pokemon.kabuto;
-	if (pokemonOdds < 0.650) return newPokemon = pokemon.omanyte;
-	if (pokemonOdds < 0.800) return newPokemon = pokemon.kabutops;
-	if (pokemonOdds < 0.950) return newPokemon = pokemon.omastar;
-	return newPokemon = pokemon.aerodactyl;
-}
 
 function detectCollision(maxIndex) {
 	const DID_X_COLLIDE = (
@@ -168,11 +169,11 @@ function drawOncoming() {
 	CTX.drawImage(pokemon.oncoming[MAX_INDEX].species, pokemon.oncoming[MAX_INDEX].x, pokemon.oncoming[MAX_INDEX].y);
 	pokemon.oncoming[MAX_INDEX].x -= pokemon.speed;
 	if (pokemon.oncoming[MAX_INDEX].x + pokemon.oncoming[MAX_INDEX].species.width + 1 == 0) {
-		generateRandomPokemon(Math.random());
+		const species = pokemon.generate(Math.random())
 		pokemon.oncoming.push({
-			species: newPokemon,
+			species,
 			x: CVS.width,
-			y: newPokemon == pokemon.aerodactyl ? 
+			y: species == pokemon.aerodactyl ? 
 				pokemon.height.flying : 
 				pokemon.height.running
 		});
