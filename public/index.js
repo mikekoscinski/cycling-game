@@ -103,12 +103,6 @@ const audio = {
 	}
 }
 
-
-
-
-
-// TODO: This needs to be one class. It should be renamed to 'pokemon'. Its properties/methods should probably be renamed too
-
 const pokemon = {
 	height: {
 		running: 445,
@@ -158,33 +152,25 @@ const pokemon = {
 		if (DID_COLLIDE) return (game.isOver = true) && game.handleIsOver();
 	},
 	
-	// TODO: pokemon.draw()
-	
-	
-}
-
-
-function drawOncoming() {
-	const MAX_INDEX = pokemon.oncoming.length - 1;
-	CTX.drawImage(pokemon.oncoming[MAX_INDEX].species, pokemon.oncoming[MAX_INDEX].x, pokemon.oncoming[MAX_INDEX].y);
-	pokemon.oncoming[MAX_INDEX].x -= pokemon.speed;
-	if (pokemon.oncoming[MAX_INDEX].x + pokemon.oncoming[MAX_INDEX].species.width + 1 == 0) {
-		const species = pokemon.generate(Math.random())
-		pokemon.oncoming.push({
-			species,
-			x: CVS.width,
-			y: species == pokemon.aerodactyl ? 
-				pokemon.height.flying : 
-				pokemon.height.running
-		});
+	draw: function () {
+		const MAX_INDEX = pokemon.oncoming.length - 1;
+		CTX.drawImage(pokemon.oncoming[MAX_INDEX].species, pokemon.oncoming[MAX_INDEX].x, pokemon.oncoming[MAX_INDEX].y);
+		pokemon.oncoming[MAX_INDEX].x -= pokemon.speed;
+		if (pokemon.oncoming[MAX_INDEX].x + pokemon.oncoming[MAX_INDEX].species.width + 1 == 0) {
+			const species = pokemon.generate(Math.random())
+			pokemon.oncoming.push({
+				species,
+				x: CVS.width,
+				y: species == pokemon.aerodactyl ? 
+					pokemon.height.flying : 
+					pokemon.height.running
+			});
+		}
+		const draw = this.draw.bind(pokemon)
+		requestAnimationFrame(draw);
+		pokemon.detectCollision(MAX_INDEX);
 	}
-	requestAnimationFrame(drawOncoming);
-	pokemon.detectCollision(MAX_INDEX);
 }
-
-
-
-
 
 background.draw()
 pokemon.generateFirst()
@@ -192,5 +178,5 @@ timer.draw();
 biker.draw()
 biker.listenForJump();
 audio.play()
-drawOncoming();
+pokemon.draw()
 util.clearCanvas();
