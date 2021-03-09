@@ -1,21 +1,36 @@
-// TODO: Add 'clearCanvas' to util first, then worry about pokemon class
-// Tackle pokemon class last. Do util Fns class first
+// TODO: pokemon class
 
 const CVS = document.getElementById('canvas'); 
 const CTX = CVS.getContext('2d');
 
-// Images:
-const KABUTO = loadImage('images/kabuto.gif');
-const OMANYTE = loadImage('images/omanyte.gif');
-const KABUTOPS = loadImage('images/kabutops.gif');
-const OMASTAR = loadImage('images/omastar.gif');
-const AERODACTYL = loadImage('images/aerodactyl.gif');
+const util = {
+	sanitize: (text) => text.toString().toLowerCase(),
+	load: (fileType) => {
+		const supportedMedia = ['audio', 'image']
+		if (!supportedMedia.includes(util.sanitize(fileType))) throw new Error('Error: Attempted to load unsupported media.')
+		return (src) => {
+			let tmp
+			if (util.sanitize(fileType) === 'audio') tmp = new Audio()
+			if (util.sanitize(fileType) === 'image') tmp = new Image()
+			tmp.src = src
+			return tmp
+		}
+	},
+	clearCanvas: () => {
+		CTX.clearRect(0, 0, canvas.width, canvas.height);
+		setTimeout(util.clearCanvas, 1) // delete accumulated frames every 1 ms
+	}
+}
 
-// State
-let isGameOver = false;
+const game = {
+	isOver: false,
+	handleIsOver: () => {
+		if (game.isOver) return location.reload()
+	}
+}
 
 const background = {
-	img: loadImage('images/background.jpg'),
+	img: util.load('image')('images/background.jpg'),
 	xPosition: 0,
 	scrollSpeed: 1, // must be divisible by cvs.width
 	scrollReset: false,
@@ -35,7 +50,7 @@ const background = {
 }
 
 const biker = {
-	img: loadImage('images/biker.gif'),
+	img: util.load('image')('images/biker.gif'),
 	cyclingHeight: 370,
 	yPosition: 370,
 	xPosition: 10,
@@ -79,45 +94,14 @@ const timer = {
 }
 
 const audio = {
-	theme: loadAudio('audio/theme-audio.mp3'),
-	jump: loadAudio('audio/jump-audio.mp3'),
-	score: loadAudio('audio/score-audio.mp3'),
+	theme: util.load('audio')('audio/theme-audio.mp3'),
+	jump: util.load('audio')('audio/jump-audio.mp3'),
+	score: util.load('audio')('audio/score-audio.mp3'),
 	on: false,
 	play: () => {
 		if (audio.on) audio.theme.loop = true && audio.theme.play()
 	}
 }
-
-const util = {
-	// TODO:
-}
-
-function clearCanvas() {
-	CTX.clearRect(0, 0, canvas.width, canvas.height);
-	setTimeout(clearCanvas, 1);
-}
-
-function handleGameOver () {
-	if (isGameOver) return location.reload();
-}
-
-function loadImage(src) {
-	let tmp = new Image();
-	tmp.src = src;
-	return tmp;
-};
-
-function loadAudio(src) {
-	let tmp = new Audio();
-	tmp.src = src;
-	return tmp;
-};
-
-
-
-
-
-
 
 
 
@@ -126,6 +110,14 @@ function loadAudio(src) {
 // TODO: This needs to be one class. It should be renamed to 'pokemon'. Its properties/methods should probably be renamed too
 
 // Oncoming
+
+const KABUTO = util.load('image')('images/kabuto.gif');
+const OMANYTE = util.load('image')('images/omanyte.gif');
+const KABUTOPS = util.load('image')('images/kabutops.gif');
+const OMASTAR = util.load('image')('images/omastar.gif');
+const AERODACTYL = util.load('image')('images/aerodactyl.gif');
+
+
 const RUNNING_HEIGHT = 445;
 const FLYING_HEIGHT = RUNNING_HEIGHT - 175;
 const ONCOMING_SPEED = 2;
@@ -161,7 +153,7 @@ function detectCollision(maxIndex) {
 	)
 
 	const DID_COLLIDE = DID_X_COLLIDE && DID_Y_COLLIDE;
-	if (DID_COLLIDE) return (isGameOver = true) && handleGameOver();
+	if (DID_COLLIDE) return (game.isOver = true) && game.handleIsOver();
 }
 
 function drawOncoming() {
@@ -184,10 +176,12 @@ function drawOncoming() {
 
 
 
+
+
 background.draw()
 timer.draw();
 biker.draw()
 biker.listenForJump();
 audio.play()
 drawOncoming();
-clearCanvas();
+util.clearCanvas();
