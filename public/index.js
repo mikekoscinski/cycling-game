@@ -51,7 +51,7 @@ const biker = {
 	},
 	listenForJump: () => {
 		document.addEventListener('click' || 'touchend', event => {
-			if (biker.yPosition == biker.cyclingHeight) return (biker.jumpUp = true) && (musicOn && JUMP_AUDIO.play());
+			if (biker.yPosition == biker.cyclingHeight) return (biker.jumpUp = true) && (audio.on && audio.jump.play());
 		});
 	},
 	draw: function() {
