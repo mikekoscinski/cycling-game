@@ -109,34 +109,39 @@ const audio = {
 
 // TODO: This needs to be one class. It should be renamed to 'pokemon'. Its properties/methods should probably be renamed too
 
-// Oncoming
+const pokemon = {
+	height: {
+		running: 445,
+		flying: 270
+	},
+	speed: 2, // change in xPos per frame
+	
+	kabuto: util.load('image')('images/kabuto.gif'),
+	omanyte: util.load('image')('images/omanyte.gif'),
+	kabutops: util.load('image')('images/kabutops.gif'),
+	omastar: util.load('image')('images/omastar.gif'),
+	aerodactyl: util.load('image')('images/aerodactyl.gif'),
+	
+	
+}
 
-const KABUTO = util.load('image')('images/kabuto.gif');
-const OMANYTE = util.load('image')('images/omanyte.gif');
-const KABUTOPS = util.load('image')('images/kabutops.gif');
-const OMASTAR = util.load('image')('images/omastar.gif');
-const AERODACTYL = util.load('image')('images/aerodactyl.gif');
 
-
-const RUNNING_HEIGHT = 445;
-const FLYING_HEIGHT = RUNNING_HEIGHT - 175;
-const ONCOMING_SPEED = 2;
 const ONCOMING = [];
 ONCOMING[0] = {
 	pokemon: Math.random() < 0.50 ? 
-	KABUTO : 
-	OMANYTE,
+	pokemon.kabuto : 
+	pokemon.omanyte,
 	x: CVS.width,
-	y: RUNNING_HEIGHT,
+	y: pokemon.height.running,
 };
 
 // TODO: rename pokemon.generate
 function generateRandomPokemon(pokemonOdds) {
-	if (pokemonOdds < 0.325) return newPokemon = KABUTO;
-	if (pokemonOdds < 0.650) return newPokemon = OMANYTE;
-	if (pokemonOdds < 0.800) return newPokemon = KABUTOPS;
-	if (pokemonOdds < 0.950) return newPokemon = OMASTAR;
-	return newPokemon = AERODACTYL;
+	if (pokemonOdds < 0.325) return newPokemon = pokemon.kabuto;
+	if (pokemonOdds < 0.650) return newPokemon = pokemon.omanyte;
+	if (pokemonOdds < 0.800) return newPokemon = pokemon.kabutops;
+	if (pokemonOdds < 0.950) return newPokemon = pokemon.omastar;
+	return newPokemon = pokemon.aerodactyl;
 }
 
 function detectCollision(maxIndex) {
@@ -159,15 +164,15 @@ function detectCollision(maxIndex) {
 function drawOncoming() {
 	const MAX_INDEX = ONCOMING.length - 1;
 	CTX.drawImage(ONCOMING[MAX_INDEX].pokemon, ONCOMING[MAX_INDEX].x, ONCOMING[MAX_INDEX].y);
-	ONCOMING[MAX_INDEX].x -= ONCOMING_SPEED;
+	ONCOMING[MAX_INDEX].x -= pokemon.speed;
 	if (ONCOMING[MAX_INDEX].x + ONCOMING[MAX_INDEX].pokemon.width + 1 == 0) {
 		generateRandomPokemon(Math.random());
 		ONCOMING.push({
 			pokemon: newPokemon,
 			x: CVS.width,
-			y: newPokemon == AERODACTYL ? 
-				FLYING_HEIGHT : 
-				RUNNING_HEIGHT
+			y: newPokemon == pokemon.aerodactyl ? 
+				pokemon.height.flying : 
+				pokemon.height.flying
 		});
 	}
 	requestAnimationFrame(drawOncoming);
