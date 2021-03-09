@@ -165,9 +165,9 @@ const pokemon = {
 
 background.draw()
 pokemon.generateFirst()
+pokemon.draw()
 timer.draw();
 biker.draw()
-biker.listenForJump();
 audio.play()
-pokemon.draw()
+biker.listenForJump();
 util.clearCanvas();
