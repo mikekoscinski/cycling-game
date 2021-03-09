@@ -1,5 +1,5 @@
 // TODO: Add 'clearCanvas' to util first, then worry about pokemon class
-// Tackle pokemon class last. Do util Fns class first
+// Tackle pokemon class last. Do util Fns class first. Need an 'audio' class too
 
 const CVS = document.getElementById('canvas'); 
 const CTX = CVS.getContext('2d');
@@ -12,9 +12,8 @@ const OMASTAR = loadImage('images/omastar.gif');
 const AERODACTYL = loadImage('images/aerodactyl.gif');
 
 // State
-const SESSION_START_TIME = Date.now();
+const SESSION_START_TIME = Date.now(); // TODO: This should be in timer class?
 let isGameOver = false;
-const musicOn = false; // TODO: Disabled until DOM element is added to toggle music on/off. Will eventually be defined with 'let'
 
 const background = {
 	img: loadImage('images/background.jpg'),
@@ -74,6 +73,16 @@ const timer = {
 	}
 }
 
+const audio = {
+	theme: loadAudio('audio/theme-audio.mp3'),
+	jump: loadAudio('audio/jump-audio.mp3'),
+	score: loadAudio('audio/score-audio.mp3'),
+	on: false,
+	play: () => {
+		if (audio.on) audio.theme.loop = true && audio.theme.play()
+	}
+}
+
 const util = {
 	formatTime: (msPerUnit) => {
 		return (Math.floor((Date.now() - SESSION_START_TIME) / msPerUnit) % 60).toString().padStart(2, '0');
@@ -101,11 +110,14 @@ function loadAudio(src) {
 	return tmp;
 };
 
-if (musicOn) THEME_AUDIO.loop = true && THEME_AUDIO.play();
 
-const THEME_AUDIO = loadAudio('audio/theme-audio.mp3');
-const JUMP_AUDIO = loadAudio('audio/jump-audio.mp3');
-const SCORE_AUDIO = loadAudio('audio/score-audio.mp3'); // TODO: Will fire in future when user registers new high score
+
+
+
+
+
+
+
 
 
 // TODO: This needs to be one class. It should be renamed to 'pokemon'. Its properties/methods should probably be renamed too
@@ -171,5 +183,6 @@ background.draw()
 timer.draw();
 biker.draw()
 biker.listenForJump();
+audio.play()
 drawOncoming();
 clearCanvas();
