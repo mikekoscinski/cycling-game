@@ -114,7 +114,7 @@ const pokemon = {
 		running: 445,
 		flying: 270
 	},
-	speed: 2, // change in xPos per frame
+	speed: 2, // speed = change in pokemon's xPosition per frame
 	
 	kabuto: util.load('image')('images/kabuto.gif'),
 	omanyte: util.load('image')('images/omanyte.gif'),
@@ -122,18 +122,20 @@ const pokemon = {
 	omastar: util.load('image')('images/omastar.gif'),
 	aerodactyl: util.load('image')('images/aerodactyl.gif'),
 	
+	oncoming: [],
+	generateFirst: () => {
+		pokemon.oncoming.push({
+			species: Math.random() < 0.50 ? 
+				pokemon.kabuto : 
+				pokemon.omanyte,
+			x: CVS.width,
+			y: pokemon.height.running,
+		}
+	)},
+	
 	
 }
 
-
-const ONCOMING = [];
-ONCOMING[0] = {
-	pokemon: Math.random() < 0.50 ? 
-	pokemon.kabuto : 
-	pokemon.omanyte,
-	x: CVS.width,
-	y: pokemon.height.running,
-};
 
 // TODO: rename pokemon.generate
 function generateRandomPokemon(pokemonOdds) {
@@ -146,15 +148,15 @@ function generateRandomPokemon(pokemonOdds) {
 
 function detectCollision(maxIndex) {
 	const DID_X_COLLIDE = (
-		(biker.xPosition <= ONCOMING[maxIndex].x && ONCOMING[maxIndex].x <= biker.xPosition + biker.img.width)
+		(biker.xPosition <= pokemon.oncoming[maxIndex].x && pokemon.oncoming[maxIndex].x <= biker.xPosition + biker.img.width)
 		||
-		(biker.xPosition <= ONCOMING[maxIndex].x + ONCOMING[maxIndex].pokemon.width && ONCOMING[maxIndex].x + ONCOMING[maxIndex].pokemon.width <= biker.xPosition + biker.img.width)
+		(biker.xPosition <= pokemon.oncoming[maxIndex].x + pokemon.oncoming[maxIndex].species.width && pokemon.oncoming[maxIndex].x + pokemon.oncoming[maxIndex].species.width <= biker.xPosition + biker.img.width)
 	)
 
 	const DID_Y_COLLIDE = (
-		(biker.yPosition <= ONCOMING[maxIndex].y && ONCOMING[maxIndex].y <= biker.yPosition + biker.img.height)
+		(biker.yPosition <= pokemon.oncoming[maxIndex].y && pokemon.oncoming[maxIndex].y <= biker.yPosition + biker.img.height)
 		||
-		(biker.yPosition <= ONCOMING[maxIndex].y + ONCOMING[maxIndex].pokemon.height && ONCOMING[maxIndex].y + ONCOMING[maxIndex].pokemon.height <= biker.yPosition + biker.img.height)
+		(biker.yPosition <= pokemon.oncoming[maxIndex].y + pokemon.oncoming[maxIndex].species.height && pokemon.oncoming[maxIndex].y + pokemon.oncoming[maxIndex].species.height <= biker.yPosition + biker.img.height)
 	)
 
 	const DID_COLLIDE = DID_X_COLLIDE && DID_Y_COLLIDE;
@@ -162,17 +164,17 @@ function detectCollision(maxIndex) {
 }
 
 function drawOncoming() {
-	const MAX_INDEX = ONCOMING.length - 1;
-	CTX.drawImage(ONCOMING[MAX_INDEX].pokemon, ONCOMING[MAX_INDEX].x, ONCOMING[MAX_INDEX].y);
-	ONCOMING[MAX_INDEX].x -= pokemon.speed;
-	if (ONCOMING[MAX_INDEX].x + ONCOMING[MAX_INDEX].pokemon.width + 1 == 0) {
+	const MAX_INDEX = pokemon.oncoming.length - 1;
+	CTX.drawImage(pokemon.oncoming[MAX_INDEX].species, pokemon.oncoming[MAX_INDEX].x, pokemon.oncoming[MAX_INDEX].y);
+	pokemon.oncoming[MAX_INDEX].x -= pokemon.speed;
+	if (pokemon.oncoming[MAX_INDEX].x + pokemon.oncoming[MAX_INDEX].species.width + 1 == 0) {
 		generateRandomPokemon(Math.random());
-		ONCOMING.push({
-			pokemon: newPokemon,
+		pokemon.oncoming.push({
+			species: newPokemon,
 			x: CVS.width,
 			y: newPokemon == pokemon.aerodactyl ? 
 				pokemon.height.flying : 
-				pokemon.height.flying
+				pokemon.height.running
 		});
 	}
 	requestAnimationFrame(drawOncoming);
@@ -184,6 +186,7 @@ function drawOncoming() {
 
 
 background.draw()
+pokemon.generateFirst()
 timer.draw();
 biker.draw()
 biker.listenForJump();
